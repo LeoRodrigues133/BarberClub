@@ -1,0 +1,295 @@
+$card-bg: rgba(65, 65, 65, 0.9);
+$card-hover-bg: rgba(75, 75, 75, 0.9);
+$text-primary: #ffffff;
+$text-secondary: rgba(255, 255, 255, 0.8);
+$icon-color: #ffbd16;
+$border-radius: 12px;
+$transition: all 0.3s ease;
+
+.dashboard-wrapper {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0px 20px;
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  max-width: 1200px;
+  min-width: 800px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(3px);
+  padding: 48px;
+}
+
+.dashboard-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 500;
+  color: $text-primary;
+  margin: 0 0 8px 0;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: $text-secondary;
+  margin: 0;
+  font-weight: 300;
+}
+
+.section-title-small {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: $text-primary;
+  margin: 0 0 24px 0;
+  padding-left: 8px;
+}
+
+.section-wrapper {
+  margin-bottom: 48px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.service-card {
+  flex: 0 0 auto;
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 20px;
+  border-radius: $border-radius;
+  background: $card-bg;
+  cursor: pointer;
+  transition: $transition;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    transform: translateY(-6px);
+    background: $card-hover-bg;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.service-icon {
+  font-size: 2.8rem;
+  width: 2.8rem;
+  height: 2.8rem;
+  color: $icon-color;
+  margin-bottom: 16px;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.detail-icon {
+  font-size: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.action-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.btn-agendar-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 48px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  background: $icon-color;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 8px;
+  transition: $transition;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 189, 22, 0.3);
+
+  mat-icon {
+    font-size: 1.4rem;
+    width: 1.4rem;
+    color: #1a1a1a;
+    height: 1.4rem;
+  }
+
+  &:hover {
+    background: lighten($icon-color, 10%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 189, 22, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.comodities-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  padding-left: 8px;
+}
+
+.comodity-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: $transition;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
+
+.comodity-icon {
+  font-size: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: rgba(255, 255, 255, 0.6);
+  flex-shrink: 0;
+}
+
+.comodity-text {
+  font-size: 0.95rem;
+  color: $text-secondary;
+}
+
+@media (max-width: 1400px) {
+  .dashboard-container {
+    width: 70%;
+    min-width: 700px;
+    padding: 40px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .dashboard-container {
+    width: 80%;
+    min-width: 600px;
+    padding: 36px;
+  }
+
+  .cards-container {
+    gap: 16px;
+  }
+
+  .service-card {
+    width: 180px;
+    padding: 24px 18px 20px;
+  }
+
+  .service-icon {
+    font-size: 2.4rem;
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .dashboard-container {
+    width: 90%;
+    min-width: 500px;
+    padding: 32px;
+  }
+
+  .service-card {
+    width: 150px;
+    padding: 24px 16px;
+  }
+
+  .service-icon {
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .comodities-list {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-wrapper {
+    padding: 20px 10px;
+  }
+
+  .dashboard-container {
+    width: 95%;
+    min-width: auto;
+    padding: 24px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+  }
+
+  .cards-container {
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .service-card {
+    width: 140px;
+    padding: 20px 12px;
+  }
+
+  .comodities-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 20px;
+  }
+
+  .service-card {
+    width: 130px;
+    padding: 18px 10px;
+  }
+
+  .service-icon {
+    font-size: 1.8rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    margin-bottom: 12px;
+  }
+
+  .card-title {
+    font-size: 0.85rem;
+  }
+}

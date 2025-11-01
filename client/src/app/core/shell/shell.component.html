@@ -1,0 +1,53 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="false">
+
+    <mat-toolbar *ngIf="usuarioAutenticado">
+
+      <mat-list>
+        <mat-list-item>
+          <img matListItemAvatar class="avatar-list-item" src="/logo.png" alt="Logo">
+          Olá, {{ usuarioAutenticado.userName }}
+        </mat-list-item>
+      </mat-list>
+
+      <button mat-button class="h-100 rounded-start-circle ms-3 pe-4" (click)="logoutEfetuado()"
+        matTooltip="Efetuar Logout">
+        <mat-icon>logout</mat-icon>
+      </button>
+
+    </mat-toolbar>
+
+    <ng-container>
+      <mat-nav-list *ngIf="!usuarioAutenticado">
+        <a mat-list-item *ngFor="let link of linksPublicos" [routerLink]="link.rota"
+          matTooltip="Ir para {{ link.titulo }}">
+          <mat-icon matListItemIcon>{{ link.icone }}</mat-icon>
+          {{ link.titulo }}
+        </a>
+      </mat-nav-list>
+    </ng-container>
+
+    <ng-container>
+      <mat-nav-list *ngIf="usuarioAutenticado">
+        <a mat-list-item *ngFor="let link of linksAutenticados" [routerLink]="link.rota"
+          matTooltip="Ir para {{ link.titulo }}">
+          <mat-icon matListItemIcon>{{ link.icone }}</mat-icon>
+          {{ link.titulo }}
+        </a>
+      </mat-nav-list>
+    </ng-container>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button type="button" mat-icon-button (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>{{ usuarioAutenticado?.userName }}</span>
+    </mat-toolbar>
+
+<section class="parallax-bg" style="background-image: url({{foto}});">
+  <ng-content></ng-content>
+</section>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

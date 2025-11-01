@@ -1,0 +1,172 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+html {
+  @include mat.theme((
+    color: (
+      theme-type: dark,
+      primary: mat.$orange-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+/* You can add global styles to this file, and also import other style files */
+@import "bootstrap/scss/bootstrap-reboot";
+@import "bootstrap/scss/bootstrap-grid";
+@import "bootstrap/scss/bootstrap-utilities";
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #1e1e2e;
+}
+
+:root {
+  // Cor primária do tema (botões, links, etc)
+  --mat-sys-primary: #ffbd16 !important;
+
+  // Cor do texto sobre elementos primários
+  --mat-sys-on-primary: #1a1a1a !important;
+
+  // Cor de superfície padrão (cards, dialogs, etc) - NÃO afeta sidenav e toolbar
+  --mat-sys-surface: rgba(65, 65, 65, 0.9) !important;
+
+  // Cor do texto sobre superfícies
+  --mat-sys-on-surface: #ffffff !important;
+}
+
+// ==========================================
+// SIDENAV (Menu lateral)
+// ==========================================
+.mat-drawer,
+.mat-sidenav {
+  // Background do sidenav
+  background-color: #2a2a3e !important;
+
+  // Cor do texto no sidenav
+  color: #ffffff !important;
+
+  // Borda do sidenav (se tiver)
+  border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+// Itens do menu dentro do sidenav
+.mat-drawer .mat-list-item,
+.mat-sidenav .mat-list-item {
+  color: rgba(255, 255, 255, 0.8) !important;
+
+  &:hover {
+    background-color: rgba(255, 189, 22, 0.1) !important;
+  }
+
+  // Item ativo/selecionado
+  &.active {
+    background-color: rgba(255, 189, 22, 0.2) !important;
+    color: #ffbd16 !important;
+  }
+}
+
+// ==========================================
+// TOOLBAR (Barra superior)
+// ==========================================
+.mat-toolbar {
+  // Background da toolbar
+  background-color: #1a1a2e !important;
+
+  // Cor do texto na toolbar
+  color: #ffffff !important;
+
+  // Sombra inferior da toolbar
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+// Botões dentro da toolbar
+.mat-toolbar button {
+  color: #ffffff !important;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+  }
+}
+
+// ==========================================
+// CARDS (Dashboard e componentes)
+// ==========================================
+.mat-mdc-card {
+  // Background dos cards
+  background-color: rgba(65, 65, 65, 0.9) !important;
+
+  // Cor do texto nos cards
+  color: #ffffff !important;
+
+  // Borda dos cards (opcional)
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+// ==========================================
+// BOTÃO PRINCIPAL DE AGENDAMENTO
+// ==========================================
+.mat-mdc-raised-button.btn-agendar-main {
+  // Background do botão
+  --mdc-protected-button-container-color: #ffbd16 !important;
+
+  // Cor do texto do botão
+  --mdc-protected-button-label-text-color: #1a1a1a !important;
+
+  &:hover {
+    // Background ao passar o mouse
+    --mdc-protected-button-container-color: #ffffff !important;
+  }
+}
+
+// ==========================================
+// ÍCONES DO MATERIAL
+// ==========================================
+.mat-icon {
+  // Herda a cor do elemento pai
+  color: #ffbd16;
+}
+
+// ==========================================
+// CUSTOMIZAÇÕES ADICIONAIS (OPCIONAIS)
+// ==========================================
+
+// Header do sidenav (se tiver logo ou título)
+.mat-drawer-header,
+.mat-sidenav-header {
+  background-color: #1a1a2e !important;
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+// Divisores no sidenav
+.mat-divider {
+  border-top-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+// Scrollbar personalizada (opcional)
+.mat-drawer-inner-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 189, 22, 0.3);
+  border-radius: 3px;
+
+  &:hover {
+    background: rgba(255, 189, 22, 0.5);
+  }
+}

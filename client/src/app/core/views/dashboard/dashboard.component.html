@@ -1,0 +1,46 @@
+<div class="dashboard-wrapper">
+  <div class="dashboard-container">
+
+    <!-- Header simples -->
+    <div class="dashboard-header">
+      <h2 class="section-title">Nossos Serviços</h2>
+      <p class="section-subtitle">Escolha o serviço ideal para você</p>
+    </div>
+
+    <!-- Seção de Serviços -->
+    <div class="section-wrapper">
+      <div class="cards-container">
+        <mat-card
+          class="service-card"
+          *ngFor="let servico of servicos"
+          (click)="onCardClick(servico)">
+          <mat-icon class="service-icon">{{ servico.icone }}</mat-icon>
+          <mat-card-title class="card-title">{{ servico.nome }}</mat-card-title>
+        </mat-card>
+      </div>
+
+      <!-- Botão centralizado de agendamento -->
+      <div class="action-container">
+        <button mat-raised-button class="btn-agendar-main">
+          <mat-icon>event</mat-icon>
+          Agendar Serviço
+        </button>
+      </div>
+    </div>
+
+    <!-- Seção de Comodidades - Lista simples -->
+    <div class="section-wrapper">
+      <h2 class="section-title-small">Comodidades do Espaço</h2>
+
+      <div class="comodities-list">
+        <div
+          class="comodity-item"
+          *ngFor="let comodidade of comodidades">
+          <mat-icon class="comodity-icon">{{ comodidade.icone }}</mat-icon>
+          <span class="comodity-text">{{ comodidade.nome }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
