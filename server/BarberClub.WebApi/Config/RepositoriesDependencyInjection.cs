@@ -1,8 +1,11 @@
-﻿namespace BarberClub.WebApi.Config;
+﻿using BarberClub.Dominio.ModuloFuncionario;
+using BarberClub.Infraestrutura.Orm.RepositorioFuncionario;
+
+namespace BarberClub.WebApi.Config;
 public static class RepositoriesDependencyInjection
 {
     public static void RepositoriesConfiguration(this IServiceCollection _service)
     {
-        //_service.AddScoped<IRepositorioFuncionario, RepositorioFuncionarioOrm>();
+        _service.AddScoped<IRepositorioFuncionario, RepositorioFuncionarioEmOrm>();
     }
 }

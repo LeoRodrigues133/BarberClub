@@ -18,4 +18,9 @@
     <ProjectReference Include="..\BarberClub.Dominio\BarberClub.Dominio.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ModuloFuncionario\Commands\Editar\" />
+    <Folder Include="ModuloFuncionario\Commands\Excluir\" />
+  </ItemGroup>
+
 </Project>

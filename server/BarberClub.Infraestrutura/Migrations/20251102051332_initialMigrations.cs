@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BarberClub.Infraestrutura.Orm.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicial : Migration
+    public partial class initialMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -156,6 +156,26 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "TBFUNCIONARIO",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nome = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Cpf = table.Column<string>(type: "varchar(20)", nullable: false),
+                    adminId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TBFUNCIONARIO", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TBFUNCIONARIO_AspNetUsers_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -194,6 +214,11 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TBFUNCIONARIO_UsuarioId",
+                table: "TBFUNCIONARIO",
+                column: "UsuarioId");
         }
 
         /// <inheritdoc />
@@ -213,6 +238,9 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "TBFUNCIONARIO");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
