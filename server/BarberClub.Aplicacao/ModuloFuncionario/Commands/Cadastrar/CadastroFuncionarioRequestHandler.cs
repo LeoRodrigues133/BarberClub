@@ -149,8 +149,8 @@ public class CadastroFuncionarioRequestHandler(
         return new FuncionarioDto
         {
             Id = funcionario.Id,
-            UserName = usuario.UserName,
-            Email = usuario.Email,
+            UserName = usuario.UserName!,
+            Email = usuario.Email!,
             Cargo = cargo
         };
 
