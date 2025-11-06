@@ -5,7 +5,8 @@ using BarberClub.Aplicacao.Compartilhado;
 using BarberClub.Dominio.Compartilhado;
 using BarberClub.Dominio.ModuloAutenticacao;
 using BarberClub.Dominio.ModuloFuncionario;
-using BarberClub.Aplicacao.ModuloFuncionario.DTOs;
+using FluentValidation;
+
 
 namespace BarberClub.Aplicacao.ModuloFuncionario.Commands.Cadastrar;
 
@@ -13,11 +14,12 @@ public class CadastroFuncionarioRequestHandler(
     ITenantProvider _tenantProvider,
     RoleManager<Cargo> _roleManager,
     UserManager<Usuario> _userManager,
+    IValidator<Funcionario> _validator,
     IRepositorioFuncionario _repositorioFuncionario,
     IContextoPersistencia _contextoPersistencia)
-    : IRequestHandler<CadastrarFuncionarioRequest, Result<FuncionarioDto>>
+    : IRequestHandler<CadastrarFuncionarioRequest, Result<CadastrarFuncionarioResponse>>
 {
-    public async Task<Result<FuncionarioDto>> Handle(
+    public async Task<Result<CadastrarFuncionarioResponse>> Handle(
         CadastrarFuncionarioRequest request, CancellationToken cancellationToken)
     {
 
@@ -48,8 +50,21 @@ public class CadastroFuncionarioRequestHandler(
         var funcionario = new Funcionario(request.nome, request.cpf)
         {
             UsuarioId = usuario.Id,
-            adminId = adminLogado.Id
+            AdminId = adminLogado.Id
         };
+
+        var validationResult = await _validator.ValidateAsync(funcionario);
+
+        if (!validationResult.IsValid)
+        {
+            var errors = validationResult.Errors
+               .Select(failure => failure.ErrorMessage)
+               .ToList();
+
+            await _userManager.DeleteAsync(usuario);
+
+            return Result.Fail(ErrorsResult.BadRequestError(errors));
+        }
 
         try
         {
@@ -64,7 +79,7 @@ public class CadastroFuncionarioRequestHandler(
         }
 
 
-        return Result.Ok(CriarDto(funcionario, usuario, request.cargo));
+        return Result.Ok(new CadastrarFuncionarioResponse(funcionario.Id));
     }
 
     private async Task<Result> AtribuirCargoAsync(Usuario usuario, EnumCargo cargo)
@@ -122,7 +137,7 @@ public class CadastroFuncionarioRequestHandler(
         if (cargo is EnumCargo.Administrador)
             return Result.Fail("Não é permitido criar um novo Administrador.");
 
-        var adminId = _tenantProvider.UsuarioId;
+        var adminId = _tenantProvider.EmpresaId;
 
         if (adminId is null)
             return Result.Fail("Usuário não Autenticado.");
@@ -140,21 +155,4 @@ public class CadastroFuncionarioRequestHandler(
 
         return Result.Ok(adminLogado);
     }
-
-    private static FuncionarioDto CriarDto(
-        Funcionario funcionario,
-        Usuario usuario,
-        EnumCargo cargo)
-    {
-        return new FuncionarioDto
-        {
-            Id = funcionario.Id,
-            UserName = usuario.UserName!,
-            Email = usuario.Email!,
-            Cargo = cargo
-        };
-
-
-    }
 }
-

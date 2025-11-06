@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BarberClub.Infraestrutura.Orm.Migrations
 {
     /// <inheritdoc />
-    public partial class initialMigrations : Migration
+    public partial class migrationInitialaaaaaa : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -163,7 +163,7 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nome = table.Column<string>(type: "varchar(100)", nullable: false),
                     Cpf = table.Column<string>(type: "varchar(20)", nullable: false),
-                    adminId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AdminId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -173,6 +173,36 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                         name: "FK_TBFUNCIONARIO_AspNetUsers_UsuarioId",
                         column: x => x.UsuarioId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TBSERVICO",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FuncionarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Titulo = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Valor = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    IsPromocao = table.Column<bool>(type: "bit", nullable: false),
+                    Duracao = table.Column<int>(type: "int", nullable: false),
+                    PorcentagemPromocao = table.Column<int>(type: "int", nullable: true),
+                    Ativo = table.Column<bool>(type: "bit", nullable: false),
+                    ValorFinal = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TBSERVICO", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TBSERVICO_AspNetUsers_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_TBSERVICO_TBFUNCIONARIO_FuncionarioId",
+                        column: x => x.FuncionarioId,
+                        principalTable: "TBFUNCIONARIO",
                         principalColumn: "Id");
                 });
 
@@ -219,6 +249,16 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                 name: "IX_TBFUNCIONARIO_UsuarioId",
                 table: "TBFUNCIONARIO",
                 column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TBSERVICO_FuncionarioId",
+                table: "TBSERVICO",
+                column: "FuncionarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TBSERVICO_UsuarioId",
+                table: "TBSERVICO",
+                column: "UsuarioId");
         }
 
         /// <inheritdoc />
@@ -240,10 +280,13 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "TBFUNCIONARIO");
+                name: "TBSERVICO");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "TBFUNCIONARIO");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

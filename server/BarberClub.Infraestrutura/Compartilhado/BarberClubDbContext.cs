@@ -1,9 +1,11 @@
-using Microsoft.EntityFrameworkCore;
 using BarberClub.Dominio.Compartilhado;
 using BarberClub.Dominio.ModuloAutenticacao;
 using BarberClub.Dominio.ModuloFuncionario;
+using BarberClub.Dominio.ModuloServico;
 using BarberClub.Infraestrutura.Orm.RepositorioFuncionario;
+using BarberClub.Infraestrutura.Orm.RepositorioServicos;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace BarberClub.Infraestrutura.Orm.Compartilhado;
 
@@ -15,10 +17,20 @@ public class BarberClubDbContext(DbContextOptions _options, ITenantProvider? _te
     {
         if (_tenantProvider is not null)
         {
-            builder.Entity<Funcionario>().HasQueryFilter(f => f.adminId == _tenantProvider.UsuarioId);
+            builder.Entity<Funcionario>()
+                .HasQueryFilter(f => (f.AdminId == _tenantProvider.EmpresaId
+                && _tenantProvider.FuncionarioId == null));
+
+            builder.Entity<Servico>()
+                .HasQueryFilter(s => (
+                s.FuncionarioId == _tenantProvider.FuncionarioId)
+                ||
+                (_tenantProvider.FuncionarioId == null &&
+                s.Funcionario!.AdminId == _tenantProvider.EmpresaId));
         }
 
         builder.ApplyConfiguration(new MapeadorFuncionarioEmOrm());
+        builder.ApplyConfiguration(new MapeamentoServicoEmOrm());
 
         base.OnModelCreating(builder);
     }
@@ -37,10 +49,11 @@ public class BarberClubDbContext(DbContextOptions _options, ITenantProvider? _te
                     entry.State = EntityState.Detached;
                     break;
                 case EntityState.Modified:
-                    entry.State = EntityState.Modified;
+                    entry.State = EntityState.Unchanged;
+                    entry.CurrentValues.SetValues(entry.OriginalValues);
                     break;
                 case EntityState.Deleted:
-                    entry.State = EntityState.Deleted;
+                    entry.State = EntityState.Unchanged;
                     break;
             }
         }

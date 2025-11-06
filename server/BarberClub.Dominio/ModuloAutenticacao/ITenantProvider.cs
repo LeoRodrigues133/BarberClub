@@ -1,5 +1,7 @@
 ﻿namespace BarberClub.Dominio.ModuloAutenticacao;
 public interface ITenantProvider
 {
-    Guid? UsuarioId { get; }
+    Guid? EmpresaId { get; }
+    Guid? FuncionarioId { get;}
+
 }

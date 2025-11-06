@@ -19,7 +19,8 @@ public class Program
         // Database provider [env SQLSERVER_CONNECTION_STRING]
         builder.Services.DbContextConfiguration(builder.Environment, builder.Configuration);
 
-        // falta fluentValidations
+        // fluentValidations
+        builder.Services.ConfigureFluentValidation();
 
         // Services
         builder.Services.RepositoriesConfiguration();

@@ -13,4 +13,4 @@ public record CadastrarFuncionarioRequest(
     string password,
     string email,
     EnumCargo cargo
-    ) : IRequest<Result<FuncionarioDto>>;
+    ) : IRequest<Result<CadastrarFuncionarioResponse>>;

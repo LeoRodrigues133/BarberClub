@@ -16,16 +16,17 @@ namespace BarberClub.WebApi.Controllers;
 [Route("api/funcionario")]
 public class FuncionarioController(IMediator _mediator) : ControllerBase
 {
-    // POST: api/funcionario/registrar
+    // POST: api/funcionario/cadastrar
     [HttpPost("cadastrar")]
     [ProducesResponseType(typeof(CadastrarFuncionarioResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> Cadastrar(CadastrarFuncionarioRequest request)
     {
         var result = await _mediator.Send(request);
-        return result.ToHttpResponse();
+        return Ok(result.ToHttpResponse());
 
     }
 
+    // PUT: api/funcionario/editar/{id}
     [HttpPut("editar/{id:guid}")]
     [ProducesResponseType(typeof(EditarFuncionarioResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> Editar(Guid id, EditarFuncionarioDto request)
@@ -38,10 +39,11 @@ public class FuncionarioController(IMediator _mediator) : ControllerBase
 
         var result = await _mediator.Send(editarRequest);
 
-        return result.ToHttpResponse();
+        return Ok(result.ToHttpResponse());
 
     }
-
+    
+    // DELETE: api/funcionario/excluir/{id}
     [HttpDelete("excluir/{id:guid}")]
     [ProducesResponseType(typeof(ExcluirFuncionarioResponse),StatusCodes.Status200OK)]
     public async Task<IActionResult> Excluir(Guid id)
@@ -58,7 +60,7 @@ public class FuncionarioController(IMediator _mediator) : ControllerBase
     public async Task<IActionResult> SelecionarTodos()
     {
         var result = await _mediator.Send(new SelecionarFuncionariosRequest());
-        return result.ToHttpResponse();
+        return Ok(result.ToHttpResponse());
 
     }
     // GET: api/funcionario/{id}
@@ -70,7 +72,7 @@ public class FuncionarioController(IMediator _mediator) : ControllerBase
 
         var result = await _mediator.Send(selecionarPorIdRequest);
 
-        return result.ToHttpResponse();
+        return Ok(result.ToHttpResponse());
 
     }
 }

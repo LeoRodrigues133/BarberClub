@@ -4,17 +4,32 @@ using System.Security.Claims;
 namespace BarberClub.WebApi.Identity;
 public class ApiTenantProvider(IHttpContextAccessor _contextAccessor) : ITenantProvider
 {
-    public Guid? UsuarioId
+    public Guid? EmpresaId
     {
         get
         {
-            var claimId = _contextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier);
+            var empresaId = _contextAccessor.HttpContext?.User.FindFirst("EmpresaId")?.Value;
+            Console.WriteLine($"Claim EmpresaId: {empresaId}");
 
-            if (claimId is null)
+            if (empresaId is null)
                 return null;
 
-            return Guid.Parse(claimId.Value);
+            return Guid.Parse(empresaId);
         }
     }
 
+
+    public Guid? FuncionarioId
+    {
+        get
+        {
+            var funcionarioId = _contextAccessor.HttpContext?.User.FindFirst("FuncionarioId")?.Value;
+            Console.WriteLine($"Claim FuncionarioId: {funcionarioId}");
+
+            if (funcionarioId is null)
+                return null;
+
+            return Guid.Parse(funcionarioId);
+        }
+    }
 }

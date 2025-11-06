@@ -3,6 +3,8 @@ using BarberClub.WebApi.Identity;
 using BarberClub.Dominio.ModuloAutenticacao;
 using BarberClub.Infraestrutura.Orm.Compartilhado;
 using Microsoft.AspNetCore.Identity;
+using BarberClub.Dominio.ModuloFuncionario;
+using BarberClub.Infraestrutura.Orm.RepositorioFuncionario;
 
 namespace BarberClub.WebApi.Config;
 public static class AuthDependencyInjections

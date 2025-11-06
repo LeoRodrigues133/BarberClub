@@ -1,11 +1,12 @@
 ﻿using BarberClub.Aplicacao.ModuloAutenticacao.Commands.Autenticar;
 using BarberClub.Aplicacao.ModuloAutenticacao.Commands.Registrar;
-using BarberClub.WebApi.Extensions;
 using BarberClub.Dominio.ModuloAutenticacao;
+using BarberClub.WebApi.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BarberClub.WebApi.Controllers;
 

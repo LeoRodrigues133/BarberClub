@@ -121,6 +121,9 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("EmpresaId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Cpf")
                         .IsRequired()
                         .HasColumnType("varchar(20)");
@@ -132,14 +135,54 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                     b.Property<Guid>("UsuarioId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("adminId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("TBFUNCIONARIO", (string)null);
+                });
+
+            modelBuilder.Entity("BarberClub.Dominio.ModuloServico.Servico", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("Duracao")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("FuncionarioId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsPromocao")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("PorcentagemPromocao")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal>("ValorFinal")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FuncionarioId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("TBSERVICO", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -252,6 +295,25 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("BarberClub.Dominio.ModuloServico.Servico", b =>
+                {
+                    b.HasOne("BarberClub.Dominio.ModuloFuncionario.Funcionario", "Funcionario")
+                        .WithMany()
+                        .HasForeignKey("FuncionarioId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("BarberClub.Dominio.ModuloAutenticacao.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Funcionario");
 
                     b.Navigation("Usuario");
                 });

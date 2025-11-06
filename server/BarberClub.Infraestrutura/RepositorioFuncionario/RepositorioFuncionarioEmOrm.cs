@@ -1,4 +1,5 @@
 using BarberClub.Dominio.Compartilhado;
+using BarberClub.Dominio.ModuloAutenticacao;
 using BarberClub.Dominio.ModuloFuncionario;
 using BarberClub.Infraestrutura.Orm.Compartilhado;
 using Microsoft.EntityFrameworkCore;
@@ -25,5 +26,20 @@ public class RepositorioFuncionarioEmOrm(IContextoPersistencia _context)
     public async Task<bool> ExistePorCpfAsync(string cpf)
     {
         return await _entities.AnyAsync(x => x.Cpf == cpf);
+    }
+
+
+    public async Task<Funcionario?> SelecionarPorUsuarioAsync(Guid usuarioId)
+    {
+        return await _entities
+            .Include(f => f.Usuario)
+            .FirstOrDefaultAsync(f => f.UsuarioId == usuarioId);
+    }
+    public async Task<Funcionario?> SelecionarTodosSemFiltroAsync(Guid usuarioId)
+    {
+        return await _entities
+            .IgnoreQueryFilters()
+            .Include(f => f.Usuario)
+            .FirstOrDefaultAsync(f => f.UsuarioId == usuarioId);
     }
 }

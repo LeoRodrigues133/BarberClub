@@ -1,3 +1,4 @@
+using BarberClub.Aplicacao.Compartilhado;
 using BarberClub.Dominio.Compartilhado;
 using BarberClub.Dominio.ModuloFuncionario;
 using FluentResults;
@@ -29,7 +30,7 @@ public class ExcluirFuncionarioRequestHandler(
         {
             await _contextoPersistencia.DesfazerAsync();
 
-            return Result.Fail(ex.Message);
+            return Result.Fail(ErrorsResult.InternalServerError(ex));
         }
 
         return Result.Ok(new ExcluirFuncionarioResponse());

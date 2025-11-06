@@ -8,4 +8,7 @@ public interface IRepositorioFuncionario
     Task<Funcionario> SelecionarPorIdAsync(Guid id);
     Task<bool> ExistePorCpfAsync(string cpf);
 
+    Task<Funcionario?> SelecionarPorUsuarioAsync(Guid usuarioId);
+    Task<Funcionario?> SelecionarTodosSemFiltroAsync(Guid usuarioId);
+
 }

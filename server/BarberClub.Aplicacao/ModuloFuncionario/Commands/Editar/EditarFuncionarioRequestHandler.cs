@@ -1,7 +1,9 @@
+using BarberClub.Aplicacao.Compartilhado;
 using BarberClub.Dominio.Compartilhado;
 using BarberClub.Dominio.ModuloAutenticacao;
 using BarberClub.Dominio.ModuloFuncionario;
 using FluentResults;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -11,7 +13,8 @@ public class EditarFuncionarioRequestHandler(
     IRepositorioFuncionario _repositorioFuncionario,
     IContextoPersistencia _contextoPersistencia,
     UserManager<Usuario> _userManager,
-    RoleManager<Cargo> _roleManager)
+    RoleManager<Cargo> _roleManager,
+    IValidator<Funcionario> _validator)
     : IRequestHandler<EditarFuncionarioRequest, Result<EditarFuncionarioResponse>>
 {
     public async Task<Result<EditarFuncionarioResponse>> Handle(
@@ -20,8 +23,20 @@ public class EditarFuncionarioRequestHandler(
         var funcionarioSelecionado = await _repositorioFuncionario.SelecionarPorIdAsync(request.id);
 
         if (funcionarioSelecionado is null)
-            return Result.Fail("Registro não encontrado");
+            return Result.Fail(ErrorsResult.NotFoundError(request.id));
+
         await ValidacaoFuncionario(request, funcionarioSelecionado);
+
+        var validationResult = await _validator.ValidateAsync(funcionarioSelecionado);
+
+        if(!validationResult.IsValid)
+        {
+            var errors = validationResult.Errors
+               .Select(failure => failure.ErrorMessage)
+               .ToList();
+
+            return Result.Fail(ErrorsResult.BadRequestError(errors));
+        }
 
         try
         {
@@ -33,7 +48,7 @@ public class EditarFuncionarioRequestHandler(
         {
             await _contextoPersistencia.DesfazerAsync();
 
-            return Result.Fail(ex.ToString());
+            return Result.Fail(ErrorsResult.InternalServerError(ex));
         }
 
         return Result.Ok(new EditarFuncionarioResponse(funcionarioSelecionado.Id));
@@ -42,7 +57,7 @@ public class EditarFuncionarioRequestHandler(
     private async Task<Result> ValidacaoFuncionario(EditarFuncionarioRequest request, Funcionario funcionarioSelecionado)
     {
         if (funcionarioSelecionado.Usuario is null)
-            return Result.Fail("Usuário associado ao funcionário não encontrado");
+            return Result.Fail("Usuário associado não encontrado");
 
         if (!string.IsNullOrEmpty(request.nome))
             funcionarioSelecionado.Nome = request.nome;
