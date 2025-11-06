@@ -19,7 +19,10 @@ public class BarberClubDbContext(DbContextOptions _options, ITenantProvider? _te
         {
             builder.Entity<Funcionario>()
                 .HasQueryFilter(f => (f.AdminId == _tenantProvider.EmpresaId
-                && _tenantProvider.FuncionarioId == null));
+                && _tenantProvider.FuncionarioId == null)
+                ||
+                (f.AdminId == _tenantProvider.EmpresaId && f.Id == _tenantProvider.FuncionarioId)
+                );
 
             builder.Entity<Servico>()
                 .HasQueryFilter(s => (

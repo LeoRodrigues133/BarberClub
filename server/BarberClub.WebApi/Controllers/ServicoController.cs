@@ -1,14 +1,13 @@
-﻿using BarberClub.Aplicacao.ModuloServicos.Commands.Cadastrar;
+﻿using BarberClub.Aplicacao.ModuloFuncionario.Commands.Excluir;
+using BarberClub.Aplicacao.ModuloServicos.Commands.Cadastrar;
+using BarberClub.Aplicacao.ModuloServicos.Commands.Editar;
+using BarberClub.Aplicacao.ModuloServicos.Commands.SelecionarPorId;
 using BarberClub.Aplicacao.ModuloServicos.Commands.SelecionarTodos;
 using BarberClub.Aplicacao.ModuloServicos.DTOs;
-using BarberClub.Dominio.ModuloAutenticacao;
-using BarberClub.Dominio.ModuloServico;
-using BarberClub.Infraestrutura.Orm.Compartilhado;
 using BarberClub.WebApi.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BarberClub.WebApi.Controllers;
 
@@ -18,11 +17,39 @@ namespace BarberClub.WebApi.Controllers;
 public class ServicoController(IMediator _mediator) : ControllerBase
 {
     // POST: api/servico/cadastrar
-    [HttpPost]
-    [ProducesResponseType (typeof(CadastrarServicoResponse), StatusCodes.Status200OK)]
+    [HttpPost("cadastrar")]
+    [ProducesResponseType(typeof(CadastrarServicoResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> Cadastrar(CadastrarServicoRequest request)
     {
         var result = await _mediator.Send(request);
+        return Ok(result.ToHttpResponse());
+    }
+
+    // PUT: api/servico/editar/{id}
+    [HttpPut("editar/{id:guid}")]
+    [ProducesResponseType(typeof(EditarServicoResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Editar(Guid id, EditarServicoRequest request)
+    {
+        var editarRequest = new EditarServicoRequest(
+            id,
+            request.titulo,
+            request.valor,
+            request.duracao);
+
+        var result = await _mediator.Send(editarRequest);
+
+        return Ok(result.ToHttpResponse());
+    }
+
+    // DELETE: api/servico/excluir/{id}
+    [HttpDelete("excluir/{id:guid}")]
+    [ProducesResponseType (typeof(ExcluirFuncionarioResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Excluir(Guid id)
+    {
+        var request = new ExcluirFuncionarioRequest(id);
+
+        var result = await _mediator.Send(request);
+
         return Ok(result.ToHttpResponse());
     }
 
@@ -34,23 +61,16 @@ public class ServicoController(IMediator _mediator) : ControllerBase
         var result = await _mediator.Send(new SelecionarServicosRequest());
         return Ok(result.ToHttpResponse());
     }
-    [HttpGet("debug")]
-    public async Task<IActionResult> Debug(
-    [FromServices] ITenantProvider tenant,
-    [FromServices] BarberClubDbContext ctx)
+
+    // GET: api/servico/{id}
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType(typeof(SelecionarServicoPorIdResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> SelecionarPorId(Guid id)
     {
-        var funcId = tenant.FuncionarioId;
+        var selecionarPorIdRequest = new SelecionarServicoPorIdRequest(id);
 
-        var servicos = await ctx.Set<Servico>()
-            .IgnoreQueryFilters()
-            .Select(s => new { s.Id, s.Titulo, s.FuncionarioId })
-            .ToListAsync();
+        var result = await _mediator.Send(selecionarPorIdRequest);
 
-        return Ok(new
-        {
-            meuFuncionarioId = funcId,
-            todosServicos = servicos,
-            servicosQueSaoMeus = servicos.Where(s => s.FuncionarioId == funcId)
-        });
+        return Ok(result.ToHttpResponse());
     }
 }

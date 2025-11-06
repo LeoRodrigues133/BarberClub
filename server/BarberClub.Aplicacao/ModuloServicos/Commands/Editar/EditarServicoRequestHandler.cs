@@ -1,6 +1,5 @@
 using BarberClub.Aplicacao.Compartilhado;
 using BarberClub.Dominio.Compartilhado;
-using BarberClub.Dominio.ModuloFuncionario;
 using BarberClub.Dominio.ModuloServico;
 using FluentResults;
 using FluentValidation;

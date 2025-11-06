@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ModuloServicos\Commands\SelecionarPorId\" />
     <Folder Include="ModuloServicos\Services\" />
   </ItemGroup>
 
