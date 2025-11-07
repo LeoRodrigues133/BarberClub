@@ -121,7 +121,7 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("EmpresaId")
+                    b.Property<Guid>("AdminId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Cpf")
@@ -150,8 +150,7 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                     b.Property<bool>("Ativo")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("Duracao")
-                        .IsRequired()
+                    b.Property<int>("Duracao")
                         .HasColumnType("int");
 
                     b.Property<Guid>("FuncionarioId")

@@ -42,11 +42,9 @@ public class MapeamentoServicoEmOrm : IEntityTypeConfiguration<Servico>
             .HasForeignKey(x => x.UsuarioId)
             .OnDelete(DeleteBehavior.NoAction);
 
-
         builder.HasOne(x => x.Funcionario)
                .WithMany()
                .HasForeignKey(x => x.FuncionarioId)
                .OnDelete(DeleteBehavior.NoAction);
-
     }
 }

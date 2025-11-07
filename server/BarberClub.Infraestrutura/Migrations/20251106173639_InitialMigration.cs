@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BarberClub.Infraestrutura.Orm.Migrations
 {
     /// <inheritdoc />
-    public partial class migrationInitialaaaaaa : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

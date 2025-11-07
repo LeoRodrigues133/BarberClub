@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarberClub.Infraestrutura.Orm.Migrations
 {
     [DbContext(typeof(BarberClubDbContext))]
-    [Migration("20251105200946_migrationInitialaaaaaa")]
-    partial class migrationInitialaaaaaa
+    [Migration("20251106173639_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -124,7 +124,7 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("EmpresaId")
+                    b.Property<Guid>("AdminId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Cpf")
@@ -153,8 +153,7 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                     b.Property<bool>("Ativo")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("Duracao")
-                        .IsRequired()
+                    b.Property<int>("Duracao")
                         .HasColumnType("int");
 
                     b.Property<Guid>("FuncionarioId")

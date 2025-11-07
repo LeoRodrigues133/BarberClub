@@ -24,14 +24,12 @@ public class ValidationServico : AbstractValidator<Servico>
             .LessThanOrEqualTo(1000)
             .WithMessage("O {PropertyName} não pode exceder R$ 1.000.");
 
-        When(x => x.Duracao.HasValue, () =>
-        {
             RuleFor(x => x.Duracao)
                 .GreaterThanOrEqualTo(10)
                 .WithMessage("A {PropertyName} deve ser igual ou maior que 10 minutos.")
                 .LessThanOrEqualTo(120)
                 .WithMessage("A {PropertyName} não pode exceder 2 horas.");
-        });
+
 
         When(x => x.IsPromocao, () =>
         {
@@ -45,7 +43,7 @@ public class ValidationServico : AbstractValidator<Servico>
         When(x => !x.IsPromocao, () =>
         {
             RuleFor(x => x.PorcentagemPromocao)
-                .Null()
+                .Must(p => !p.HasValue)
                 .WithMessage("A porcentagem deve ser nula quando o serviço não está em promoção.");
         });
     }

@@ -25,7 +25,7 @@ public class SelecionarServicosRequestHandler(
                 x.Id,
                 x.Titulo,
                 x.Valor,
-                x.Duracao ?? 0
+                x.Duracao
             )).ToList()
         };
         return Result.Ok(resposta);

@@ -7,76 +7,74 @@ public class Servico : EntidadeBase
 {
     public Servico()
     { }
-
     public Servico(
         string titulo,
         decimal valor,
-        int? duracao // Em minutos
+        int duracao, // Em minutos
+        bool isPromocao = false
         )
     {
         Titulo = titulo;
         Valor = valor;
         Duracao = duracao;
-        IsPromocao = false;
+        IsPromocao = isPromocao;
         PorcentagemPromocao = null;
+        ValorFinal = valor;
     }
+
     public Servico(
         Guid funcionarioId,
         string titulo,
         decimal valor,
-        int? duracao,
+        int duracao,
         int? porcentagemPromocao = null,
-        bool? isPromocao = null
+        bool isPromocao = false
     )
     {
         FuncionarioId = funcionarioId;
-
         Titulo = titulo;
         Valor = valor;
         Duracao = duracao;
-        IsPromocao = isPromocao ?? false;
+        IsPromocao = isPromocao;
         PorcentagemPromocao = porcentagemPromocao;
         Ativo = true;
 
         if (IsPromocao && PorcentagemPromocao.HasValue)
-        {
             ValorFinal = Valor * (1 - PorcentagemPromocao.Value / 100m);
-        }
         else
-        {
             ValorFinal = Valor;
-        }
     }
 
     public Guid FuncionarioId { get; set; }
     public string Titulo { get; set; }
     public decimal Valor { get; set; }
     public bool IsPromocao { get; set; }
-    public int? Duracao { get; set; }
+    public int Duracao { get; set; }
     public int? PorcentagemPromocao { get; set; }
     public bool Ativo { get; set; }
-
     public Funcionario? Funcionario { get; set; }
-
     public decimal ValorFinal { get; set; }
 
     public decimal CalcularValorPromocional(int porcentagemPromocao)
     {
-        if (this.IsPromocao is true)
-            return this.ValorFinal = ValorFinal * Math.Floor(1 - PorcentagemPromocao.Value / 100m);
+        if (this.IsPromocao == true)
+            return this.ValorFinal = Valor * (1 - porcentagemPromocao / 100m);
 
         return ValorFinal = Valor;
     }
-    public void AplicarPromocao(int porcetagemPromocao)
+
+    public void AplicarPromocao(int porcentagemPromocao)
     {
         IsPromocao = true;
-        PorcentagemPromocao = porcetagemPromocao;
+        PorcentagemPromocao = porcentagemPromocao;
+        ValorFinal = Valor * (1 - porcentagemPromocao / 100m);
     }
 
     public void RemoverPromocao()
     {
         IsPromocao = false;
         PorcentagemPromocao = null;
+        ValorFinal = Valor;
     }
 
     public void Ativar() => Ativo = true;
