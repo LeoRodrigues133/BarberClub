@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from "@angular/material/list";
 
 interface Servico {
   nome: string;
@@ -22,8 +23,9 @@ interface Comodidade {
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    MatFormFieldModule
-  ],
+    MatFormFieldModule,
+    MatListModule,
+],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -48,7 +50,4 @@ export class DashboardComponent {
     { nome: 'Produtos Premium', icone: 'star' }
   ];
 
-  onCardClick(item: Servico | Comodidade): void {
-    console.log('Card clicado:', item.nome);
-  }
 }

@@ -10,6 +10,7 @@ import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { AutenticarUsuarioRequest, TokenResponse } from '../../models/auth.models';
+import { ServicoConfiguracaoTenant } from '../../../core/views/configuracao/services/tenant-config.service';
 
 @Component({
   selector: 'app-login',
@@ -34,6 +35,7 @@ export class LoginComponent {
     private authService: AuthService,
     private usuarioService: UserService,
     private localStorage: LocalStorageService,
+    private tenantProvider: ServicoConfiguracaoTenant
   ) {
     this.form = this.fb.group({
       userName: [
@@ -79,16 +81,22 @@ export class LoginComponent {
   }
 
   private processarSucesso(res: TokenResponse) {
-    console.log(`aparecendo aqui res:${res}, usuario res:${res.usuario}`);
-    this.usuarioService.logarUsuario(res.usuario);
 
-    this.localStorage.salvarTokenAutenticacao(res);
+  this.localStorage.salvarTokenAutenticacao(res);
+  this.usuarioService.logarUsuario(res.usuario);
 
-    this.router.navigate(['/dashboard']);
-  }
+  this.tenantProvider.obterConfiguracao().subscribe({
+    next: (config) => {
+      this.router.navigate(['/dashboard']);
+    },
+    error: (erro) => {
+      this.router.navigate(['/dashboard']);
+    }
+  });
+
+}
 
   private processarFalha(erro: Error) {
-    console.log('caiu direto no erro')
     alert(erro.message);
 
   }

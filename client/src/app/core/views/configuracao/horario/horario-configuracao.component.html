@@ -1,0 +1,49 @@
+<!-- HORÁRIOS -->
+  <mat-card class="no-card-appearence">
+    <mat-card-header>
+      <mat-card-title>Horário de Funcionamento</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="mt-3">
+      <form [formGroup]="formHorarios" (ngSubmit)="salvarHorarios()">
+
+        <div formArrayName="horarios">
+          <div *ngFor="let horario of horarios.controls; let i = index" [formGroupName]="i" class="mb-3">
+            <mat-card class="w-100">
+              <mat-card-header class="justify-content-between">
+                <mat-card-title>{{ horario.get('diaSemana')?.value }}</mat-card-title>
+
+                <mat-card-actions class="gap-3">
+                  Fechado
+                  <mat-slide-toggle formControlName="fechado"></mat-slide-toggle>
+                </mat-card-actions>
+              </mat-card-header>
+
+              <mat-card-content class="mt-3 gap-3 d-flex">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Início</mat-label>
+                  <input matInput formControlName="horaAbertura" type="time">
+                </mat-form-field>
+
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Término</mat-label>
+                  <input matInput formControlName="horaFechamento" type="time">
+                </mat-form-field>
+              </mat-card-content>
+
+            </mat-card>
+
+          </div>
+        </div>
+
+        <div class="acoes-form mt-3">
+          <button mat-raised-button class="btn-main-color" type="submit"
+            [disabled]="formHorarios.invalid || salvandoHorarios">
+            <mat-icon>save</mat-icon>
+            {{ salvandoHorarios ? "Salvando..." : "Salvar Alterações" }}
+          </button>
+        </div>
+
+      </form>
+    </mat-card-content>
+  </mat-card>

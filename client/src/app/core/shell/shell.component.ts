@@ -12,6 +12,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { UsuarioAutenticadoDto } from '../../auth/models/auth.models';
 import { Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
+import { ServicoConfiguracaoTenant} from '../views/configuracao/services/tenant-config.service';
 
 @Component({
   selector: 'app-shell',
@@ -34,7 +35,10 @@ export class ShellComponent implements OnInit {
   @Input() usuarioAutenticado: UsuarioAutenticadoDto | undefined;
   @Output() logout: EventEmitter<void>;
 
-  constructor(private title: Title) {
+  constructor(
+    private title: Title,
+    private tenantConfigService: ServicoConfiguracaoTenant
+  ) {
     this.logout = new EventEmitter();
   }
 
@@ -42,6 +46,8 @@ export class ShellComponent implements OnInit {
     if (this.usuarioAutenticado) {
       this.title.setTitle(`BarberClub | ${this.usuarioAutenticado.userName}`);
     }
+
+    this.tenantConfigService.obterConfiguracao().subscribe();
   }
 
   linksPublicos: LinkNavegacao[] = [
@@ -69,11 +75,21 @@ export class ShellComponent implements OnInit {
     }
   ];
 
-  foto: string = 'https://media.istockphoto.com/id/1007175486/pt/foto/modern-empty-barbershop-interior-with-chairs-mirrors-and-lamps.webp?s=1024x1024&w=is&k=20&c=MXcGa1SVLLGphHt3gMLAbAU2O8EThiDIIy42UaRbL7A='
+  get nomeEmpresa(): string {
+    return this.tenantConfigService.nomeEmpresa;
+  }
 
+  get bannerUrl(): string | null {
+    return this.tenantConfigService.urlBanner;
+  }
+
+  get logoUrl(): string | null {
+    return this.tenantConfigService.urlLogo;
+  }
 
   logoutEfetuado() {
     this.title.setTitle('BarberClub');
+    this.tenantConfigService.limparConfiguracao();
     this.logout.emit();
   }
 

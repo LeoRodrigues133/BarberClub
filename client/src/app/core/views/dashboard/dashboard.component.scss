@@ -6,24 +6,11 @@ $icon-color: #ffbd16;
 $border-radius: 12px;
 $transition: all 0.3s ease;
 
-.dashboard-wrapper {
+:host{
   display: flex;
+  justify-content: center;
   width: 100%;
   min-height: 100vh;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 0px 20px;
-}
-
-.dashboard-container {
-  display: flex;
-  flex-direction: column;
-  width: 60%;
-  max-width: 1200px;
-  min-width: 800px;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(3px);
-  padding: 48px;
 }
 
 .dashboard-header {
@@ -59,13 +46,6 @@ $transition: all 0.3s ease;
   &:last-child {
     margin-bottom: 0;
   }
-}
-
-.cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: flex-start;
 }
 
 .service-card {
@@ -185,111 +165,4 @@ $transition: all 0.3s ease;
 .comodity-text {
   font-size: 0.95rem;
   color: $text-secondary;
-}
-
-@media (max-width: 1400px) {
-  .dashboard-container {
-    width: 70%;
-    min-width: 700px;
-    padding: 40px;
-  }
-}
-
-@media (max-width: 1200px) {
-  .dashboard-container {
-    width: 80%;
-    min-width: 600px;
-    padding: 36px;
-  }
-
-  .cards-container {
-    gap: 16px;
-  }
-
-  .service-card {
-    width: 180px;
-    padding: 24px 18px 20px;
-  }
-
-  .service-icon {
-    font-size: 2.4rem;
-    width: 2.4rem;
-    height: 2.4rem;
-  }
-}
-
-@media (max-width: 900px) {
-  .dashboard-container {
-    width: 90%;
-    min-width: 500px;
-    padding: 32px;
-  }
-
-  .service-card {
-    width: 150px;
-    padding: 24px 16px;
-  }
-
-  .service-icon {
-    font-size: 2rem;
-    width: 2rem;
-    height: 2rem;
-  }
-
-  .comodities-list {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
-}
-
-@media (max-width: 768px) {
-  .dashboard-wrapper {
-    padding: 20px 10px;
-  }
-
-  .dashboard-container {
-    width: 95%;
-    min-width: auto;
-    padding: 24px;
-  }
-
-  .section-title {
-    font-size: 1.5rem;
-    margin-bottom: 24px;
-  }
-
-  .cards-container {
-    justify-content: center;
-    gap: 12px;
-  }
-
-  .service-card {
-    width: 140px;
-    padding: 20px 12px;
-  }
-
-  .comodities-list {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .dashboard-container {
-    padding: 20px;
-  }
-
-  .service-card {
-    width: 130px;
-    padding: 18px 10px;
-  }
-
-  .service-icon {
-    font-size: 1.8rem;
-    width: 1.8rem;
-    height: 1.8rem;
-    margin-bottom: 12px;
-  }
-
-  .card-title {
-    font-size: 0.85rem;
-  }
 }

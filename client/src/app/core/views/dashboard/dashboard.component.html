@@ -1,14 +1,24 @@
-<div class="dashboard-wrapper">
   <div class="dashboard-container">
 
     <!-- Header simples -->
-    <div class="dashboard-header">
-      <h2 class="section-title">Nossos Serviços</h2>
-      <p class="section-subtitle">Escolha o serviço ideal para você</p>
+    <div class="dashboard-header d-flex justify-content-center gap-4">
+      <div>
+
+        <h2 class="section-title">Nossos Serviços</h2>
+        <p class="section-subtitle">Escolha o serviço ideal para você</p>
+      </div>
+      <div class="mt-2">
+        <button mat-mini-fab>
+          <mat-icon class="text-black">add</mat-icon>
+        </button>
+      </div>
     </div>
 
     <!-- Seção de Serviços -->
     <div class="section-wrapper">
+      <div class="d-flex justify-content-end m-3">
+
+      </div>
       <div class="cards-container">
         <mat-card
           class="service-card"
@@ -30,7 +40,12 @@
 
     <!-- Seção de Comodidades - Lista simples -->
     <div class="section-wrapper">
-      <h2 class="section-title-small">Comodidades do Espaço</h2>
+      <div class="d-flex justify-content-start gap-4">
+        <h2 class="section-title-small">Comodidades do Espaço</h2>
+        <button mat-mini-fab>
+          <mat-icon class="text-black">add</mat-icon>
+        </button>
+      </div>
 
       <div class="comodities-list">
         <div
@@ -43,4 +58,3 @@
     </div>
 
   </div>
-</div>

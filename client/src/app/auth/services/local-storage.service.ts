@@ -22,4 +22,12 @@ export class LocalStorageService {
   public limparDadosLocais(): void {
     localStorage.removeItem(this.chave)
   }
+
+public estaAutenticado(): boolean {
+  const token = this.obterTokenAutenticacao();
+  if (!token) return false;
+
+  const dataExpiracao = new Date(token.expiracaoToken);
+  return dataExpiracao > new Date();
+}
 }

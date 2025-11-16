@@ -1,0 +1,35 @@
+  <!-- BANNER -->
+  <mat-card class="no-card-appearence">
+    <mat-card-header>
+      <mat-card-title>Banner da Empresa</mat-card-title>
+      <mat-card-subtitle>Imagem de capa (1920x400px recomendado)</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="mt-3">
+      <div class="imagem-preview banner-preview">
+        <img *ngIf="(bannerUrl$ | async) && !bannerPreview" [src]="bannerUrl$ | async" class="banner-img" alt="Banner">
+        <img *ngIf="bannerPreview" [src]="bannerPreview" class="banner-img preview" alt="Preview">
+        <div *ngIf="!(bannerUrl$ | async) && !bannerPreview" class="placeholder-banner">
+          <mat-icon>image</mat-icon>
+          <p>Nenhum banner cadastrado</p>
+        </div>
+      </div>
+
+      <div class="acoes-imagem">
+        <input type="file" #bannerInput accept="image/png,image/jpg,image/jpeg" (change)="selecionarBanner($event)"
+          hidden>
+        <button mat-raised-button class="btn-secondary-color" (click)="bannerInput.click()"
+          [disabled]="uploadandoBanner">
+          <mat-icon>upload</mat-icon> Selecionar Banner
+        </button>
+        <button *ngIf="bannerPreview" mat-raised-button class="btn-main-color" (click)="uploadBanner()"
+          [disabled]="uploadandoBanner">
+          <mat-icon>save</mat-icon>
+          {{ uploadandoBanner ? "Enviando..." : "Salvar Banner" }}
+        </button>
+        <button *ngIf="bannerPreview" mat-button (click)="cancelarBanner()" [disabled]="uploadandoBanner">
+          Cancelar
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
