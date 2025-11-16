@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.26.0" />
     <PackageReference Include="FluentResults" Version="4.0.0" />
     <PackageReference Include="MediatR" Version="13.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
@@ -16,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BarberClub.Dominio\BarberClub.Dominio.csproj" />
+    <ProjectReference Include="..\BarberClub.Infraestrutura\BarberClub.Infraestrutura.Orm.csproj" />
   </ItemGroup>
 
   <ItemGroup>

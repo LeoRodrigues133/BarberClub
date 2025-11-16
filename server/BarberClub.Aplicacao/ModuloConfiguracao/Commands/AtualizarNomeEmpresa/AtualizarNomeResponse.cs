@@ -1,0 +1,3 @@
+namespace BarberClub.Aplicacao.ModuloConfiguracao.Commands.AtualizarNomeEmpresa;
+
+public record AtualizarNomeResponse(string nomeAtualizado);

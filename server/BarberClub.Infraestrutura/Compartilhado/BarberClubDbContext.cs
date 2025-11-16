@@ -1,7 +1,11 @@
 using BarberClub.Dominio.Compartilhado;
 using BarberClub.Dominio.ModuloAutenticacao;
+using BarberClub.Dominio.ModuloConfiguracao;
+using BarberClub.Dominio.ModuloConfiguracao.ModuloHorarioFuncionamento;
 using BarberClub.Dominio.ModuloFuncionario;
 using BarberClub.Dominio.ModuloServico;
+using BarberClub.Infraestrutura.Orm.RepositorioConfiguracao;
+using BarberClub.Infraestrutura.Orm.RepositorioConfiguracao.RepositorioHorarioFuncionamento;
 using BarberClub.Infraestrutura.Orm.RepositorioFuncionario;
 using BarberClub.Infraestrutura.Orm.RepositorioServicos;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -30,10 +34,17 @@ public class BarberClubDbContext(DbContextOptions _options, ITenantProvider? _te
                 ||
                 (_tenantProvider.FuncionarioId == null &&
                 s.Funcionario!.AdminId == _tenantProvider.EmpresaId));
+
+            builder.Entity<ConfiguracaoEmpresa>();
+
+            builder.Entity<HorarioFuncionamento>()
+                .HasQueryFilter(h => h.ConfiguracaoEmpresa!.UsuarioId == _tenantProvider.EmpresaId);
         }
 
         builder.ApplyConfiguration(new MapeadorFuncionarioEmOrm());
         builder.ApplyConfiguration(new MapeamentoServicoEmOrm());
+        builder.ApplyConfiguration(new MapeamentoConfiguracaoEmOrm());
+        builder.ApplyConfiguration(new MapeamentoHorarioFuncionamentoEmOrm());
 
         base.OnModelCreating(builder);
     }

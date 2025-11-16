@@ -1,5 +1,6 @@
 using BarberClub.Aplicacao.Compartilhado;
 using BarberClub.Aplicacao.ModuloAutenticacao.DTOs;
+using BarberClub.Aplicacao.ModuloConfiguracao.Services;
 using BarberClub.Dominio.ModuloAutenticacao;
 using FluentResults;
 using MediatR;
@@ -10,7 +11,8 @@ namespace BarberClub.Aplicacao.ModuloAutenticacao.Commands.Registrar;
 public class RegistrarUsuarioRequestHandler(
     RoleManager<Cargo> _roleManager,
     UserManager<Usuario> _userManager,
-    ITokenProvider _tokenProvider)
+    ITokenProvider _tokenProvider,
+    ServiceConfiguracao _serviceConfiguracao)
     : IRequestHandler<RegistrarUsuarioRequest, Result<TokenResponse>>
 {
     public async Task<Result<TokenResponse>> Handle(
@@ -27,7 +29,6 @@ public class RegistrarUsuarioRequestHandler(
             UserName = request.userName,
             Email = request.email,
         };
-
 
         var usuarioResult = await _userManager.CreateAsync(usuario, request.password);
 
@@ -61,6 +62,7 @@ public class RegistrarUsuarioRequestHandler(
         }
 
         var addRoleResult = await _userManager.AddToRoleAsync(usuario, cargoAdmin);
+
         if (!addRoleResult.Succeeded)
         {
             await _userManager.DeleteAsync(usuario);
@@ -74,10 +76,20 @@ public class RegistrarUsuarioRequestHandler(
                 new Exception($"Falha ao atribuir cargo: {string.Join("; ", errors)}")));
         }
 
+        var resultConfig = await _serviceConfiguracao.CriarConfiguracaoPadraoAsync(usuario.Id);
+
+        if (resultConfig.IsFailed)
+        {
+            await _userManager.DeleteAsync(usuario);
+            var errors = resultConfig.Errors.Select(e => e.Message).ToList();
+            return Result.Fail(ErrorsResult.BadRequestError(errors));
+        }
+
         var tokenAcesso = _tokenProvider.GerarAccessToken(usuario) as TokenResponse;
 
         if (tokenAcesso is null)
-            return Result.Fail(ErrorsResult.InternalServerError(new Exception("Falha ao gerar token de acesso")));
+            return Result.Fail(ErrorsResult.InternalServerError(
+                new Exception("Falha ao gerar token de acesso")));
 
         return Result.Ok(tokenAcesso);
     }

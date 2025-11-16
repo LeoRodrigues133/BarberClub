@@ -1,8 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using BarberClub.Dominio.Compartilhado;
-using BarberClub.Dominio.ModuloAutenticacao;
 using BarberClub.Dominio.ModuloFuncionario;
 using BarberClub.Infraestrutura.Orm.Compartilhado;
-using Microsoft.EntityFrameworkCore;
 
 namespace BarberClub.Infraestrutura.Orm.RepositorioFuncionario;
 

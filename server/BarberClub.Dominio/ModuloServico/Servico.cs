@@ -7,20 +7,6 @@ public class Servico : EntidadeBase
 {
     public Servico()
     { }
-    public Servico(
-        string titulo,
-        decimal valor,
-        int duracao, // Em minutos
-        bool isPromocao = false
-        )
-    {
-        Titulo = titulo;
-        Valor = valor;
-        Duracao = duracao;
-        IsPromocao = isPromocao;
-        PorcentagemPromocao = null;
-        ValorFinal = valor;
-    }
 
     public Servico(
         Guid funcionarioId,

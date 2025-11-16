@@ -1,0 +1,59 @@
+using MediatR;
+using FluentResults;
+using BarberClub.Dominio.Compartilhado;
+using BarberClub.Dominio.ModuloConfiguracao.ModuloHorarioFuncionamento;
+using BarberClub.Aplicacao.ModuloConfiguracao.Commands.AtualizarHorárioPorId;
+
+namespace BarberClub.Aplicacao.ModuloConfiguracao.Commands.AtualizarHorarioPorId;
+
+public class AtualizarHorariaPorIdRequestHandler(
+    IRepositorioHorarioFuncionamento _repositorioHorarioFuncionamento,
+    IContextoPersistencia _context)
+    : IRequestHandler<AtualizarHorarioPorIdRequest, Result<AtualizarHorarioPorIdResponse>>
+{
+    public async Task<Result<AtualizarHorarioPorIdResponse>> Handle(
+        AtualizarHorarioPorIdRequest request, CancellationToken cancellationToken)
+    {
+        var horarioSelecionado = await _repositorioHorarioFuncionamento.SelecionarPorIdAsync(request.Id);
+
+        if (horarioSelecionado is null)
+            return Result.Fail("Horario não encontrado");
+        try
+        {
+            AtualizarHorarioSelecionado(request, horarioSelecionado);
+
+            await _repositorioHorarioFuncionamento.EditarAsync(horarioSelecionado);
+
+            await _context.GravarAsync();
+        }
+        catch (Exception ex)
+        {
+            await _context.DesfazerAsync();
+
+            return Result.Fail(ex.Message);
+        }
+
+        return Result.Ok(new AtualizarHorarioPorIdResponse(horarioSelecionado.Id));
+    }
+
+    private void AtualizarHorarioSelecionado(
+        AtualizarHorarioPorIdRequest request,
+        HorarioFuncionamento horarioSelecionado)
+    {
+        if (request.Fechado)
+        {
+            horarioSelecionado.Fechado = true;
+            horarioSelecionado.HoraAbertura = TimeSpan.Zero;
+            horarioSelecionado.HoraFechamento = TimeSpan.Zero;
+            return;
+        }
+
+        horarioSelecionado.Fechado = false;
+
+        if (request.HoraAbertura.HasValue)
+            horarioSelecionado.HoraAbertura = request.HoraAbertura.Value;
+
+        if (request.HoraFechamento.HasValue)
+            horarioSelecionado.HoraFechamento = request.HoraFechamento.Value;
+    }
+}

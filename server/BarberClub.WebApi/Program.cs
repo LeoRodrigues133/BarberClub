@@ -1,4 +1,5 @@
 
+using BarberClub.Infraestrutura.Orm.Compartilhado;
 using BarberClub.WebApi.Config;
 
 namespace BarberClub.WebApi;
@@ -19,11 +20,15 @@ public class Program
         // Database provider [env SQLSERVER_CONNECTION_STRING]
         builder.Services.DbContextConfiguration(builder.Environment, builder.Configuration);
 
+        // Azure Blob Storage Provider [env AZURE_BLOB_STORAGE:ConnectionString]
+        builder.Services.AzureServicesDependenciesConfiguration(builder.Configuration);
+
         // fluentValidations
         builder.Services.ConfigureFluentValidation();
 
         // Services
         builder.Services.RepositoriesConfiguration();
+        builder.Services.ApplicationServicesConfiguration();
         builder.Services.MediatRConfiguration();
 
 
@@ -33,8 +38,12 @@ public class Program
 
         // Swagger e falta Api documentation 
         builder.Services.SwaggerConfiguration();
+
         // Cors
         builder.Services.CorsPolicyConfiguration(corsPolicyName);
+
+        // Cache
+        builder.Services.AddMemoryCache();
 
         var app = builder.Build();
 

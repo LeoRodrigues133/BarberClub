@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BarberClub.Dominio.ModuloAutenticacao.Cargo" Collapsed="true">
+    <Position X="15" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ModuloAutenticacao\Cargo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BarberClub.Dominio.ModuloAutenticacao.Usuario" Collapsed="true">
+    <Position X="15" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ModuloAutenticacao\Usuario.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BarberClub.Dominio.ModuloConfiguracao.ModuloHorarioFuncionamento.HorarioFuncionamento" Collapsed="true">
+    <Position X="13.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAEAAAAAAAAAAgAAAAQAAECAgAAAAAAA=</HashCode>
+      <FileName>ModuloConfiguracao\ModuloHorarioFuncionamento\HorarioFuncionamento.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BarberClub.Dominio.ModuloConfiguracao.ConfiguracaoEmpresa">
+    <Position X="9.25" Y="2.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAhgAAAAAAEgAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>ModuloConfiguracao\ConfiguracaoEmpresa.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BarberClub.Dominio.Compartilhado.CpfValidator" Collapsed="true">
+    <Position X="16.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Compartilhado\CpfValidator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BarberClub.Dominio.Compartilhado.EntidadeBase" Collapsed="true">
+    <Position X="7" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Compartilhado\EntidadeBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BarberClub.Dominio.ModuloServico.Servico">
+    <Position X="3" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAEBAAQAAAAAAQEAAAAEAIAAQAAAAAAAAASAgBg=</HashCode>
+      <FileName>ModuloServico\Servico.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BarberClub.Dominio.ModuloServico.ValidationServico" Collapsed="true">
+    <Position X="13.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ModuloServico\ValidationServico.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BarberClub.Dominio.ModuloFuncionario.Funcionario">
+    <Position X="6" Y="2.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAA=</HashCode>
+      <FileName>ModuloFuncionario\Funcionario.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BarberClub.Dominio.ModuloFuncionario.ValidationFuncionario" Collapsed="true">
+    <Position X="16.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ModuloFuncionario\ValidationFuncionario.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BarberClub.Dominio.ModuloAgenda.Agenda" Collapsed="true">
+    <Position X="13.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ModuloAgenda\Agenda.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="BarberClub.Dominio.ModuloAutenticacao.IAccessToken" Collapsed="true">
+    <Position X="13.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ModuloAutenticacao\IAccessToken.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BarberClub.Dominio.ModuloAutenticacao.ITenantProvider" Collapsed="true">
+    <Position X="15" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>ModuloAutenticacao\ITenantProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BarberClub.Dominio.ModuloAutenticacao.ITokenProvider" Collapsed="true">
+    <Position X="16.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>ModuloAutenticacao\ITokenProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BarberClub.Dominio.ModuloConfiguracao.ModuloHorarioFuncionamento.IRepositorioHorarioFuncionamento" Collapsed="true">
+    <Position X="16.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAgAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ModuloConfiguracao\ModuloHorarioFuncionamento\IRepositorioHorarioFuncionamento.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BarberClub.Dominio.ModuloConfiguracao.IRepositorioConfiguracao" Collapsed="true">
+    <Position X="13.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAAAQAAAAAAAAAIAQA=</HashCode>
+      <FileName>ModuloConfiguracao\IRepositorioConfiguracao.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BarberClub.Dominio.Compartilhado.IAzureBlobService" Collapsed="true">
+    <Position X="15" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAIAAQAA=</HashCode>
+      <FileName>Compartilhado\IAzureBlobService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BarberClub.Dominio.Compartilhado.IContextoPersistencia" Collapsed="true">
+    <Position X="16.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Compartilhado\IContextoPersistencia.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BarberClub.Dominio.ModuloServico.IRepositorioServico" Collapsed="true">
+    <Position X="13.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAgAAAAAAAAAAAAAgAAAAAAAAAAABAAAAAAAEQAA=</HashCode>
+      <FileName>ModuloServico\IRepositorioServico.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BarberClub.Dominio.ModuloFuncionario.IRepositorioFuncionario" Collapsed="true">
+    <Position X="15" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAgAgAAAQAAAAAAAgAAAAAAAAAAABAAAAAAAIQAA=</HashCode>
+      <FileName>ModuloFuncionario\IRepositorioFuncionario.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="BarberClub.Dominio.ModuloAutenticacao.EnumCargo" Collapsed="true">
+    <Position X="13.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>ModuloAutenticacao\EnumCargo.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="BarberClub.Dominio.ModuloConfiguracao.ModuloHorarioFuncionamento.SemanaEnum" Collapsed="true">
+    <Position X="15" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAQAABABAAAAAAACACAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>ModuloConfiguracao\ModuloHorarioFuncionamento\SemanaEnum.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Yu Gothic" Size="10" />
+</ClassDiagram>
