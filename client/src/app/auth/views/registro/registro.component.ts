@@ -10,6 +10,7 @@ import { AuthService } from '../../services/auth.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { RegistrarUsuarioRequest, TokenResponse } from '../../models/auth.models';
 import { UserService } from '../../services/user.service';
+import { VerificarCadeiaSenha } from '../../../core/shared/senha.validators';
 
 @Component({
   selector: 'app-registro',
@@ -50,6 +51,7 @@ export class RegistroComponent {
           Validators.required,
           Validators.minLength(6),
           Validators.maxLength(30),
+          VerificarCadeiaSenha()
         ],
       ],
       email: [

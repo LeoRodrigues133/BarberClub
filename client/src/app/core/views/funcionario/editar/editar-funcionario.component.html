@@ -1,0 +1,149 @@
+<div class="dashboard-container">
+  <mat-card class="no-card-appearence">
+    <mat-card-header>
+      <mat-card-title>Editar Cadastro de Funcionário</mat-card-title>
+      <mat-card-subtitle>Preencha os novos dados do funcionário</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="editar()">
+        <div class="form-row">
+          <div>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Nome Completo</mat-label>
+              <input matInput formControlName="nome" placeholder="Ex: João da Silva">
+              <mat-icon matPrefix>person</mat-icon>
+              <mat-error *ngIf="nome?.hasError('required')">
+                Nome é obrigatório
+              </mat-error>
+              <mat-error *ngIf="nome?.hasError('minlength')">
+                Nome deve ter no mínimo 3 caracteres
+              </mat-error>
+              <mat-error *ngIf="nome?.hasError('maxlength')">
+                Nome deve ter no máximo 50 caracteres
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+          <div>
+
+            <app-cpf-input formControlName="cpf" label="CPF" placeholder="000.000.000-00">
+            </app-cpf-input>
+            <div class="position-absolute cpfInput">
+
+              <mat-error *ngIf="cpf?.value" class="dicas">
+                <span [class.valido]="!cpf?.hasError('semFormatacao')"
+                  [class.invalido]="cpf?.hasError('semFormatacao')">
+                  <mat-icon>{{!cpf?.hasError('semFormatacao') ? 'check_circle' : 'cancel'}}</mat-icon>
+                  Formatação
+                </span>
+              </mat-error>
+              <mat-error *ngIf="cpf?.hasError('required')">
+                CPF é obrigatório
+              </mat-error>
+              <mat-error *ngIf="cpf?.hasError('cpfInvalido')">
+                CPF inválido
+              </mat-error>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Nome de Usuário</mat-label>
+            <input matInput formControlName="userName" placeholder="Ex: joao.silva">
+            <mat-icon matPrefix>account_circle</mat-icon>
+            <mat-error *ngIf="userName?.hasError('required')">
+              Nome de usuário é obrigatório
+            </mat-error>
+            <mat-error *ngIf="userName?.hasError('minlength')">
+              Nome de usuário deve ter no mínimo 3 caracteres
+            </mat-error>
+            <mat-error *ngIf="userName?.hasError('maxlength')">
+              Nome de usuário deve ter no máximo 30 caracteres
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>E-mail</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="exemplo@email.com">
+            <mat-icon matPrefix>email</mat-icon>
+            <mat-error *ngIf="email?.hasError('email')">
+              E-mail inválido
+            </mat-error>
+            <mat-error *ngIf="email?.hasError('required')">
+              Email é obrigatório
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Senha</mat-label>
+            <input matInput formControlName="password" type="password" placeholder="Digite uma senha forte">
+            <mat-icon matPrefix>lock</mat-icon>
+
+            <mat-error *ngIf="password?.value" class="dicas">
+              <span [class.valido]="!password?.hasError('semMaiuscula')"
+                [class.invalido]="password?.hasError('semMaiuscula')">
+                <mat-icon>{{!password?.hasError('semMaiuscula') ? 'check_circle' : 'cancel'}}</mat-icon>
+                Maiúscula
+              </span>
+              <span [class.valido]="!password?.hasError('semMinuscula')"
+                [class.invalido]="password?.hasError('semMinuscula')">
+                <mat-icon>{{!password?.hasError('semMinuscula') ? 'check_circle' : 'cancel'}}</mat-icon>
+                Minúscula
+              </span>
+              <span [class.valido]="!password?.hasError('semNumero')"
+                [class.invalido]="password?.hasError('semNumero')">
+                <mat-icon>{{!password?.hasError('semNumero') ? 'check_circle' : 'cancel'}}</mat-icon>
+                Número
+              </span>
+              <span [class.valido]="!password?.hasError('semEspecial')"
+                [class.invalido]="password?.hasError('semEspecial')">
+                <mat-icon>{{!password?.hasError('semEspecial') ? 'check_circle' : 'cancel'}}</mat-icon>
+                Especial
+              </span>
+            </mat-error>
+
+            <mat-error *ngIf="password?.hasError('required')">
+              Senha é obrigatória
+            </mat-error>
+            <mat-error *ngIf="password?.hasError('minlength')">
+              Senha deve ter no mínimo 6 caracteres
+            </mat-error>
+            <mat-error *ngIf="password?.hasError('maxlength')">
+              Senha deve ter no máximo 30 caracteres
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Cargo</mat-label>
+            <mat-select formControlName="cargo">
+              <mat-option *ngFor="let cargo of cargosOptions" [value]="cargo.valor">
+                {{ cargo.label }}
+              </mat-option>
+            </mat-select>
+            <mat-icon matPrefix>work</mat-icon>
+            <mat-error *ngIf="cargo?.hasError('required')">
+              Cargo é obrigatório
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-actions">
+          <button mat-button type="button" routerLink="/funcionarios/listar">
+            <mat-icon>arrow_back</mat-icon>
+            Cancelar
+          </button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+            <mat-icon>save</mat-icon>
+            Cadastrar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

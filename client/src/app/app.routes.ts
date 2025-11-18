@@ -38,6 +38,14 @@ export const routes: Routes = [
         (c) => c.ConfiguracaoComponent
       ),
     canMatch: [authGuard]
+  },
+  {
+    path: 'employees',
+    loadChildren: () =>
+      import('./core/views/funcionario/funcionario.routes').then(
+        (r) => r.funcionarioRoutes
+      ),
+    canMatch: [authGuard]
   }
 
 ];

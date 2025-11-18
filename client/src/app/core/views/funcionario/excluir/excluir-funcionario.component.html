@@ -1,0 +1,90 @@
+<div class="dashboard-container">
+  <mat-card class="no-card-appearence delete-card">
+    <mat-card-header>
+      <div class="warning-header">
+        <mat-icon class="warning-icon">warning</mat-icon>
+        <div>
+          <mat-card-title>Confirmar Exclusão</mat-card-title>
+          <mat-card-subtitle>Esta ação não pode ser desfeita</mat-card-subtitle>
+        </div>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Alerta de Confirmação -->
+      <div class="alert-box">
+        <mat-icon>info</mat-icon>
+        <div>
+          <p><strong>Você está prestes a excluir o funcionário:</strong></p>
+          <p class="funcionario-nome">{{ funcionario.nome }}</p>
+        </div>
+      </div>
+
+      <!-- Detalhes do Funcionário -->
+      <div class="section">
+        <h3 class="section-title">Dados que serão excluídos</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Nome Completo</label>
+            <span>{{ funcionario?.nome || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>CPF</label>
+            <span>{{ funcionario?.cpf || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Nome de Usuário</label>
+            <span>{{ funcionario?.userName }}</span>
+          </div>
+          <div class="info-item">
+            <label>E-mail</label>
+            <span>{{ funcionario?.email || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Cargo</label>
+            <span>{{ funcionario?.cargo}}</span>
+          </div>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- Aviso sobre Dados Relacionados -->
+      <div class="warning-box">
+        <mat-icon>error_outline</mat-icon>
+        <div>
+          <p><strong>Atenção:</strong> A exclusão deste funcionário também removerá:</p>
+          <ul>
+            <li>Histórico de acessos</li>
+            <li>Agendamentos futuros</li>
+            <li>Registros de atividades</li>
+            <li>Permissões e credenciais</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Confirmação com Checkbox -->
+      <div class="confirmation-section">
+        <mat-checkbox [(ngModel)]="confirmacaoExclusao" color="warn">
+          Eu confirmo que desejo excluir permanentemente este funcionário e todos os dados relacionados
+        </mat-checkbox>
+      </div>
+
+      <!-- Ações -->
+      <div class="form-actions delete-actions">
+        <button mat-button routerLink="/funcionarios/listar">
+          <mat-icon>arrow_back</mat-icon>
+          Cancelar
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          [disabled]="!confirmacaoExclusao"
+          (click)="excluir()">
+          <mat-icon>delete_forever</mat-icon>
+          Confirmar Exclusão
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

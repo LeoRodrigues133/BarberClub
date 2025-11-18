@@ -1,0 +1,15 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{ label }}</mat-label>
+
+<input
+  matInput
+  [value]="value"
+  (input)="onInputChange($event)"
+  (blur)="onBlur()"
+  [placeholder]="placeholder"
+  [disabled]="disabled"
+  maxlength="14">
+
+  <mat-icon matPrefix>badge</mat-icon>
+
+</mat-form-field>

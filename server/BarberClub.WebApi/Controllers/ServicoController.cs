@@ -22,7 +22,7 @@ public class ServicoController(IMediator _mediator) : ControllerBase
     public async Task<IActionResult> Cadastrar(CadastrarServicoRequest request)
     {
         var result = await _mediator.Send(request);
-        return Ok(result.ToHttpResponse());
+        return result.ToHttpResponse();
     }
 
     // PUT: api/servico/editar/{id}
@@ -38,7 +38,7 @@ public class ServicoController(IMediator _mediator) : ControllerBase
 
         var result = await _mediator.Send(editarRequest);
 
-        return Ok(result.ToHttpResponse());
+        return result.ToHttpResponse();
     }
 
     // DELETE: api/servico/excluir/{id}
@@ -50,7 +50,7 @@ public class ServicoController(IMediator _mediator) : ControllerBase
 
         var result = await _mediator.Send(request);
 
-        return Ok(result.ToHttpResponse());
+        return result.ToHttpResponse();
     }
 
     // GET: api/servico
@@ -59,7 +59,7 @@ public class ServicoController(IMediator _mediator) : ControllerBase
     public async Task<IActionResult> SelecionarTodos()
     {
         var result = await _mediator.Send(new SelecionarServicosRequest());
-        return Ok(result.ToHttpResponse());
+        return result.ToHttpResponse();
     }
 
     // GET: api/servico/{id}
@@ -71,6 +71,6 @@ public class ServicoController(IMediator _mediator) : ControllerBase
 
         var result = await _mediator.Send(selecionarPorIdRequest);
 
-        return Ok(result.ToHttpResponse());
+        return result.ToHttpResponse();
     }
 }

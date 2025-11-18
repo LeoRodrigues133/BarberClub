@@ -8,14 +8,14 @@ import { catchError, map, Observable, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl: string = environment.urlApi;
+  readonly API_URL: string = environment.urlApi;
 
   constructor(private http: HttpClient) { }
 
   public registrar(
     registro: RegistrarUsuarioRequest
   ): Observable<TokenResponse> {
-    const urlCompleto = `${this.apiUrl}/auth/registrar`;
+    const urlCompleto = `${this.API_URL}/auth/registrar`;
 
     return this.http
       .post<TokenResponse>(urlCompleto, registro)
@@ -23,7 +23,7 @@ export class AuthService {
   }
 
   public login(loginUsuario: AutenticarUsuarioRequest) {
-    const urlCompleto = `${this.apiUrl}/auth/autenticar`;
+    const urlCompleto = `${this.API_URL}/auth/autenticar`;
 
     return this.http
       .post<TokenResponse>(urlCompleto, loginUsuario)
@@ -31,7 +31,7 @@ export class AuthService {
   }
 
   public logout() {
-    const urlCompleto = `${this.apiUrl}/auth/sair`;
+    const urlCompleto = `${this.API_URL}/auth/sair`;
 
     return this.http.post(urlCompleto, {});
   }

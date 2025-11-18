@@ -42,7 +42,7 @@ public class ConfiguracaoController(IMediator _mediator, IAzureBlobService _azur
         if (result.IsFailed)
             return NotFound(result.ToHttpResponse());
 
-        return Ok(result.Value);
+        return result.ToHttpResponse();
     }
 
     [HttpPost("gerar-token")]
@@ -94,7 +94,7 @@ public class ConfiguracaoController(IMediator _mediator, IAzureBlobService _azur
         if (result.IsFailed)
             return BadRequest(result.ToHttpResponse());
 
-        return Ok(result.ToHttpResponse());
+        return result.ToHttpResponse();
     }
 
     [HttpPut("logo")]
@@ -116,7 +116,7 @@ public class ConfiguracaoController(IMediator _mediator, IAzureBlobService _azur
         if (result.IsFailed)
             return BadRequest(result.ToHttpResponse());
 
-        return Ok(result.ToHttpResponse());
+        return result.ToHttpResponse();
     }
 
     [HttpPut("nome")]
@@ -139,7 +139,7 @@ public class ConfiguracaoController(IMediator _mediator, IAzureBlobService _azur
         if (result.IsFailed)
             return BadRequest(result.ToHttpResponse());
 
-        return Ok(result.ToHttpResponse());
+        return result.ToHttpResponse();
     }
 
     [HttpPut("horario/{id:guid}")]
@@ -156,7 +156,7 @@ public class ConfiguracaoController(IMediator _mediator, IAzureBlobService _azur
 
         var result = await _mediator.Send(atualizarHorario);
 
-        return Ok(result.ToHttpResponse());
+        return result.ToHttpResponse();
     }
 
     private static string ExtrairNomeBlob(string url)

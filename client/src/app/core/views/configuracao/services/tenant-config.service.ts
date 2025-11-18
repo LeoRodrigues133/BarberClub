@@ -37,7 +37,7 @@ export enum EstrategiaCarregamento {
   providedIn: 'root'
 })
 export class ServicoConfiguracaoTenant {
-  private readonly urlBase = `${environment.urlApi}/configuracao`;
+  private readonly API_URL = `${environment.urlApi}/configuracao`;
   private readonly duracaoToken = 50 * 60 * 1000;
   private readonly duracaoCache = 15 * 60 * 1000;
 
@@ -58,11 +58,11 @@ export class ServicoConfiguracaoTenant {
   }
 
   carregarPorAutenticacao(): Observable<ConfiguracaoTenant> {
-    return this.carregarConfiguracao(`${this.urlBase}`);
+    return this.carregarConfiguracao(`${this.API_URL}`);
   }
 
   carregarPorSlug(slug: string): Observable<ConfiguracaoTenant> {
-    return this.carregarConfiguracao(`${this.urlBase}/public/${slug}`);
+    return this.carregarConfiguracao(`${this.API_URL}/public/${slug}`);
   }
 
   carregarAutomaticamente(slug?: string): Observable<ConfiguracaoTenant> {
@@ -146,7 +146,7 @@ export class ServicoConfiguracaoTenant {
   private async gerarToken(urlBlob: string): Promise<string> {
     try {
       const resposta = await this.http.post<any>(
-        `${this.urlBase}/gerar-token`,
+        `${this.API_URL}/gerar-token`,
         { url: urlBlob }
       ).toPromise();
 

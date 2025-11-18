@@ -1,0 +1,10 @@
+// cpf-input.component.scss
+:host {
+  display: flex;
+  width: 100%;
+  margin-bottom: -20px;
+}
+
+mat-form-field {
+  width: 100%;
+}

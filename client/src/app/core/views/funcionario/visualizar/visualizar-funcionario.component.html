@@ -1,0 +1,139 @@
+<div class="dashboard-container">
+  <mat-card class="no-card-appearence">
+    <mat-card-header>
+      <div class="header-with-actions">
+        <div>
+          <mat-card-title>Detalhes do Funcionário</mat-card-title>
+          <mat-card-subtitle>Informações completas do cadastro</mat-card-subtitle>
+        </div>
+        <div class="header-actions">
+          <button mat-raised-button color="primary" [routerLink]="['/funcionarios/editar', funcionario?.id]">
+            <mat-icon>edit</mat-icon>
+            Editar
+          </button>
+          <button mat-raised-button color="warn" [routerLink]="['/funcionarios/excluir', funcionario?.id]">
+            <mat-icon>delete</mat-icon>
+            Excluir
+          </button>
+        </div>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Seção: Informações Pessoais -->
+      <div class="section">
+        <h3 class="section-title">
+          <mat-icon>person</mat-icon>
+          Informações Pessoais
+        </h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Nome Completo</label>
+            <span>{{ funcionario?.nome || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>CPF</label>
+            <span>{{ funcionario?.cpf || '-' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- Seção: Informações de Acesso -->
+      <div class="section">
+        <h3 class="section-title">
+          <mat-icon>account_circle</mat-icon>
+          Informações de Acesso
+        </h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Nome de Usuário</label>
+            <span>{{ funcionario?.userName || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>E-mail</label>
+            <span>{{ funcionario?.email || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Cargo</label>
+            <mat-chip selected>
+              {{ funcionario?.cargo}}
+            </mat-chip>
+          </div>
+          <div class="info-item">
+            <label>Status</label>
+            <mat-chip color="primary" selected>
+              <mat-icon>check_circle</mat-icon>
+              Ativo
+            </mat-chip>
+          </div>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- Seção: Ações e Documentos -->
+      <div class="section">
+        <h3 class="section-title">
+          <mat-icon>description</mat-icon>
+          Documentos e Ações
+        </h3>
+        <div class="action-buttons">
+          <button mat-stroked-button>
+            <mat-icon>assignment</mat-icon>
+            Ver Contrato
+          </button>
+          <button mat-stroked-button>
+            <mat-icon>receipt_long</mat-icon>
+            Faturamento
+          </button>
+          <button mat-stroked-button>
+            <mat-icon>history</mat-icon>
+            Histórico
+          </button>
+          <button mat-stroked-button>
+            <mat-icon>event</mat-icon>
+            Agendamentos
+          </button>
+          <button mat-stroked-button>
+            <mat-icon>badge</mat-icon>
+            Credenciais
+          </button>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- Seção: Informações do Sistema -->
+      <div class="section">
+        <h3 class="section-title">
+          <mat-icon>info</mat-icon>
+          Informações do Sistema
+        </h3>
+        <!-- <div class="info-grid">
+          <div class="info-item">
+            <label>Data de Cadastro</label>
+            <span>{{ funcionario?.dataCadastro | date: 'dd/MM/yyyy HH:mm' || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Última Atualização</label>
+            <span>{{ funcionario?.dataAtualizacao | date: 'dd/MM/yyyy HH:mm' || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Último Acesso</label>
+            <span>{{ funcionario?.ultimoAcesso | date: 'dd/MM/yyyy HH:mm' || 'Nunca acessou' }}</span>
+          </div>
+        </div> -->
+      </div>
+
+      <!-- Botão Voltar -->
+      <div class="form-actions">
+        <button mat-button routerLink="/funcionarios/listar">
+          <mat-icon>arrow_back</mat-icon>
+          Voltar para Listagem
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

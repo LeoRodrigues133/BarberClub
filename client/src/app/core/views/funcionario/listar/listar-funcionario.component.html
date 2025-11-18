@@ -1,0 +1,65 @@
+<!-- listar-funcionario.component.html -->
+<div class="dashboard-container">
+  <mat-card class="funcionario-card no-card-appearence" *ngFor="let funcionario of funcionarios">
+    <mat-card-header>
+      <div class="header-content">
+        <div class="avatar-container">
+          <img [src]="funcionario.avatar" [alt]="funcionario.nome" class="avatar">
+        </div>
+        <div class="header-info">
+          <mat-card-title>{{ funcionario.nome }}</mat-card-title>
+          <mat-card-subtitle>{{ funcionario.cargo }}</mat-card-subtitle>
+        </div>
+      </div>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+      <div class="info-section">
+        <h3>Informações do Funcionário</h3>
+
+        <div class="info-item">
+          <mat-icon>badge</mat-icon>
+          <div>
+            <span class="label">Nome Completo</span>
+            <span class="value">{{ funcionario.nome }}</span>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <mat-icon>fingerprint</mat-icon>
+          <div>
+            <span class="label">CPF</span>
+            <span class="value">{{ funcionario.cpf }}</span>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <mat-icon>work</mat-icon>
+          <div>
+            <span class="label">Cargo</span>
+            <span class="value">{{ funcionario.cargo }}</span>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-actions>
+      <button mat-button [routerLink]="['/employees','visualizar', funcionario.id]">
+        <mat-icon>visibility</mat-icon>
+        Ver Detalhes
+      </button>
+      <button mat-raised-button color="primary" [routerLink]="['/employees','editar', funcionario.id]">
+        <mat-icon>edit</mat-icon>
+        Editar
+      </button>
+      <button mat-raised-button color="warn" [routerLink]="['/employees','excluir',funcionario.id]">
+        <mat-icon>delete</mat-icon>
+        Excluir
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

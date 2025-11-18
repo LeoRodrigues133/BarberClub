@@ -69,6 +69,11 @@ export class ShellComponent implements OnInit {
       rota: '/dashboard'
     },
     {
+      titulo: 'Funcionarios',
+      icone: 'people',
+      rota: '/employees'
+    },
+    {
       titulo: 'Gerenciar',
       icone: 'settings',
       rota: '/settings'

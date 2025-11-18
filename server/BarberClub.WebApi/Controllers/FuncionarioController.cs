@@ -22,7 +22,7 @@ public class FuncionarioController(IMediator _mediator) : ControllerBase
     public async Task<IActionResult> Cadastrar(CadastrarFuncionarioRequest request)
     {
         var result = await _mediator.Send(request);
-        return Ok(result.ToHttpResponse());
+        return result.ToHttpResponse();
 
     }
 
@@ -39,7 +39,7 @@ public class FuncionarioController(IMediator _mediator) : ControllerBase
 
         var result = await _mediator.Send(editarRequest);
 
-        return Ok(result.ToHttpResponse());
+        return result.ToHttpResponse();
 
     }
     
@@ -60,7 +60,7 @@ public class FuncionarioController(IMediator _mediator) : ControllerBase
     public async Task<IActionResult> SelecionarTodos()
     {
         var result = await _mediator.Send(new SelecionarFuncionariosRequest());
-        return Ok(result.ToHttpResponse());
+        return result.ToHttpResponse();
 
     }
     // GET: api/funcionario/{id}
@@ -72,7 +72,7 @@ public class FuncionarioController(IMediator _mediator) : ControllerBase
 
         var result = await _mediator.Send(selecionarPorIdRequest);
 
-        return Ok(result.ToHttpResponse());
+        return result.ToHttpResponse();
 
     }
 }

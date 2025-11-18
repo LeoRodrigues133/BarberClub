@@ -22,8 +22,7 @@
       <div class="cards-container">
         <mat-card
           class="service-card"
-          *ngFor="let servico of servicos"
-          (click)="onCardClick(servico)">
+          *ngFor="let servico of servicos">
           <mat-icon class="service-icon">{{ servico.icone }}</mat-icon>
           <mat-card-title class="card-title">{{ servico.nome }}</mat-card-title>
         </mat-card>

@@ -32,7 +32,7 @@ export interface ImagemComToken {
   providedIn: 'root'
 })
 export class AzureBlobService {
-  private readonly apiUrl = `${environment.urlApi}/configuracao`;
+  private readonly API_URL = `${environment.urlApi}/configuracao`;
   private readonly TOKEN_DURATION_MS = 50 * 60 * 1000;
 
   private logoCache$ = new BehaviorSubject<ImagemComToken | null>(null);
@@ -41,7 +41,7 @@ export class AzureBlobService {
   constructor(private http: HttpClient) { }
 
   obterConfiguracao(): Observable<ConfiguracaoEmpresa> {
-    return this.http.get<any>(`${this.apiUrl}`).pipe(
+    return this.http.get<any>(`${this.API_URL}`).pipe(
       map(response => {
         const data = response.value || response.data || response;
         return data;
@@ -50,7 +50,7 @@ export class AzureBlobService {
   }
 
   atualizarNomeEmpresa(nomeEmpresa: string): Observable<ConfiguracaoEmpresa> {
-    return this.http.put<any>(`${this.apiUrl}/nome`, { nomeEmpresa }).pipe(
+    return this.http.put<any>(`${this.API_URL}/nome`, { nomeEmpresa }).pipe(
       map(response => response.value || response.data || response)
     );
   }
@@ -60,7 +60,7 @@ export class AzureBlobService {
     formData.append('arquivo', arquivo);
 
     return this.http.put<any>(
-      `${this.apiUrl}/logo`,
+      `${this.API_URL}/logo`,
       formData
     ).pipe(
       tap(() => this.logoCache$.next(null)),
@@ -73,7 +73,7 @@ export class AzureBlobService {
     formData.append('arquivo', arquivo);
 
     return this.http.put<any>(
-      `${this.apiUrl}/banner`,
+      `${this.API_URL}/banner`,
       formData
     ).pipe(
       tap(() => this.bannerCache$.next(null)),
@@ -82,7 +82,7 @@ export class AzureBlobService {
   }
 
   atualizarHorario(horario: HorarioFuncionamento): Observable<any> {
-    const urlCompleto = `${this.apiUrl}/horario/${horario.id}`
+    const urlCompleto = `${this.API_URL}/horario/${horario.id}`
 
     return this.http.put<HorarioFuncionamento>(urlCompleto, horario)
       .pipe(
@@ -121,7 +121,7 @@ export class AzureBlobService {
 
   private gerarUrlComToken(urlOriginal: string): Observable<string> {
     return this.http.post<any>(
-      `${this.apiUrl}/gerar-token`,
+      `${this.API_URL}/gerar-token`,
       { url: urlOriginal }
     ).pipe(
       map(response => {
