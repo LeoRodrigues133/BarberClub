@@ -1,7 +1,6 @@
 import { Subject } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { AzureBlobService, ConfiguracaoEmpresa, HorarioFuncionamento } from '../services/azure-blob.service';
 import { ServicoConfiguracaoTenant } from '../services/tenant-config.service';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,6 +9,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ConfiguracaoEmpresa, HorarioFuncionamento } from '../models/service.models';
+import { AzureBlobService } from '../services/azure-blob.service';
 
 @Component({
   selector: 'app-horario-configuracao',

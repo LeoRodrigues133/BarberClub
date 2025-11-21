@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AzureBlobService, ConfiguracaoEmpresa } from '../services/azure-blob.service';
+import { AzureBlobService } from '../services/azure-blob.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { ServicoConfiguracaoTenant } from '../services/tenant-config.service';
@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ConfiguracaoEmpresa } from '../models/service.models';
 
 @Component({
   selector: 'app-nome-configuracao',

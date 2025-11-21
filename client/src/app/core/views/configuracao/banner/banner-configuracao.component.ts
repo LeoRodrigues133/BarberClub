@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { AzureBlobService, ConfiguracaoEmpresa } from '../services/azure-blob.service';
 import { ServicoConfiguracaoTenant } from '../services/tenant-config.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -10,6 +9,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ConfiguracaoEmpresa } from '../models/service.models';
+import { AzureBlobService } from '../services/azure-blob.service';
 
 @Component({
   selector: 'app-banner-configuracao',
@@ -55,9 +56,9 @@ export class BannerConfiguracaoComponent implements OnInit, OnDestroy {
     this.servicoTenant.obterConfiguracao()
       .pipe(takeUntil(this.destroy$))
       .subscribe(config => {
-        if (config?.bannerUrlComToken) {
+        if (config?.bannerUrl) {
           this.bannerUrl$ = new Observable(observer => {
-            observer.next(config.bannerUrlComToken!);
+            observer.next(config.bannerUrl!);
             observer.complete();
           });
         }
@@ -90,9 +91,6 @@ export class BannerConfiguracaoComponent implements OnInit, OnDestroy {
           this.configuracao = config;
           await this.servicoTenant.recarregarConfiguracao();
 
-          if (config.bannerUrl) {
-            this.bannerUrl$ = this.azureBlobService.obterBannerComToken(config.bannerUrl);
-          }
 
           this.bannerPreview = null;
           this.bannerFile = null;

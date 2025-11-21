@@ -68,7 +68,7 @@ public class AzureBlobService
         await blobClient.UploadAsync(stream, headers);
 
 
-        return blobClient.Uri.ToString();
+        return nomeBlob;
     }
 
     public Task<bool> ExcluirAsync(string url)
@@ -76,18 +76,23 @@ public class AzureBlobService
         throw new NotImplementedException();
     }
 
-    public async Task<string> GerarUrlToken(string url, TimeSpan expiracaoToken)
+    public async Task<string> GerarUrlComToken(string nomeBlob, TimeSpan expiracaoToken)
     {
-        var blobContainer = _blobServiceClient.GetBlobContainerClient(_containerName);
+        if (string.IsNullOrWhiteSpace(nomeBlob))
+            throw new ArgumentException("Nome do blob não pode ser vazio", nameof(nomeBlob));
 
-        var blobClient = blobContainer.GetBlobClient(url);
+        if (nomeBlob.Contains("?sv=") || nomeBlob.Contains("&sv="))
+            return nomeBlob;
+
+        var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
+        var blobClient = containerClient.GetBlobClient(nomeBlob);
 
         if (!blobClient.CanGenerateSasUri)
-            throw new InvalidOperationException("BlobClient deve ser autorizado com uma credencial de chave compartilhada para gerar um URI SAS.");
+            throw new InvalidOperationException("BlobClient deve ter credencial de chave compartilhada");
 
         var sasBuilder = new BlobSasBuilder()
         {
-            BlobContainerName = blobContainer.Name,
+            BlobContainerName = containerClient.Name,
             BlobName = blobClient.Name,
             Resource = "b",
             ExpiresOn = DateTimeOffset.UtcNow.AddHours(1)

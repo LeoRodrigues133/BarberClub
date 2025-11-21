@@ -35,7 +35,7 @@ export class LoginComponent {
     private authService: AuthService,
     private usuarioService: UserService,
     private localStorage: LocalStorageService,
-    private tenantProvider: ServicoConfiguracaoTenant
+    private tenantService: ServicoConfiguracaoTenant
   ) {
     this.form = this.fb.group({
       userName: [
@@ -85,7 +85,7 @@ export class LoginComponent {
   this.localStorage.salvarTokenAutenticacao(res);
   this.usuarioService.logarUsuario(res.usuario);
 
-  this.tenantProvider.obterConfiguracao().subscribe({
+  this.tenantService.carregarPorAutenticacao().subscribe({
     next: (config) => {
       this.router.navigate(['/dashboard']);
     },

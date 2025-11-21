@@ -8,9 +8,9 @@
 
     <mat-card-content class="mt-3">
       <div class="imagem-preview logo-preview">
-        <img *ngIf="(logoUrl$ | async) && !logoPreview" [src]="logoUrl$ | async" class="logo-img" alt="Logo">
+        <img *ngIf="(logoUrl$) && !logoPreview" [src]="logoUrl$" class="logo-img" alt="Logo">
         <img *ngIf="logoPreview" [src]="logoPreview" class="logo-img preview" alt="Preview">
-        <div *ngIf="!(logoUrl$ | async) && !logoPreview" class="placeholder-logo">
+        <div *ngIf="!(logoUrl$) && !logoPreview" class="placeholder-logo">
           <mat-icon>business</mat-icon>
           <p>Sem logo</p>
         </div>

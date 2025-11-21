@@ -12,7 +12,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { UsuarioAutenticadoDto } from '../../auth/models/auth.models';
 import { Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
-import { ServicoConfiguracaoTenant} from '../views/configuracao/services/tenant-config.service';
+import { ServicoConfiguracaoTenant } from '../views/configuracao/services/tenant-config.service';
 
 @Component({
   selector: 'app-shell',
@@ -72,6 +72,11 @@ export class ShellComponent implements OnInit {
       titulo: 'Funcionarios',
       icone: 'people',
       rota: '/employees'
+    },
+    {
+      titulo: 'Servicos',
+      icone: 'work',
+      rota: '/services'
     },
     {
       titulo: 'Gerenciar',

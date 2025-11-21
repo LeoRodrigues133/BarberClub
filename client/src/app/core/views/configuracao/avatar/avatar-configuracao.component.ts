@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { AzureBlobService, ConfiguracaoEmpresa } from '../services/azure-blob.service';
 import { ServicoConfiguracaoTenant } from '../services/tenant-config.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -10,6 +9,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ConfiguracaoEmpresa } from '../models/service.models';
+import { AzureBlobService } from '../services/azure-blob.service';
 
 @Component({
   selector: 'app-avatar-configuracao',
@@ -31,7 +32,7 @@ export class AvatarConfiguracaoComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   configuracao: ConfiguracaoEmpresa | null = null;
-  logoUrl$: Observable<string> | null = null;
+  logoUrl$: string | null = null;
 
   uploadandoLogo = false;
   logoPreview: string | null = null;
@@ -55,12 +56,8 @@ export class AvatarConfiguracaoComponent implements OnInit, OnDestroy {
     this.tenantProvider.obterConfiguracao()
       .pipe(takeUntil(this.destroy$))
       .subscribe(config => {
-        if (config && config.logoUrlComToken) {
-          this.logoUrl$ = new Observable(observer => {
-            observer.next(config.logoUrlComToken!);
-            observer.complete();
-          });
-        }
+        // ✅ Backend já retorna URL completa com token SAS
+        this.logoUrl$ = config?.logoUrl || null;
       });
   }
 
@@ -91,10 +88,6 @@ export class AvatarConfiguracaoComponent implements OnInit, OnDestroy {
         next: async (config) => {
 
           await this.tenantProvider.recarregarConfiguracao();
-
-          if (config.logoUrl) {
-            this.logoUrl$ = this.azureBlobService.obterLogoComToken(config.logoUrl);
-          }
 
           this.logoPreview = null;
           this.logoFile = null;

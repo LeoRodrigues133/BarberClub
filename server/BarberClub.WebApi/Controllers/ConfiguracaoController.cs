@@ -22,7 +22,7 @@ public class ConfiguracaoController(IMediator _mediator, IAzureBlobService _azur
 
     [HttpGet]
     [AllowAnonymous]
-    [ProducesResponseType(typeof(ConfiguracaoEmpresaResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(CarregarConfiguracaoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> ObterConfiguracao()
@@ -36,7 +36,7 @@ public class ConfiguracaoController(IMediator _mediator, IAzureBlobService _azur
             empresaId = User.GetUserId();
         }
 
-        var query = new ObterConfiguracaoQuery(empresaId);
+        var query = new CarregarConfiguracaoRequest(empresaId);
         var result = await _mediator.Send(query);
 
         if (result.IsFailed)
@@ -58,9 +58,9 @@ public class ConfiguracaoController(IMediator _mediator, IAzureBlobService _azur
         {
             var blobName = ExtrairNomeBlob(request.Url);
 
-            var urlComToken = await _azureBlobService.GerarUrlToken(
+            var urlComToken = await _azureBlobService.GerarUrlComToken(
                 blobName,
-                TimeSpan.FromHours(1)
+                TimeSpan.FromDays(1)
             );
 
             return Ok(new GerarTokenResponse(urlComToken));

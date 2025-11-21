@@ -5,5 +5,5 @@ public interface IAzureBlobService
 {
     Task<string> UploadAsync(Guid adminId,IFormFile arquivo, string pasta);
     Task<bool> ExcluirAsync(string url);
-    Task<string> GerarUrlToken(string url, TimeSpan expiracaoToken);
+    Task<string> GerarUrlComToken(string nomeBlob, TimeSpan expiracaoToken);
 }

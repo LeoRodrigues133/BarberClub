@@ -11,6 +11,7 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { RegistrarUsuarioRequest, TokenResponse } from '../../models/auth.models';
 import { UserService } from '../../services/user.service';
 import { VerificarCadeiaSenha } from '../../../core/shared/senha.validators';
+import { ServicoConfiguracaoTenant } from '../../../core/views/configuracao/services/tenant-config.service';
 
 @Component({
   selector: 'app-registro',
@@ -34,7 +35,8 @@ export class RegistroComponent {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private userService: UserService,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private tenantService: ServicoConfiguracaoTenant
   ) {
     this.form = this.formBuilder.group({
       userName: [
@@ -95,7 +97,12 @@ export class RegistroComponent {
 
     this.localStorage.salvarTokenAutenticacao(res);
 
-    this.router.navigate(['/dashboard']);
+    this.tenantService.carregarPorAutenticacao().subscribe({
+      next: () => this.router.navigate(['/dashboard']),
+      error: () => this.router.navigate(['/registrar'])
+
+    });
+
   }
 
   processarFalha(erro: any) {

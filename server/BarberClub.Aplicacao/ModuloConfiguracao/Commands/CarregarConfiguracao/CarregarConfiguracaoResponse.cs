@@ -2,7 +2,7 @@ using BarberClub.Aplicacao.ModuloConfiguracao.DTOs;
 
 namespace BarberClub.Aplicacao.ModuloConfiguracao.Commands.CarregarConfiguracao;
 
-public record ConfiguracaoEmpresaResponse(
+public record CarregarConfiguracaoResponse(
     Guid Id,
     string NomeEmpresa,
     string LogoUrl,
