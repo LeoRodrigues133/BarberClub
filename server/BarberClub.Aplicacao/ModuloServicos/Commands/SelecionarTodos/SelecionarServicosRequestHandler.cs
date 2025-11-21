@@ -23,8 +23,11 @@ public class SelecionarServicosRequestHandler(
             Servicos = registros
             .Select(x => new SelecionarServicosDto(
                 x.Id,
+                x.FuncionarioId,
                 x.Titulo,
                 x.Valor,
+                x.ValorFinal,
+                x.PorcentagemPromocao,
                 x.Duracao
             )).ToList()
         };

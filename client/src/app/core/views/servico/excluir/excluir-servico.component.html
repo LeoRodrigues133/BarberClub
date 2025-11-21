@@ -11,71 +11,88 @@
     </mat-card-header>
 
     <mat-card-content>
-      <!-- Alerta de Confirmação -->
+
+      <!-- Alerta inicial -->
       <div class="alert-box">
         <mat-icon>info</mat-icon>
         <div>
-          <p><strong>Você está prestes a excluir o funcionário:</strong></p>
-          <p class="funcionario-nome">{{ funcionario.nome }}</p>
+          <p><strong>Você está prestes a excluir o serviço:</strong></p>
+          <p class="funcionario-nome">{{ servico.titulo }}</p>
         </div>
       </div>
 
-      <!-- Detalhes do Funcionário -->
+      <!-- Detalhes do Serviço -->
       <div class="section">
         <h3 class="section-title">Dados que serão excluídos</h3>
         <div class="info-grid">
+
           <div class="info-item">
-            <label>Nome Completo</label>
-            <span>{{ funcionario.nome}}</span>
+            <label>Título</label>
+            <span>{{ servico.titulo }}</span>
           </div>
+
           <div class="info-item">
-            <label>CPF</label>
-            <span>{{ funcionario.cpf || '-' }}</span>
+            <label>Valor Original</label>
+            <span>R$ {{ servico.valor | number:'1.2-2' }}</span>
           </div>
+
+          <div class="info-item" *ngIf="servico.isPromocao">
+            <label>Valor Promocional</label>
+            <span>R$ {{ servico.valorFinal | number:'1.2-2' }}</span>
+          </div>
+
           <div class="info-item">
-            <label>Nome de Usuário</label>
-            <span>{{ funcionario.userName }}</span>
+            <label>Duração</label>
+            <span>{{ servico.duracao }} min</span>
           </div>
+
           <div class="info-item">
-            <label>E-mail</label>
-            <span>{{ funcionario.email || '-' }}</span>
+            <label>Em Promoção?</label>
+            <span>{{ servico.isPromocao ? 'Sim' : 'Não' }}</span>
           </div>
+
+          <div class="info-item" *ngIf="servico.isPromocao">
+            <label>Desconto (%)</label>
+            <span>{{ servico.porcentagemPromocao }}%</span>
+          </div>
+
           <div class="info-item">
-            <label>Cargo</label>
-            <span>{{ funcionario.cargo}}</span>
+            <label>Ativo</label>
+            <span>{{ servico.ativo ? 'Sim' : 'Não' }}</span>
           </div>
+
         </div>
       </div>
 
       <mat-divider></mat-divider>
 
-      <!-- Aviso sobre Dados Relacionados -->
+      <!-- Aviso sobre consequências -->
       <div class="warning-box">
         <mat-icon>error_outline</mat-icon>
         <div>
-          <p><strong>Atenção:</strong> A exclusão deste funcionário também removerá:</p>
+          <p><strong>Atenção:</strong> A exclusão deste serviço pode afetar:</p>
           <ul>
-            <li>Histórico de acessos</li>
-            <li>Agendamentos futuros</li>
-            <li>Registros de atividades</li>
-            <li>Permissões e credenciais</li>
+            <li>Agendamentos vinculados ao serviço</li>
+            <li>Histórico de registros e relatórios</li>
+            <li>Disponibilidade da agenda dos funcionários</li>
           </ul>
         </div>
       </div>
 
-      <!-- Confirmação com Checkbox -->
+      <!-- Confirmação do usuário -->
       <div class="confirmation-section">
         <mat-checkbox [(ngModel)]="confirmacaoExclusao" color="warn">
-          Eu confirmo que desejo excluir permanentemente este funcionário e todos os dados relacionados
+          Eu confirmo que desejo excluir permanentemente este serviço e todos os dados relacionados
         </mat-checkbox>
       </div>
 
       <!-- Ações -->
       <div class="form-actions delete-actions">
-        <button mat-button routerLink="/funcionarios/listar">
+        <button mat-button routerLink="/servicos/listar">
           <mat-icon>arrow_back</mat-icon>
           Cancelar
         </button>
+
         <button
           mat-raised-button
           color="warn"
@@ -85,6 +102,7 @@
           Confirmar Exclusão
         </button>
       </div>
+
     </mat-card-content>
   </mat-card>
 </div>

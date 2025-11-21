@@ -26,7 +26,7 @@ export class FuncionarioService extends BaseHttpService {
     const urlCompleto = `$${this.API_URL}/editar/${id}`;
 
     return this.http.put<HttpResponse>(urlCompleto, registroEditado)
-      .pipe(map(res => this.processarDadosAninhados(res, 'funcionarios')),
+      .pipe(map(this.processarDados),
         catchError(this.processarFalha));
   }
 
@@ -34,7 +34,7 @@ export class FuncionarioService extends BaseHttpService {
     const urlCompleto = `${this.API_URL}/excluir/${id}`;
 
     return this.http.delete<HttpResponse>(urlCompleto)
-      .pipe(map(res => this.processarDadosAninhados(res, 'funcionarios')),
+      .pipe(map(this.processarDados),
         catchError(this.processarFalha));
   }
 

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -31,7 +31,7 @@ import { EditarFuncionario } from '../models/funcionario.models';
   templateUrl: './editar-funcionario.component.html',
   styleUrl: './editar-funcionario.component.scss'
 })
-export class EditarFuncionarioComponent {
+export class EditarFuncionarioComponent implements OnInit{
   form: FormGroup;
   cargosOptions = CARGOS_OPTIONS;
 
@@ -84,6 +84,11 @@ export class EditarFuncionarioComponent {
         ]
       ]
     })
+  }
+  ngOnInit(): void {
+    const funcionario = this.route.snapshot.data['funcionario'];
+
+    this.form.patchValue(funcionario);
   }
 
   public editar() {

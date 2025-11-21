@@ -61,6 +61,15 @@ public class EditarServicoRequestHandler(
             servicoSelecionado.Valor = request.valor;
 
         if (request.duracao > 10)
-            servicoSelecionado.Duracao = request.duracao;
+            servicoSelecionado.Duracao = request.duracao.Value;
+
+        if (request.isPromocao != servicoSelecionado.IsPromocao)
+            servicoSelecionado.IsPromocao = request.isPromocao;
+
+        if (request.porcentagemPromocao.HasValue)
+        {
+            servicoSelecionado.PorcentagemPromocao = request.porcentagemPromocao;
+            servicoSelecionado.CalcularValorPromocional(request.porcentagemPromocao.Value);
+        }
     }
 }

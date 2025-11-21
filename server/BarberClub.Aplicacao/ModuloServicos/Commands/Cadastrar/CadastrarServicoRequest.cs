@@ -8,5 +8,5 @@ public record CadastrarServicoRequest(
     decimal valor,
     int? duracao,
     bool isPromocao,
-    int porcentagemPromocao
+    int? porcentagemPromocao
     ) : IRequest<Result<CadastrarServicoResponse>>;

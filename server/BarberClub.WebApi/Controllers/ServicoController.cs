@@ -1,6 +1,7 @@
 ﻿using BarberClub.Aplicacao.ModuloFuncionario.Commands.Excluir;
 using BarberClub.Aplicacao.ModuloServicos.Commands.Cadastrar;
 using BarberClub.Aplicacao.ModuloServicos.Commands.Editar;
+using BarberClub.Aplicacao.ModuloServicos.Commands.Excluir;
 using BarberClub.Aplicacao.ModuloServicos.Commands.SelecionarPorId;
 using BarberClub.Aplicacao.ModuloServicos.Commands.SelecionarTodos;
 using BarberClub.Aplicacao.ModuloServicos.DTOs;
@@ -28,13 +29,15 @@ public class ServicoController(IMediator _mediator) : ControllerBase
     // PUT: api/servico/editar/{id}
     [HttpPut("editar/{id:guid}")]
     [ProducesResponseType(typeof(EditarServicoResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> Editar(Guid id, EditarServicoRequest request)
+    public async Task<IActionResult> Editar(Guid id, EditarServicoDto request)
     {
         var editarRequest = new EditarServicoRequest(
             id,
             request.titulo,
             request.valor,
-            request.duracao);
+            request.duracao,
+            request.isPromocao,
+            request.porcentagemPromocao);
 
         var result = await _mediator.Send(editarRequest);
 
@@ -43,10 +46,10 @@ public class ServicoController(IMediator _mediator) : ControllerBase
 
     // DELETE: api/servico/excluir/{id}
     [HttpDelete("excluir/{id:guid}")]
-    [ProducesResponseType (typeof(ExcluirFuncionarioResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ExcluirServicoResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> Excluir(Guid id)
     {
-        var request = new ExcluirFuncionarioRequest(id);
+        var request = new ExcluirServicoRequest(id);
 
         var result = await _mediator.Send(request);
 

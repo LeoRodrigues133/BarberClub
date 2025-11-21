@@ -37,7 +37,7 @@ export const routes: Routes = [
       import('./core/views/configuracao/configuracao.component').then(
         (c) => c.ConfiguracaoComponent
       ),
-    canMatch: [authGuard]
+    canMatch: [authGuard],
   },
   {
     path: 'employees',
@@ -45,7 +45,14 @@ export const routes: Routes = [
       import('./core/views/funcionario/funcionario.routes').then(
         (r) => r.funcionarioRoutes
       ),
-    canMatch: [authGuard]
-  }
-
+    canMatch: [authGuard],
+  },
+  {
+    path: 'services',
+    loadChildren: () =>
+      import('./core/views/servico/servico.routes').then(
+        (r) => r.servicoRoutes
+      ),
+    canMatch: [authGuard],
+  },
 ];

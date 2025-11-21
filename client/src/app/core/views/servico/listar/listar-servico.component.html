@@ -1,1 +1,132 @@
-<p>listar-servico works!</p>
+<div class="dashboard-container">
+  <mat-card class="no-card-appearence">
+    <mat-card-header>
+      <div class="header-with-actions">
+        <div>
+          <mat-card-title>Serviços</mat-card-title>
+          <mat-card-subtitle>Gerencie os serviços oferecidos</mat-card-subtitle>
+        </div>
+        <div class="header-actions">
+          <button mat-raised-button color="primary" routerLink="/services/cadastrar">
+            <mat-icon>add</mat-icon>
+            Novo Serviço
+          </button>
+        </div>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Barra de Pesquisa e Filtros -->
+      <div class="filters-section">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Pesquisar serviço</mat-label>
+          <input matInput placeholder="Digite o nome do serviço..." [(ngModel)]="termoPesquisa">
+          <mat-icon matPrefix>search</mat-icon>
+          <button mat-icon-button matSuffix *ngIf="termoPesquisa" (click)="termoPesquisa = ''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>Categoria</mat-label>
+          <mat-select [(ngModel)]="categoriaFiltro">
+            <mat-option [value]="null">Todas</mat-option>
+            <mat-option value="consulta">Consulta</mat-option>
+            <mat-option value="exame">Exame</mat-option>
+            <mat-option value="procedimento">Procedimento</mat-option>
+            <mat-option value="cirurgia">Cirurgia</mat-option>
+          </mat-select>
+          <mat-icon matPrefix>filter_list</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>Status</mat-label>
+          <mat-select [(ngModel)]="statusFiltro">
+            <mat-option [value]="null">Todos</mat-option>
+            <mat-option [value]="true">Ativo</mat-option>
+            <mat-option [value]="false">Inativo</mat-option>
+          </mat-select>
+          <mat-icon matPrefix>toggle_on</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- Lista de Serviços -->
+      <div class="servicos-list" *ngIf="Servicos?.length; else semServicos">
+        <mat-card
+          class="servico-card"
+          *ngFor="let servico of Servicos"
+          [class.inativo]="!servico.ativo">
+
+          <div class="servico-header">
+            <div class="servico-info">
+              <h3 class="servico-nome">{{ servico.titulo }}</h3>
+            </div>
+            <div class="servico-status">
+              <mat-chip [color]="servico.ativo ? 'primary' : ''">
+                <mat-icon matListItemIcon>{{ servico.ativo ? 'cancel' : 'check_circle' }}</mat-icon>
+                {{ servico.ativo ? 'Inativo' : 'Ativo' }}
+              </mat-chip>
+            </div>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <div class="servico-details">
+
+            <div class="detail-item">
+              <mat-icon>schedule</mat-icon>
+              <div>
+                <span class="label">Duração</span>
+                <span class="value">{{ servico.duracao || '-' }} min</span>
+              </div>
+            </div>
+
+            <div class="detail-item">
+              <mat-icon>payments</mat-icon>
+              <div>
+                <span class="label">Valor</span>
+                <span class="value price">{{ servico.valorFinal | currency: 'BRL' }}</span>
+              </div>
+            </div>
+
+
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <div class="servico-actions">
+            <button mat-button [routerLink]="['/services', servico.id]">
+              <mat-icon>visibility</mat-icon>
+              Detalhes
+            </button>
+            <button mat-button color="primary" [routerLink]="['/services','editar', servico.id]">
+              <mat-icon>edit</mat-icon>
+              Editar
+            </button>
+            <button mat-button color="warn" [routerLink]="['/services','excluir', servico.id]">
+              <mat-icon>delete</mat-icon>
+              Excluir
+            </button>
+          </div>
+        </mat-card>
+      </div>
+
+      <!-- Mensagem quando não há serviços -->
+      <ng-template #semServicos>
+        <div class="empty-state">
+          <mat-icon>medical_services</mat-icon>
+          <h3>Nenhum serviço encontrado</h3>
+          <p>Comece cadastrando seu primeiro serviço</p>
+          <button mat-raised-button color="primary" routerLink="/servicos/cadastrar">
+            <mat-icon>add</mat-icon>
+            Cadastrar Serviço
+          </button>
+        </div>
+      </ng-template>
+
+
+    </mat-card-content>
+  </mat-card>
+</div>

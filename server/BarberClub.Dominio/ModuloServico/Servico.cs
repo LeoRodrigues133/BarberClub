@@ -25,10 +25,11 @@ public class Servico : EntidadeBase
         PorcentagemPromocao = porcentagemPromocao;
         Ativo = true;
 
-        if (IsPromocao && PorcentagemPromocao.HasValue)
-            ValorFinal = Valor * (1 - PorcentagemPromocao.Value / 100m);
+        if (!porcentagemPromocao.HasValue)
+            ValorFinal = CalcularValorPromocional(0);
         else
-            ValorFinal = Valor;
+            ValorFinal = CalcularValorPromocional(porcentagemPromocao.Value);
+
     }
 
     public Guid FuncionarioId { get; set; }
