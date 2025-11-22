@@ -3,6 +3,8 @@ import { Routes } from '@angular/router';
 import { UserService } from './auth/services/user.service';
 import { authGuard } from './auth/guards/auth.guard';
 import { authUserGuard } from './auth/guards/auth-user.guard';
+import { permissionGuard } from './tenant/guard/permission.guard';
+import { Permission } from './tenant/constants/permissions';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -13,6 +15,9 @@ export const routes: Routes = [
         (c) => c.DashboardComponent
       ),
     resolve: { usuario: () => inject(UserService).usuarioAutenticado },
+    canActivate: [permissionGuard],
+    data: { permission: Permission.VIEW_HOME }
+
   },
   {
     path: 'registrar',
@@ -38,6 +43,8 @@ export const routes: Routes = [
         (c) => c.ConfiguracaoComponent
       ),
     canMatch: [authGuard],
+    canActivate: [permissionGuard],
+    data: { permission: Permission.VIEW_SETTINGS }
   },
   {
     path: 'employees',
@@ -46,6 +53,8 @@ export const routes: Routes = [
         (r) => r.funcionarioRoutes
       ),
     canMatch: [authGuard],
+    canActivate: [permissionGuard],
+    data: { permission: Permission.VIEW_EMPLOYEES }
   },
   {
     path: 'services',
@@ -54,5 +63,7 @@ export const routes: Routes = [
         (r) => r.servicoRoutes
       ),
     canMatch: [authGuard],
+    canActivate: [permissionGuard],
+    data: { permission: Permission.VIEW_SERVICES }
   },
 ];

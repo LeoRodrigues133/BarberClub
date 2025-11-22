@@ -1,3 +1,5 @@
+import { Role } from "../../tenant/constants/permissions";
+
 export interface RegistrarUsuarioRequest {
   userName: string;
   email: string;
@@ -19,4 +21,5 @@ export interface UsuarioAutenticadoDto {
   id: string;
   userName: string;
   email: string;
+  role: Role;
 }

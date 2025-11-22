@@ -1,17 +1,11 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="false">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="false">
 
     <mat-toolbar *ngIf="usuarioAutenticado">
       <mat-list>
         <mat-list-item>
           <!-- ✅ Logo com fallback -->
-          <img
-            *ngIf="logoUrl; else defaultLogo"
-            matListItemAvatar
-            class="avatar-list-item"
-            [src]="logoUrl"
+          <img *ngIf="logoUrl; else defaultLogo" matListItemAvatar class="avatar-list-item" [src]="logoUrl"
             alt="Logo da Empresa">
 
           <ng-template #defaultLogo>
@@ -22,16 +16,14 @@
         </mat-list-item>
       </mat-list>
 
-      <button mat-button class="rounded-end-circle btn-logout"
-        (click)="logoutEfetuado()"
-        matTooltip="Efetuar Logout">
+      <button mat-button class="rounded-end-circle btn-logout" (click)="logoutEfetuado()" matTooltip="Efetuar Logout">
         <mat-icon>logout</mat-icon>
       </button>
     </mat-toolbar>
 
     <ng-container>
       <mat-nav-list *ngIf="!usuarioAutenticado">
-        <a mat-list-item *ngFor="let link of linksPublicos" [routerLink]="link.rota"
+        <a mat-list-item *ngFor="let link of visibleRoutesPublicos$ | async" [routerLink]="link.rota"
           matTooltip="Ir para {{ link.titulo }}">
           <mat-icon matListItemIcon>{{ link.icone }}</mat-icon>
           {{ link.titulo }}
@@ -41,7 +33,7 @@
 
     <ng-container>
       <mat-nav-list *ngIf="usuarioAutenticado">
-        <a mat-list-item *ngFor="let link of linksAutenticados" [routerLink]="link.rota"
+        <a mat-list-item *ngFor="let link of visibleRoutesAutenticados$ | async" [routerLink]="link.rota"
           matTooltip="Ir para {{ link.titulo }}">
           <mat-icon matListItemIcon>{{ link.icone }}</mat-icon>
           {{ link.titulo }}
@@ -61,11 +53,9 @@
     </mat-toolbar>
 
     <!-- ✅ Banner com fallback -->
-    <section
-      class="parallax-bg"
-      [style.background-image]="bannerUrl
+    <section class="parallax-bg" [style.background-image]="bannerUrl
         ? 'url(' + bannerUrl + ')'
-        : 'url(https://media.istockphoto.com/id/1007175486/pt/foto/modern-empty-barbershop-interior-with-chairs-mirrors-and-lamps.webp)'">
+        : 'url('+bannerUrl+')'"> <!-- mudar para bannerPadrão-->
       <ng-content></ng-content>
     </section>
   </mat-sidenav-content>

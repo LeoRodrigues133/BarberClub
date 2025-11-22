@@ -19,7 +19,8 @@ export class UserService {
   }
 
   public logarUsuario(usuario: UsuarioAutenticadoDto): void {
-    this.usuarioAutenticadoSubject.next(usuario);
+    this.usuarioAutenticadoSubject.next(usuario),
+    console.log('ROLE ASSOCIADA:' + usuario.role);
   }
 
   public logout(): void {

@@ -1,10 +1,8 @@
 <div class="dashboard-container">
 
-  <app-banner-configuracao></app-banner-configuracao>
-  <app-avatar-configuracao></app-avatar-configuracao>
-
-  <app-nome-configuracao></app-nome-configuracao>
-
-  <app-horario-configuracao></app-horario-configuracao>
+  <app-banner-configuracao *appHasPermission="Permission.ADMIN_PERMISSION"></app-banner-configuracao>
+  <app-avatar-configuracao *appHasPermission="Permission.ADMIN_PERMISSION"></app-avatar-configuracao>
+  <app-nome-configuracao *appHasPermission="Permission.ADMIN_PERMISSION"></app-nome-configuracao>
+  <app-horario-configuracao *appHasPermission="Permission.ADMIN_PERMISSION"></app-horario-configuracao>
 
 </div>

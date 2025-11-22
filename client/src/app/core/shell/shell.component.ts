@@ -7,12 +7,14 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { UsuarioAutenticadoDto } from '../../auth/models/auth.models';
 import { Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { ServicoConfiguracaoTenant } from '../views/configuracao/services/tenant-config.service';
+import { Permission } from '../../tenant/constants/permissions';
+import { PermissionService } from '../../tenant/services/permission.service';
 
 @Component({
   selector: 'app-shell',
@@ -35,9 +37,14 @@ export class ShellComponent implements OnInit {
   @Input() usuarioAutenticado: UsuarioAutenticadoDto | undefined;
   @Output() logout: EventEmitter<void>;
 
+  visibleRoutesPublicos$!: Observable<LinkNavegacao[]>;
+  visibleRoutesAutenticados$!: Observable<LinkNavegacao[]>;
+
+
   constructor(
     private title: Title,
-    private tenantConfigService: ServicoConfiguracaoTenant
+    private tenantConfigService: ServicoConfiguracaoTenant,
+    private permissionService: PermissionService
   ) {
     this.logout = new EventEmitter();
   }
@@ -48,40 +55,67 @@ export class ShellComponent implements OnInit {
     }
 
     this.tenantConfigService.obterConfiguracao().subscribe();
+
+    this.visibleRoutesPublicos$ = this.filtrarLinksPorPermissao(this.linksPublicos);
+
+    // Filtra links autenticados
+    this.visibleRoutesAutenticados$ = this.filtrarLinksPorPermissao(this.linksAutenticados);
+  }
+
+private filtrarLinksPorPermissao(links: LinkNavegacao[]): Observable<LinkNavegacao[]> {
+    const permissionChecks$ = links.map(item =>
+      this.permissionService.hasPermission(item.permission).pipe(
+        map(hasPermission => ({ item, hasPermission }))
+      )
+    );
+
+    return combineLatest(permissionChecks$).pipe(
+      map(results =>
+        results
+          .filter(result => result.hasPermission)
+          .map(result => result.item)
+      )
+    );
   }
 
   linksPublicos: LinkNavegacao[] = [
     {
       titulo: 'Início',
       icone: 'home',
-      rota: '/dashboard'
+      rota: '/dashboard',
+      permission: Permission.VIEW_HOME
     },
     {
       titulo: 'Login',
       icone: 'login',
-      rota: '/login'
+      rota: '/login',
+      permission: Permission.VIEW_AUTH
     }
   ];
   linksAutenticados: LinkNavegacao[] = [
     {
       titulo: 'Início',
       icone: 'home',
-      rota: '/dashboard'
+      rota: '/dashboard',
+      permission: Permission.VIEW_HOME
     },
     {
       titulo: 'Funcionarios',
       icone: 'people',
-      rota: '/employees'
+      rota: '/employees',
+      permission: Permission.VIEW_EMPLOYEES
     },
     {
       titulo: 'Servicos',
       icone: 'work',
-      rota: '/services'
+      rota: '/services',
+      permission: Permission.VIEW_SERVICES
     },
     {
       titulo: 'Gerenciar',
       icone: 'settings',
-      rota: '/settings'
+      rota: '/settings',
+      permission: Permission.VIEW_SETTINGS
     }
   ];
 
@@ -115,4 +149,5 @@ export interface LinkNavegacao {
   titulo: string;
   icone: string;
   rota: string;
+  permission: Permission;
 }

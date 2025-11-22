@@ -12,6 +12,8 @@ import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from "@angular/material/list";
+import { HasPermissionDirective } from "../../../../tenant/directives/has-permission.directive";
+import { Permission } from '../../../../tenant/constants/permissions';
 
 @Component({
   selector: 'app-listar-servico',
@@ -28,8 +30,9 @@ import { MatListModule } from "@angular/material/list";
     CommonModule,
     RouterLink,
     MatButtonModule,
-    MatListModule
-  ],
+    MatListModule,
+    HasPermissionDirective
+],
   templateUrl: './listar-servico.component.html',
   styleUrl: './listar-servico.component.scss'
 })
@@ -39,6 +42,7 @@ export class ListarServicoComponent implements OnInit {
   termoPesquisa = '';
   categoriaFiltro: string | null = null;
   statusFiltro: boolean | null = null;
+  Permission = Permission
 
   constructor(private route: ActivatedRoute) {
   }

@@ -25,7 +25,7 @@ export class AuthService {
       .pipe(
         map(this.processarDados),
         tap(() => {
-          // 🎯 Carrega configuração após registro bem-sucedido
+          // Carrega configuração após registro bem-sucedido
           this.carregarConfiguracaoTenant();
         }),
         catchError(this.processarFalha)

@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ModuloAutenticacao\Services\NewFolder\" />
     <Folder Include="ModuloServicos\Services\" />
   </ItemGroup>
 

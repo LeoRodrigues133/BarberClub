@@ -45,7 +45,10 @@ public class JwtProvider : ITokenProvider
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var chaveEmBytes = Encoding.ASCII.GetBytes(chaveJwt!);
+
         var roles = await userManager.GetRolesAsync(usuario);
+        var primeiraRole = roles.FirstOrDefault();
+        var cargo = MapRoleStringToEnum(primeiraRole);
 
         var funcionario = await _repositorioFuncionario.SelecionarTodosSemFiltroAsync(usuario.Id);
 
@@ -91,8 +94,22 @@ public class JwtProvider : ITokenProvider
             {
                 Id = usuario.Id,
                 Email = usuario.Email!,
-                UserName = usuario.UserName!
+                UserName = usuario.UserName!,
+                Role = cargo,
+                FuncionarioId = funcionario?.Id,
+                EmpresaId = funcionario?.AdminId ?? usuario.Id
             }
         };
     }
+
+    private static EnumCargo MapRoleStringToEnum(string? role)
+    {
+        return role switch
+        {
+            "Administrador" => EnumCargo.Administrador,
+            "Funcionario" => EnumCargo.Funcionario,
+            _ => EnumCargo.Administrador
+        };
+    }
 }
+
