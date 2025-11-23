@@ -21,7 +21,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ModuloAgendamento\Commands\" />
+    <Folder Include="ModuloAgendamento\DTOs\" />
+    <Folder Include="ModuloAgendamento\Services\" />
+    <Folder Include="ModuloAgenda\Services\" />
     <Folder Include="ModuloAutenticacao\Services\NewFolder\" />
+    <Folder Include="ModuloHorario\Commands\" />
+    <Folder Include="ModuloHorario\DTOs\" />
+    <Folder Include="ModuloHorario\Services\" />
     <Folder Include="ModuloServicos\Services\" />
   </ItemGroup>
 

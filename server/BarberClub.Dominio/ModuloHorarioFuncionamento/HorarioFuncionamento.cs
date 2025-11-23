@@ -1,6 +1,7 @@
 using BarberClub.Dominio.Compartilhado;
+using BarberClub.Dominio.ModuloConfiguracao;
 
-namespace BarberClub.Dominio.ModuloConfiguracao.ModuloHorarioFuncionamento;
+namespace BarberClub.Dominio.ModuloHorarioFuncionamento;
 
 public class HorarioFuncionamento
 {

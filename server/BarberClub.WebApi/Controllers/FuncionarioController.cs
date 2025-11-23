@@ -1,4 +1,6 @@
-﻿using BarberClub.Aplicacao.ModuloFuncionario.Commands.Cadastrar;
+﻿using BarberClub.Aplicacao.ModuloAgenda.Commands.ConfigurarAtendimento;
+using BarberClub.Aplicacao.ModuloAgenda.DTOs;
+using BarberClub.Aplicacao.ModuloFuncionario.Commands.Cadastrar;
 using BarberClub.Aplicacao.ModuloFuncionario.Commands.Editar;
 using BarberClub.Aplicacao.ModuloFuncionario.Commands.Excluir;
 using BarberClub.Aplicacao.ModuloFuncionario.Commands.SelecionarPorId;
@@ -71,6 +73,23 @@ public class FuncionarioController(IMediator _mediator) : ControllerBase
         var selecionarPorIdRequest = new SelecionarFuncionarioPorIdRequest(id);
 
         var result = await _mediator.Send(selecionarPorIdRequest);
+
+        return result.ToHttpResponse();
+
+    }
+
+    // PUT: api/funcionario/editar/{id}
+    [HttpPut("configurar-atendimento/{id:guid}")]
+    [ProducesResponseType(typeof(EditarFuncionarioResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> ConfigurarAtendimento(Guid id, ConfigurarAtendimentoDto request)
+    {
+
+        var editarRequest = new ConfigurarAtendimentoRequest(
+            id,
+            request.tempoAtendimento,
+            request.intervaloEntreAtendimento);
+
+        var result = await _mediator.Send(editarRequest);
 
         return result.ToHttpResponse();
 

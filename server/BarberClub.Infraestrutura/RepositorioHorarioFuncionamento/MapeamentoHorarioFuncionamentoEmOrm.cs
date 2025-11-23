@@ -1,8 +1,8 @@
-using BarberClub.Dominio.ModuloConfiguracao.ModuloHorarioFuncionamento;
+using BarberClub.Dominio.ModuloHorarioFuncionamento;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BarberClub.Infraestrutura.Orm.RepositorioConfiguracao.RepositorioHorarioFuncionamento;
+namespace BarberClub.Infraestrutura.Orm.RepositorioHorarioFuncionamento;
 
 public class MapeamentoHorarioFuncionamentoEmOrm : IEntityTypeConfiguration<HorarioFuncionamento>
 {

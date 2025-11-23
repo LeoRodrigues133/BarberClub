@@ -6,6 +6,7 @@ using BarberClub.Dominio.Compartilhado;
 using BarberClub.Dominio.ModuloAutenticacao;
 using BarberClub.Dominio.ModuloFuncionario;
 using FluentValidation;
+using BarberClub.Dominio.ModuloAgenda;
 
 
 namespace BarberClub.Aplicacao.ModuloFuncionario.Commands.Cadastrar;
@@ -16,6 +17,7 @@ public class CadastroFuncionarioRequestHandler(
     UserManager<Usuario> _userManager,
     IValidator<Funcionario> _validator,
     IRepositorioFuncionario _repositorioFuncionario,
+    IRepositorioAgenda _repositorioAgenda,
     IContextoPersistencia _contextoPersistencia)
     : IRequestHandler<CadastrarFuncionarioRequest, Result<CadastrarFuncionarioResponse>>
 {
@@ -64,6 +66,18 @@ public class CadastroFuncionarioRequestHandler(
             await _userManager.DeleteAsync(usuario);
 
             return Result.Fail(ErrorsResult.BadRequestError(errors));
+        }
+
+        var configuracaoSelecionada = await _repositorioAgenda.SelecionarPorFuncionarioId(funcionario.Id);
+
+        if (configuracaoSelecionada is null)
+        {
+            var configInicial = new ConfiguracaoAgenda(funcionario.Id, 25, 5)
+            {
+                UsuarioId = funcionario.UsuarioId
+            };
+
+            await _repositorioAgenda.CadastrarAsync(configInicial);
         }
 
         try

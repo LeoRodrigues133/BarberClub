@@ -1,6 +1,6 @@
 using BarberClub.Dominio.Compartilhado;
 using BarberClub.Dominio.ModuloConfiguracao;
-using BarberClub.Dominio.ModuloConfiguracao.ModuloHorarioFuncionamento;
+using BarberClub.Dominio.ModuloHorarioFuncionamento;
 using FluentResults;
 
 namespace BarberClub.Aplicacao.ModuloConfiguracao.Services;

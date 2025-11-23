@@ -1,5 +1,5 @@
 using BarberClub.Dominio.Compartilhado;
-using BarberClub.Dominio.ModuloConfiguracao.ModuloHorarioFuncionamento;
+using BarberClub.Dominio.ModuloHorarioFuncionamento;
 
 namespace BarberClub.Dominio.ModuloConfiguracao;
 

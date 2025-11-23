@@ -1,8 +1,8 @@
 using MediatR;
 using FluentResults;
 using BarberClub.Dominio.Compartilhado;
-using BarberClub.Dominio.ModuloConfiguracao.ModuloHorarioFuncionamento;
 using BarberClub.Aplicacao.ModuloConfiguracao.Commands.AtualizarHorárioPorId;
+using BarberClub.Dominio.ModuloHorarioFuncionamento;
 
 namespace BarberClub.Aplicacao.ModuloConfiguracao.Commands.AtualizarHorarioPorId;
 

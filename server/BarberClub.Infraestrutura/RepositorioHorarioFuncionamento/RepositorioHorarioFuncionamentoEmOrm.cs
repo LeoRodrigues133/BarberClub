@@ -1,8 +1,8 @@
 using BarberClub.Dominio.Compartilhado;
 using Microsoft.EntityFrameworkCore;
-using BarberClub.Dominio.ModuloConfiguracao.ModuloHorarioFuncionamento;
+using BarberClub.Dominio.ModuloHorarioFuncionamento;
 
-namespace BarberClub.Infraestrutura.Orm.RepositorioConfiguracao.RepositorioHorarioFuncionamento;
+namespace BarberClub.Infraestrutura.Orm.RepositorioHorarioFuncionamento;
 
 public class RepositorioHorarioFuncionamentoEmOrm
     : IRepositorioHorarioFuncionamento

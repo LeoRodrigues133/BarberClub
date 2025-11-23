@@ -1,4 +1,4 @@
-namespace BarberClub.Dominio.ModuloConfiguracao.ModuloHorarioFuncionamento;
+namespace BarberClub.Dominio.ModuloHorarioFuncionamento;
 
 public enum SemanaEnum
 {

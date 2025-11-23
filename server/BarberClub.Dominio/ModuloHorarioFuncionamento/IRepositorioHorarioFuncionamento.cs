@@ -1,6 +1,6 @@
 ﻿using BarberClub.Dominio.ModuloFuncionario;
 
-namespace BarberClub.Dominio.ModuloConfiguracao.ModuloHorarioFuncionamento;
+namespace BarberClub.Dominio.ModuloHorarioFuncionamento;
 public interface IRepositorioHorarioFuncionamento
 {
     Task<bool> EditarAsync(HorarioFuncionamento editEntity);
