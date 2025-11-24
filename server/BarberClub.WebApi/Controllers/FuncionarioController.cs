@@ -1,6 +1,6 @@
-﻿using BarberClub.Aplicacao.ModuloAgenda.Commands.ConfigurarAtendimento;
-using BarberClub.Aplicacao.ModuloAgenda.DTOs;
-using BarberClub.Aplicacao.ModuloFuncionario.Commands.Cadastrar;
+﻿using BarberClub.Aplicacao.ModuloFuncionario.Commands.Cadastrar;
+using BarberClub.Aplicacao.ModuloFuncionario.Commands.CadastrarVariosHorarios;
+using BarberClub.Aplicacao.ModuloFuncionario.Commands.ConfigurarAtendimento;
 using BarberClub.Aplicacao.ModuloFuncionario.Commands.Editar;
 using BarberClub.Aplicacao.ModuloFuncionario.Commands.Excluir;
 using BarberClub.Aplicacao.ModuloFuncionario.Commands.SelecionarPorId;
@@ -44,10 +44,10 @@ public class FuncionarioController(IMediator _mediator) : ControllerBase
         return result.ToHttpResponse();
 
     }
-    
+
     // DELETE: api/funcionario/excluir/{id}
     [HttpDelete("excluir/{id:guid}")]
-    [ProducesResponseType(typeof(ExcluirFuncionarioResponse),StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ExcluirFuncionarioResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> Excluir(Guid id)
     {
         var request = new ExcluirFuncionarioRequest(id);
@@ -79,19 +79,33 @@ public class FuncionarioController(IMediator _mediator) : ControllerBase
     }
 
     // PUT: api/funcionario/editar/{id}
-    [HttpPut("configurar-atendimento/{id:guid}")]
-    [ProducesResponseType(typeof(EditarFuncionarioResponse), StatusCodes.Status200OK)]
+    [HttpPut("{id:guid}/configurar-atendimento")]
+    [ProducesResponseType(typeof(ConfigurarAtendimentoResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> ConfigurarAtendimento(Guid id, ConfigurarAtendimentoDto request)
     {
 
         var editarRequest = new ConfigurarAtendimentoRequest(
             id,
             request.tempoAtendimento,
-            request.intervaloEntreAtendimento);
+            request.tempoIntervalo);
 
         var result = await _mediator.Send(editarRequest);
 
         return result.ToHttpResponse();
 
+    }
+
+    [HttpPost("{id:guid}/gerar-horarios")]
+    [ProducesResponseType(typeof(CadastrarVariosHorariosResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GerarHorarios(Guid id)
+    {
+        var gerarRequest = new CadastrarVariosHorariosRequest(
+            id);
+
+        var result = await _mediator.Send(gerarRequest);
+
+        return result.ToHttpResponse();
     }
 }

@@ -24,11 +24,16 @@ public class SelecionarFuncionarioPorIdRequestHandler(
         var roles = await _userManager.GetRolesAsync(funcionarioSelecionado.Usuario!);
         var cargo = roles.FirstOrDefault();
 
+        if (cargo is null)
+            return Result.Fail("Cargo não encontrado para o registro");
+
         var resposta = new SelecionarFuncionarioPorIdResponse(
             funcionarioSelecionado.Id,
             funcionarioSelecionado.Nome,
             funcionarioSelecionado.Cpf,
-            cargo
+            cargo,
+            funcionarioSelecionado.TempoAtendimento,
+            funcionarioSelecionado.TempoIntervalo
             );
 
         return Result.Ok(resposta);

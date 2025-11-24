@@ -22,19 +22,25 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BarberClub.Dominio.ModuloAgenda.ConfiguracaoAgenda", b =>
+            modelBuilder.Entity("BarberClub.Dominio.ModuloAgendamento.Agendamento", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("DataAgendamento")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("FuncionarioId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("IntervaloEntreAtendimento")
-                        .HasColumnType("int");
+                    b.Property<Guid>("HorarioDisponivelId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("TempoAtendimento")
+                    b.Property<Guid>("ServicoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<Guid>("UsuarioId")
@@ -42,12 +48,15 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FuncionarioId")
-                        .IsUnique();
+                    b.HasIndex("FuncionarioId");
+
+                    b.HasIndex("HorarioDisponivelId");
+
+                    b.HasIndex("ServicoId");
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("TBCONFIGURACAOAGENDA", (string)null);
+                    b.ToTable("Agendamento");
                 });
 
             modelBuilder.Entity("BarberClub.Dominio.ModuloAutenticacao.Cargo", b =>
@@ -181,6 +190,7 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
             modelBuilder.Entity("BarberClub.Dominio.ModuloFuncionario.Funcionario", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AdminId")
@@ -188,20 +198,71 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
 
                     b.Property<string>("Cpf")
                         .IsRequired()
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar(14)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
+                    b.Property<int>("TempoAtendimento")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(25);
+
+                    b.Property<int>("TempoIntervalo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(5);
+
                     b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("configuracaoEmpresaId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("TBFUNCIONARIO", (string)null);
+                    b.HasIndex("configuracaoEmpresaId");
+
+                    b.ToTable("TBFUNCIONARIOS", (string)null);
+                });
+
+            modelBuilder.Entity("BarberClub.Dominio.ModuloHorario.HorarioDisponivel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("DataEspecifica")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DiaSemana")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("FuncionarioId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<TimeSpan>("HorarioFim")
+                        .HasColumnType("time");
+
+                    b.Property<TimeSpan>("HorarioInicio")
+                        .HasColumnType("time");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FuncionarioId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("TBHORARIOSDISPONIVEIS", (string)null);
                 });
 
             modelBuilder.Entity("BarberClub.Dominio.ModuloHorarioFuncionamento.HorarioFuncionamento", b =>
@@ -377,21 +438,36 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BarberClub.Dominio.ModuloAgenda.ConfiguracaoAgenda", b =>
+            modelBuilder.Entity("BarberClub.Dominio.ModuloAgendamento.Agendamento", b =>
                 {
                     b.HasOne("BarberClub.Dominio.ModuloFuncionario.Funcionario", "Funcionario")
-                        .WithOne()
-                        .HasForeignKey("BarberClub.Dominio.ModuloAgenda.ConfiguracaoAgenda", "FuncionarioId")
+                        .WithMany("Agendamentos")
+                        .HasForeignKey("FuncionarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BarberClub.Dominio.ModuloHorario.HorarioDisponivel", "HorarioDisponivel")
+                        .WithMany("Agendamentos")
+                        .HasForeignKey("HorarioDisponivelId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BarberClub.Dominio.ModuloServico.Servico", "Servico")
+                        .WithMany()
+                        .HasForeignKey("ServicoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BarberClub.Dominio.ModuloAutenticacao.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Funcionario");
+
+                    b.Navigation("HorarioDisponivel");
+
+                    b.Navigation("Servico");
 
                     b.Navigation("Usuario");
                 });
@@ -414,6 +490,31 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.HasOne("BarberClub.Dominio.ModuloConfiguracao.ConfiguracaoEmpresa", "configuracaoEmpresa")
+                        .WithMany()
+                        .HasForeignKey("configuracaoEmpresaId");
+
+                    b.Navigation("Usuario");
+
+                    b.Navigation("configuracaoEmpresa");
+                });
+
+            modelBuilder.Entity("BarberClub.Dominio.ModuloHorario.HorarioDisponivel", b =>
+                {
+                    b.HasOne("BarberClub.Dominio.ModuloFuncionario.Funcionario", "Funcionario")
+                        .WithMany("HorarioDisponivels")
+                        .HasForeignKey("FuncionarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BarberClub.Dominio.ModuloAutenticacao.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Funcionario");
 
                     b.Navigation("Usuario");
                 });
@@ -502,6 +603,18 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
             modelBuilder.Entity("BarberClub.Dominio.ModuloConfiguracao.ConfiguracaoEmpresa", b =>
                 {
                     b.Navigation("HorarioDeExpediente");
+                });
+
+            modelBuilder.Entity("BarberClub.Dominio.ModuloFuncionario.Funcionario", b =>
+                {
+                    b.Navigation("Agendamentos");
+
+                    b.Navigation("HorarioDisponivels");
+                });
+
+            modelBuilder.Entity("BarberClub.Dominio.ModuloHorario.HorarioDisponivel", b =>
+                {
+                    b.Navigation("Agendamentos");
                 });
 #pragma warning restore 612, 618
         }

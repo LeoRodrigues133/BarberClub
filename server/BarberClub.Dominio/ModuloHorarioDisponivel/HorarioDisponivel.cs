@@ -15,7 +15,6 @@ public class HorarioDisponivel : EntidadeBase
 
     public HorarioDisponivel(
         Guid funcionarioId,
-        Guid horarioFuncionamentoId,
         SemanaEnum diaSemana,
         TimeSpan horarioInicio,
         TimeSpan horarioFim,
@@ -23,7 +22,6 @@ public class HorarioDisponivel : EntidadeBase
         DateTime dataEspecifica)
     {
         FuncionarioId = funcionarioId;
-        HorarioFuncionamentoId = horarioFuncionamentoId;
         DiaSemana = diaSemana;
         HorarioInicio = horarioInicio;
         HorarioFim = horarioFim;
@@ -32,19 +30,41 @@ public class HorarioDisponivel : EntidadeBase
     }
 
     public Guid FuncionarioId { get; set; }
-    public Guid HorarioFuncionamentoId { get; set; }
     public SemanaEnum DiaSemana { get; set; }
     public TimeSpan HorarioInicio { get; set; }
     public TimeSpan HorarioFim { get; set; }
     public bool Ativo { get; set; }
     public DateTime DataEspecifica { get; set; }
 
-    public Funcionario Funcionario { get; set; }
-    public HorarioFuncionamento HorarioFuncionamento { get; set; }
+    public Funcionario? Funcionario { get; set; } // navegação
     public List<Agendamento> Agendamentos { get; set; }
 
-    public bool EstaOcupadoPorData(DateTime dataEspecifica) =>
-         Agendamentos.Any(a => a.DataAgendamento.Date == dataEspecifica &&
-         a.Status != EnumStatusAgendamento.Cancelado);
+    public void Desativar()
+    {
+        if (Agendamentos.Any(a =>
+            a.Status == EnumStatusAgendamento.Agendado ||
+            a.Status == EnumStatusAgendamento.Confirmado))
+        {
+            throw new InvalidOperationException(
+                "Não pode desativar horário com agendamentos ativos");
+        }
 
+        Ativo = false;
+    }
+
+    public void Ativar() => Ativo = true;
+
+    public bool EstaDisponivel(DateTime data)
+    {
+        if (!Ativo)
+            return false;
+
+        var diaSemana = (SemanaEnum)((int)data.DayOfWeek);
+        if (diaSemana != DiaSemana)
+            return false;
+
+        return !Agendamentos.Any(a =>
+            a.DataAgendamento.Date == data.Date &&
+            a.Status != EnumStatusAgendamento.Cancelado);
+    }
 }

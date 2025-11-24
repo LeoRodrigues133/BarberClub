@@ -1,12 +1,12 @@
 using BarberClub.Dominio.Compartilhado;
-using BarberClub.Dominio.ModuloAgenda;
 using BarberClub.Dominio.ModuloAutenticacao;
 using BarberClub.Dominio.ModuloConfiguracao;
 using BarberClub.Dominio.ModuloFuncionario;
+using BarberClub.Dominio.ModuloHorario;
 using BarberClub.Dominio.ModuloHorarioFuncionamento;
 using BarberClub.Dominio.ModuloServico;
-using BarberClub.Infraestrutura.Orm.RepositorioConfiguracao;
 using BarberClub.Infraestrutura.Orm.RepositorioFuncionario;
+using BarberClub.Infraestrutura.Orm.RepositorioHorarioDisponivel;
 using BarberClub.Infraestrutura.Orm.RepositorioHorarioFuncionamento;
 using BarberClub.Infraestrutura.Orm.RepositorioServicos;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -41,18 +41,18 @@ public class BarberClubDbContext(DbContextOptions _options, ITenantProvider? _te
             builder.Entity<HorarioFuncionamento>()
                 .HasQueryFilter(h => h.ConfiguracaoEmpresa!.UsuarioId == _tenantProvider.EmpresaId);
 
-            builder.Entity<ConfiguracaoAgenda>()
-                .HasQueryFilter(c => (c.FuncionarioId == _tenantProvider.FuncionarioId)
-                ||
-                (_tenantProvider.FuncionarioId == null &&
-                 c.Funcionario!.AdminId == _tenantProvider.EmpresaId));
+            builder.Entity<HorarioDisponivel>()
+    .HasQueryFilter(h =>
+        (h.FuncionarioId == _tenantProvider.FuncionarioId) ||
+        (_tenantProvider.FuncionarioId == null && h.Funcionario!.AdminId == _tenantProvider.EmpresaId)
+    );
+
         }
 
-    builder.ApplyConfiguration(new MapeadorFuncionarioEmOrm());
+        builder.ApplyConfiguration(new MapeamentoFuncionarioEmOrm());
         builder.ApplyConfiguration(new MapeamentoServicoEmOrm());
-        builder.ApplyConfiguration(new MapeamentoAgendaEmOrm());
         builder.ApplyConfiguration(new MapeamentoHorarioFuncionamentoEmOrm());
-        builder.ApplyConfiguration(new MapeamentoAgendaEmOrm());
+        builder.ApplyConfiguration(new MapeamentoHorarioDisponivelEmOrm());
 
         base.OnModelCreating(builder);
     }

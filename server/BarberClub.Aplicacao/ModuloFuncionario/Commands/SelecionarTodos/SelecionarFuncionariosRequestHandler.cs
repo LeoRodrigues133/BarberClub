@@ -29,7 +29,9 @@ public class SelecionarFuncionariosRequestHandler(
                 registro.Id,
                 registro.Nome,
                 registro.Cpf,
-                cargo!
+                cargo!,
+                registro.TempoAtendimento,
+                registro.TempoIntervalo
             ));
         }
 

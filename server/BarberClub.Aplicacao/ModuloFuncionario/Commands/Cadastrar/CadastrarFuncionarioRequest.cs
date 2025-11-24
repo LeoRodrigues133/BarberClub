@@ -1,5 +1,3 @@
-using BarberClub.Aplicacao.ModuloAutenticacao.DTOs;
-using BarberClub.Aplicacao.ModuloFuncionario.DTOs;
 using BarberClub.Dominio.ModuloAutenticacao;
 using FluentResults;
 using MediatR;
