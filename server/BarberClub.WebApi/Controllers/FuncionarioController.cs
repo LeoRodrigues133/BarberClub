@@ -1,11 +1,11 @@
 ﻿using BarberClub.Aplicacao.ModuloFuncionario.Commands.Cadastrar;
-using BarberClub.Aplicacao.ModuloFuncionario.Commands.CadastrarVariosHorarios;
-using BarberClub.Aplicacao.ModuloFuncionario.Commands.ConfigurarAtendimento;
 using BarberClub.Aplicacao.ModuloFuncionario.Commands.Editar;
 using BarberClub.Aplicacao.ModuloFuncionario.Commands.Excluir;
 using BarberClub.Aplicacao.ModuloFuncionario.Commands.SelecionarPorId;
 using BarberClub.Aplicacao.ModuloFuncionario.Commands.SelecionarTodos;
 using BarberClub.Aplicacao.ModuloFuncionario.DTOs;
+using BarberClub.Aplicacao.ModuloHorarioDisponivel.Commands.CadastrarVariosHorarios;
+using BarberClub.Aplicacao.ModuloHorarioDisponivel.Commands.ConfigurarAtendimento;
 using BarberClub.WebApi.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -78,7 +78,7 @@ public class FuncionarioController(IMediator _mediator) : ControllerBase
 
     }
 
-    // PUT: api/funcionario/editar/{id}
+    // PUT: api/funcionario/{id}/configurar-atendimento
     [HttpPut("{id:guid}/configurar-atendimento")]
     [ProducesResponseType(typeof(ConfigurarAtendimentoResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> ConfigurarAtendimento(Guid id, ConfigurarAtendimentoDto request)
@@ -95,14 +95,18 @@ public class FuncionarioController(IMediator _mediator) : ControllerBase
 
     }
 
+    // PUT: api/funcionario/{id}/gerar-horarios
     [HttpPost("{id:guid}/gerar-horarios")]
     [ProducesResponseType(typeof(CadastrarVariosHorariosResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GerarHorarios(Guid id)
+    public async Task<IActionResult> GerarHorarios(Guid id, CadastrarVariosHorariosDto request)
     {
         var gerarRequest = new CadastrarVariosHorariosRequest(
-            id);
+            id,
+            request.mes,
+            request.ano
+            );
 
         var result = await _mediator.Send(gerarRequest);
 

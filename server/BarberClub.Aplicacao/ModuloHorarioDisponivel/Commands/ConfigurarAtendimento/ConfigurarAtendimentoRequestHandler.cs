@@ -4,7 +4,7 @@ using BarberClub.Dominio.ModuloFuncionario;
 using FluentResults;
 using MediatR;
 
-namespace BarberClub.Aplicacao.ModuloFuncionario.Commands.ConfigurarAtendimento;
+namespace BarberClub.Aplicacao.ModuloHorarioDisponivel.Commands.ConfigurarAtendimento;
 
 public class ConfigurarAtendimentoRequestHandler(
     IRepositorioFuncionario _repositorioFuncionario,

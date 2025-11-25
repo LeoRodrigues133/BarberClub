@@ -6,7 +6,7 @@ using BarberClub.Dominio.ModuloHorarioFuncionamento;
 using FluentResults;
 using MediatR;
 
-namespace BarberClub.Aplicacao.ModuloFuncionario.Commands.CadastrarVariosHorarios;
+namespace BarberClub.Aplicacao.ModuloHorarioDisponivel.Commands.CadastrarVariosHorarios;
 
 public class CadastrarVariosHorariosRequestHandler(
     IRepositorioFuncionario _repositorioFuncionario,
@@ -33,14 +33,34 @@ public class CadastrarVariosHorariosRequestHandler(
         try
         {
             var horariosNovos = funcionario
-                .GerarHorariosDisponiveis(horariosFuncionamento);
+                .GerarHorariosDisponiveis(
+                horariosFuncionamento,
+                request.mesSelecionado,
+                request.anoSelecionado);
 
             if (!horariosNovos.Any())
                 return Result.Fail("Nenhum horário disponível foi gerado. Verifique a configuração.");
 
-            var idsGerados = await _repositorioHorarioDisponivel.CadastrarVariosAsync(horariosNovos);
+            var todosExistentes = await _repositorioHorarioDisponivel.SelecionarTodosAsync();
+
+            var horariosRelevantes = todosExistentes
+                .Where(h =>
+                    h.DataEspecifica.Month == request.mesSelecionado &&
+                    h.DataEspecifica.Year == request.anoSelecionado)
+                .ToList();
+
+            var horariosParaInserir = horariosNovos
+                .Where(n => !horariosRelevantes.Any(e => ConferirDuplicata(n, e)))
+                .ToList();
+
+
+            var idsGerados = await _repositorioHorarioDisponivel.CadastrarVariosAsync(horariosParaInserir);
+
+            foreach (var id in horariosRelevantes)
+                await _repositorioHorarioDisponivel.EditarAsync(id);
 
             await _context.GravarAsync();
+
             var res = new CadastrarVariosHorariosResponse(
               qtHorariosGerados: horariosNovos.Count,
               HorariosCadastrados: horariosNovos
@@ -61,5 +81,10 @@ public class CadastrarVariosHorariosRequestHandler(
 
             return Result.Fail(ex.ToString());
         }
+    }
+    bool ConferirDuplicata(HorarioDisponivel novo, HorarioDisponivel exist)
+    {
+        return exist.DataEspecifica.Date == novo.DataEspecifica.Date
+               && exist.HorarioInicio == novo.HorarioInicio;
     }
 }

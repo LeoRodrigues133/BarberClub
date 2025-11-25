@@ -34,7 +34,7 @@ public class Funcionario : EntidadeBase
     public ConfiguracaoEmpresa? configuracaoEmpresa { get; set; }
 
 
-    public List<HorarioDisponivel> GerarHorariosDisponiveis(List<HorarioFuncionamento> horariosFuncionamento)
+    public List<HorarioDisponivel> GerarHorariosDisponiveis(List<HorarioFuncionamento> horariosFuncionamento, int mes, int ano)
     {
         if (TempoAtendimento <= 0)
             throw new InvalidOperationException("Duração do atendimento deve ser maior que zero");
@@ -46,14 +46,18 @@ public class Funcionario : EntidadeBase
             if (!horarioFunc.HoraAbertura.HasValue || !horarioFunc.HoraFechamento.HasValue)
                 continue;
 
-            var horariosGerados = GerarHorariosDoDia(horarioFunc);
-            horariosDisponiveis.AddRange(horariosGerados);
+            var diaDoMes = ObterDatas(horarioFunc.DiaSemana, mes, ano);
+            foreach (var data in diaDoMes)
+            {
+                var horariosGerados = GerarHorariosDoDia(horarioFunc, data);
+                horariosDisponiveis.AddRange(horariosGerados);
+            }
         }
 
         return horariosDisponiveis;
     }
 
-    private List<HorarioDisponivel> GerarHorariosDoDia(HorarioFuncionamento horarioFuncionamento)
+    private List<HorarioDisponivel> GerarHorariosDoDia(HorarioFuncionamento horarioFuncionamento, DateTime data)
     {
         var horarios = new List<HorarioDisponivel>();
         var horarioAtual = horarioFuncionamento.HoraAbertura!.Value;
@@ -64,13 +68,13 @@ public class Funcionario : EntidadeBase
         {
             var horarioDisponivel = new HorarioDisponivel
             {
-                Id = Guid.NewGuid(),
                 FuncionarioId = Id,
-                UsuarioId = AdminId, 
+                UsuarioId = AdminId,
                 DiaSemana = horarioFuncionamento.DiaSemana,
                 HorarioInicio = horarioAtual,
                 HorarioFim = horarioAtual.Add(TimeSpan.FromMinutes(TempoAtendimento)),
-                Ativo = true
+                Ativo = true,
+                DataEspecifica = data,
             };
 
             horarios.Add(horarioDisponivel);
@@ -90,5 +94,26 @@ public class Funcionario : EntidadeBase
 
         TempoAtendimento = duracaoMinutos;
         TempoIntervalo = intervaloMinutos;
+    }
+
+    private List<DateTime> ObterDatas(SemanaEnum diaEnum,int mes, int ano)
+    {
+        var datas = new List<DateTime>();
+        var diaDesejado = (int)diaEnum;
+
+        var data = new DateTime(ano, mes, 1);
+        var ultimoDia = DateTime.DaysInMonth(ano, mes);
+
+        for (int dia = 1; dia <= ultimoDia; dia++)
+        {
+            var d = new DateTime(ano, mes, dia);
+
+            if ((int)d.DayOfWeek == diaDesejado)
+            {
+                datas.Add(d);
+            }
+        }
+
+        return datas;
     }
 }

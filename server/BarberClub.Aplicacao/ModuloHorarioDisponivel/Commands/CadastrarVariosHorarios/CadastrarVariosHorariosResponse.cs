@@ -1,6 +1,6 @@
 using BarberClub.Aplicacao.ModuloFuncionario.DTOs;
 
-namespace BarberClub.Aplicacao.ModuloFuncionario.Commands.CadastrarVariosHorarios;
+namespace BarberClub.Aplicacao.ModuloHorarioDisponivel.Commands.CadastrarVariosHorarios;
 
 public record CadastrarVariosHorariosResponse(
     int qtHorariosGerados,

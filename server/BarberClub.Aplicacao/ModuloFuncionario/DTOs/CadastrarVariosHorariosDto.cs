@@ -1,3 +1,3 @@
 namespace BarberClub.Aplicacao.ModuloFuncionario.DTOs;
 
-public record CadastrarVariosHorariosDto(Guid funcionarioId);
+public record CadastrarVariosHorariosDto(int mes, int ano);

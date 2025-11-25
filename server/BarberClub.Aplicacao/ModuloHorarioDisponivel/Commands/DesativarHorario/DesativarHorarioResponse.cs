@@ -1,0 +1,3 @@
+namespace BarberClub.Aplicacao.ModuloHorarioDisponivel.Commands.DesativarHorario;
+
+public record DesativarHorarioResponse(Guid horarioDesativado);

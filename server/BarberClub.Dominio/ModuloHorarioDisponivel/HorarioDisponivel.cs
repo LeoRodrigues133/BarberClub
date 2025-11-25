@@ -2,6 +2,7 @@
 using BarberClub.Dominio.ModuloAgendamento;
 using BarberClub.Dominio.ModuloFuncionario;
 using BarberClub.Dominio.ModuloHorarioFuncionamento;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BarberClub.Dominio.ModuloHorario;
 
@@ -54,17 +55,29 @@ public class HorarioDisponivel : EntidadeBase
 
     public void Ativar() => Ativo = true;
 
-    public bool EstaDisponivel(DateTime data)
+    public bool PodeDesativar(DateTime data)
     {
         if (!Ativo)
             return false;
 
-        var diaSemana = (SemanaEnum)((int)data.DayOfWeek);
-        if (diaSemana != DiaSemana)
+        if (data != DataEspecifica)
             return false;
 
         return !Agendamentos.Any(a =>
             a.DataAgendamento.Date == data.Date &&
             a.Status != EnumStatusAgendamento.Cancelado);
+    }
+    public bool PodeAtivar(DateTime data)
+    {
+        if (Ativo)
+            return false;
+
+        if (data != DataEspecifica)
+            return false;
+
+        return !Agendamentos.Any(a =>
+            a.DataAgendamento.Date == data.Date &&
+            a.Status == EnumStatusAgendamento.Agendado ||
+            a.Status == EnumStatusAgendamento.Cancelado);
     }
 }
