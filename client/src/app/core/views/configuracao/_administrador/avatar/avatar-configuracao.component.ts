@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { ServicoConfiguracaoTenant } from '../services/tenant-config.service';
+import { ServicoConfiguracaoTenant } from '../../services/tenant-config.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,8 +9,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { ConfiguracaoEmpresa } from '../models/service.models';
-import { AzureBlobService } from '../services/azure-blob.service';
+import { ConfiguracaoEmpresa } from '../../models/service.models';
+import { AzureBlobService } from '../../services/azure-blob.service';
+import { NotificacaoToastrService } from '../../../../shared/components/notificacao/notificacao-toastr.service';
 
 @Component({
   selector: 'app-avatar-configuracao',
@@ -40,8 +41,10 @@ export class AvatarConfiguracaoComponent implements OnInit, OnDestroy {
 
   constructor(
     private azureBlobService: AzureBlobService,
-    private tenantProvider: ServicoConfiguracaoTenant
-  ) {}
+    private tenantProvider: ServicoConfiguracaoTenant,
+    private toastr: NotificacaoToastrService
+
+  ) { }
 
   ngOnInit(): void {
     this.carregarLogoAtual();
@@ -56,7 +59,6 @@ export class AvatarConfiguracaoComponent implements OnInit, OnDestroy {
     this.tenantProvider.obterConfiguracao()
       .pipe(takeUntil(this.destroy$))
       .subscribe(config => {
-        // ✅ Backend já retorna URL completa com token SAS
         this.logoUrl$ = config?.logoUrl || null;
       });
   }
@@ -93,11 +95,11 @@ export class AvatarConfiguracaoComponent implements OnInit, OnDestroy {
           this.logoFile = null;
           this.uploadandoLogo = false;
 
-          alert('Logo atualizado!');
+          this.toastr.sucesso('Logo atualizado com sucesso.');
         },
         error: (err) => {
           this.uploadandoLogo = false;
-          alert('Erro ao fazer upload do logo');
+          this.toastr.erro('Erro ao fazer upload do logo.');
         }
       });
   }
@@ -111,12 +113,12 @@ export class AvatarConfiguracaoComponent implements OnInit, OnDestroy {
     const tiposPermitidos = ['image/jpeg', 'image/jpg', 'image/png'];
 
     if (!tiposPermitidos.includes(arquivo.type)) {
-      alert('Apenas JPG, JPEG e PNG são permitidos.');
+      this.toastr.aviso('Apenas JPG, JPEG e PNG são permitidos.');
       return false;
     }
 
     if (arquivo.size > 5 * 1024 * 1024) {
-      alert('O arquivo deve ter no máximo 5MB.');
+      this.toastr.aviso('O arquivo deve ter no máximo 5MB.');
       return false;
     }
 

@@ -1,5 +1,26 @@
 <!-- listar-funcionario.component.html -->
 <div class="dashboard-container">
+  <mat-card class="header-card">
+    <mat-card-header>
+      <div class="header-with-actions">
+        <div>
+          <mat-card-title>Funcionários</mat-card-title>
+          <mat-card-subtitle>Gerencie seus colaboradores</mat-card-subtitle>
+        </div>
+        <div class="header-actions">
+          <button
+            *appHasPermission="Permission.ADMIN_PERMISSION"
+            mat-raised-button
+            color="primary"
+            routerLink="/employees/cadastrar">
+            <mat-icon>add</mat-icon>
+            Novo Funcionário
+          </button>
+        </div>
+      </div>
+    </mat-card-header>
+  </mat-card>
+
   <mat-card class="funcionario-card no-card-appearence" *ngFor="let funcionario of funcionarios">
     <mat-card-header>
       <div class="header-content">

@@ -6,12 +6,13 @@ export enum Permission {
   VIEW_ACCOUNTS = 'View_Contas',
   VIEW_AUTH = 'View_Autenticação',
   ADMIN_PERMISSION = "Permissão_de_Administrador",
-  EMPLOYEE_PERMISSION = "Permissão_de_Funcionario"
+  EMPLOYEE_PERMISSION = "Permissão_de_Funcionario",
+  PUBLIC_PERMISSION = "Permissão_Pública"
 }
 
 export enum Role {
   ADMIN = 0,
-  FUNCIONARIO = 1,
+  FUNCIONARIO = 1
 }
 
 export const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
@@ -27,5 +28,5 @@ export const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
     Permission.EMPLOYEE_PERMISSION,
     Permission.VIEW_SERVICES,
     Permission.VIEW_SETTINGS,
-  ],
+  ]
 };

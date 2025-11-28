@@ -10,6 +10,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
+import { NotificacaoToastrService } from '../../../shared/components/notificacao/notificacao-toastr.service';
 
 @Component({
   selector: 'app-excluir-funcionario',
@@ -34,7 +35,9 @@ export class ExcluirFuncionarioComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private funcionarioService: FuncionarioService
+    private funcionarioService: FuncionarioService,
+    private toastr: NotificacaoToastrService
+
   ) { }
 
   ngOnInit(): void {
@@ -53,13 +56,13 @@ export class ExcluirFuncionarioComponent implements OnInit {
 
 
   private processarSucesso(): void {
-    alert(`Funcionario excluído(a) com sucesso!`);
+    this.toastr.sucesso(`Funcionario excluído(a) com sucesso!`);
 
     this.router.navigate(['/employees', 'listar']);
   }
 
   private processarFalha(erro: Error): any {
-    alert(erro.message);
+    this.toastr.erro(erro.message);
   }
 
 }

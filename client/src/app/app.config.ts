@@ -7,6 +7,8 @@ import { provideAuthentication } from './auth/auth.provider';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { ServicoConfiguracaoTenant } from './core/views/configuracao/services/tenant-config.service';
 import { inicializarTenant } from './core/views/configuracao/services/inicializarTenant.service';
+import { provideInitializer } from './core/views/configuracao/services/provideInitializer.provider';
+import { provideNotifications } from './core/shared/components/notificacao/notificacao-toastr.provider';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,11 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptorsFromDi()),
     provideAuthentication(),
     provideClientHydration(withEventReplay()),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: inicializarTenant,
-      deps: [ServicoConfiguracaoTenant],
-      multi: true
-    }
+    provideInitializer(),
+    provideNotifications()
   ]
 };

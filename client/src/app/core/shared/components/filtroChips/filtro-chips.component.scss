@@ -1,0 +1,149 @@
+.filtro-chips-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.secao-meses {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.titulo-secao {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(201, 201, 201, 0.6);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+mat-chip-listbox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+mat-chip-option {
+  font-size: 0.875rem;
+  min-width: 60px;
+  justify-content: center;
+}
+
+// Estilos do Calendário
+.secao-calendario {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.calendario-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.dia-semana-header {
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: rgba(178, 178, 178, 0.54);
+  padding: 0.5rem;
+  text-transform: uppercase;
+}
+
+.calendario-grade {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+}
+
+.dia-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  background-color: #33333332;
+  border: solid 2px #e38014;
+
+
+  &:hover:not(.outro-mes):not(.fechado) {
+    background-color: #0000000e;
+    transform: scale(1.05);
+  }
+
+  &.outro-mes {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background-color: transparent;
+
+    &:hover {
+      background-color: transparent;
+      transform: none;
+    }
+  }
+
+  &.fechado {
+    background: repeating-linear-gradient(
+      45deg,
+      #ffebee,
+      #ffebee 10px,
+      #ffcdd2 10px,
+      #ffcdd2 20px
+    );
+    color: #c62828;
+    cursor: not-allowed;
+    opacity: 0.7;
+
+    &:hover {
+      background: repeating-linear-gradient(
+        45deg,
+        #ffebee,
+        #ffebee 10px,
+        #ffcdd2 10px,
+        #ffcdd2 20px
+      );
+      transform: none;
+    }
+
+    .numero-dia {
+      text-decoration: line-through;
+    }
+  }
+
+  &.selecionado {
+    background-color: #1976d2;
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(25, 118, 210, 0.3);
+
+    &:hover {
+      background-color: #e38014;
+    }
+  }
+
+  &.hoje:not(.selecionado):not(.fechado) {
+    border: 2px solid #e38014;
+    font-weight: 600;
+  }
+}
+
+.numero-dia {
+  font-size: 0.875rem;
+}
+
+.icone-fechado {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 0.625rem;
+  opacity: 0.8;
+}

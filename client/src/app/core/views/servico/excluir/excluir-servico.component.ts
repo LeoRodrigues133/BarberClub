@@ -10,6 +10,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule, DecimalPipe } from '@angular/common';
+import { NotificacaoToastrService } from '../../../shared/components/notificacao/notificacao-toastr.service';
 
 @Component({
   selector: 'app-excluir-servico',
@@ -36,7 +37,8 @@ export class ExcluirServicoComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private servicoService: ServicoService
+    private servicoService: ServicoService,
+    private toastr: NotificacaoToastrService
   ) { }
 
   ngOnInit(): void {
@@ -55,13 +57,13 @@ export class ExcluirServicoComponent {
 
 
   private processarSucesso(): void {
-    alert(`Serviço excluído com sucesso!`);
+    this.toastr.sucesso(`Serviço excluído com sucesso!`);
 
     this.router.navigate(['/services', 'listar']);
   }
 
   private processarFalha(erro: Error): any {
-    alert(erro.message);
+    this.toastr.erro(erro.message);
   }
 
 }

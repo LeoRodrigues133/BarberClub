@@ -9,11 +9,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Cargo, CARGOS_OPTIONS } from '../cadastro/cadastrar-funcionario.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { VerificarCadeiaCpf } from '../../../shared/cpf.validators';
-import { VerificarCadeiaSenha } from '../../../shared/senha.validators';
+import { VerificarCadeiaCpf } from '../../../shared/validators/cpf.validators';
+import { VerificarCadeiaSenha } from '../../../shared/validators/senha.validators';
 import { FuncionarioService } from '../services/funcionario.service';
 import { CpfInputComponent } from "../../../shared/components/cpfInput/cpf-input.component";
 import { EditarFuncionario } from '../models/funcionario.models';
+import { NotificacaoToastrService } from '../../../shared/components/notificacao/notificacao-toastr.service';
 
 @Component({
   selector: 'app-editar-funcionario',
@@ -31,7 +32,7 @@ import { EditarFuncionario } from '../models/funcionario.models';
   templateUrl: './editar-funcionario.component.html',
   styleUrl: './editar-funcionario.component.scss'
 })
-export class EditarFuncionarioComponent implements OnInit{
+export class EditarFuncionarioComponent implements OnInit {
   form: FormGroup;
   cargosOptions = CARGOS_OPTIONS;
 
@@ -39,7 +40,9 @@ export class EditarFuncionarioComponent implements OnInit{
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private funcionarioService: FuncionarioService
+    private funcionarioService: FuncionarioService,
+    private toastr: NotificacaoToastrService
+
   ) {
     this.form = this.fb.group({
       nome: [
@@ -105,13 +108,13 @@ export class EditarFuncionarioComponent implements OnInit{
   }
 
   private processarSucesso(): void {
-    alert(`Funcionario editado(a) com sucesso!`);
+    this.toastr.sucesso(`Funcionario editado(a) com sucesso!`);
 
     this.router.navigate(['/employees', 'listar']);
   }
 
   private processarFalha(erro: Error): any {
-    alert(erro.message);
+    this.toastr.erro(erro.message);
   }
 
 

@@ -85,7 +85,7 @@ export class ServicoConfiguracaoTenant {
   }
 
   get nomeEmpresa(): string {
-    return this.configuracao$.value?.nomeEmpresa || 'Minha Empresa';
+    return this.configuracao$.value?.nomeEmpresa || 'BarberClub';
   }
 
   get slugEmpresa(): string | null {

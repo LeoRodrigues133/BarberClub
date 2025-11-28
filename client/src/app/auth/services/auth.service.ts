@@ -56,13 +56,8 @@ export class AuthService {
 
   private carregarConfiguracaoTenant(): void {
     this.servicoTenant.carregarPorAutenticacao().subscribe({
-      next: (config: any) => {
-        console.log('Configuração do tenant carregada:', config.nomeEmpresa);
-      },
-      error: (erro: any) => {
-        console.error('Erro ao carregar configuração do tenant:', erro);
-
-      }
+      next: (config: any) => (this.processarDados(config)),
+      error: (erro: any) => (this.processarFalha(erro))
     });
   }
 

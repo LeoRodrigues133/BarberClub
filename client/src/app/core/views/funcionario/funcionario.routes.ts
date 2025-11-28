@@ -6,6 +6,7 @@ import { DetalharFuncionarioResolver } from "./services/detalhar-funcionario.res
 import { CadastrarFuncionarioComponent } from "./cadastro/cadastrar-funcionario.component";
 import { VisualizarFuncionarioComponent } from "./visualizar/visualizar-funcionario.component";
 import { ExcluirFuncionarioComponent } from "./excluir/excluir-funcionario.component";
+import { ConfiguracaoComponent } from "../configuracao/configuracao.component";
 
 export const funcionarioRoutes: Routes = [
 

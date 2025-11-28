@@ -49,8 +49,6 @@ export class ListarServicoComponent implements OnInit {
 
   ngOnInit(): void {
     this.Servicos = this.route.snapshot.data['servicos']
-
-    console.log(this.Servicos)
   }
 
 }

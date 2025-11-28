@@ -5,6 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { environment } from '../../../../../environments/environment.development';
 import { ConfiguracaoEmpresa, HorarioFuncionamento } from '../models/service.models';
 import { ServicoConfiguracaoTenant } from './tenant-config.service';
+import { NotificacaoToastrService } from '../../../shared/components/notificacao/notificacao-toastr.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,9 @@ export class AzureBlobService {
 
   constructor(
     private http: HttpClient,
-    private servicoTenant: ServicoConfiguracaoTenant
+    private servicoTenant: ServicoConfiguracaoTenant,
+    private toastr: NotificacaoToastrService
+
   ) { }
 
   obterConfiguracao(): Observable<ConfiguracaoEmpresa> {
@@ -80,12 +83,12 @@ export class AzureBlobService {
     const tiposPermitidos = ['image/jpeg', 'image/jpg', 'image/png'];
 
     if (!tiposPermitidos.includes(arquivo.type)) {
-      alert('Apenas JPG, JPEG e PNG são permitidos.');
+      this.toastr.aviso('Apenas JPG, JPEG e PNG são permitidos.');
       return false;
     }
 
     if (arquivo.size > 5 * 1024 * 1024) {
-      alert('O arquivo deve ter no máximo 5MB.');
+      this.toastr.aviso('O arquivo deve ter no máximo 5MB.');
       return false;
     }
 

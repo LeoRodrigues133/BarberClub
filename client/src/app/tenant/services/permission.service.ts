@@ -13,6 +13,10 @@ export class PermissionService {
   hasPermission(permission: Permission): Observable<boolean> {
     return this.userService.usuarioAutenticado.pipe(
       map(usuario => {
+        if (permission === Permission.PUBLIC_PERMISSION) {
+          return true;
+        }
+
         if (!usuario || usuario.role === undefined)
           return false;
 

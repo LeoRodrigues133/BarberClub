@@ -22,4 +22,7 @@ export interface UsuarioAutenticadoDto {
   userName: string;
   email: string;
   role: Role;
+
+  funcionarioId?:string;
+  empresaId:string;
 }

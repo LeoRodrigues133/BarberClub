@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FuncionarioService } from '../services/funcionario.service';
-import { VerificarCadeiaSenha } from '../../../shared/senha.validators';
+import { VerificarCadeiaSenha } from '../../../shared/validators/senha.validators';
 import { CadastrarFuncionario } from '../models/funcionario.models';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
@@ -11,8 +11,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { aplicarMascaraCPF, VerificarCadeiaCpf } from '../../../shared/cpf.validators';
+import { aplicarMascaraCPF, VerificarCadeiaCpf } from '../../../shared/validators/cpf.validators';
 import { CpfInputComponent } from "../../../shared/components/cpfInput/cpf-input.component";
+import { NotificacaoToastrService } from '../../../shared/components/notificacao/notificacao-toastr.service';
 
 @Component({
   selector: 'app-cadastrar-funcionario',
@@ -37,7 +38,9 @@ export class CadastrarFuncionarioComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private funcionarioService: FuncionarioService
+    private funcionarioService: FuncionarioService,
+    private toastr: NotificacaoToastrService
+
   ) {
     this.form = this.fb.group({
       nome: [
@@ -118,13 +121,13 @@ export class CadastrarFuncionarioComponent {
   }
 
   private processarSucesso(): void {
-    alert(`Funcionario cadastrado(a) com sucesso!`);
+    this.toastr.sucesso(`Funcionario cadastrado(a) com sucesso!`);
 
     this.router.navigate(['/employees', 'listar']);
   }
 
   private processarFalha(erro: Error): any {
-    alert(erro.message);
+    this.toastr.erro(erro.message);
   }
 
 }

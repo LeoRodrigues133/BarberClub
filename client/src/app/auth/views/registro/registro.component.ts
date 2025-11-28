@@ -10,8 +10,9 @@ import { AuthService } from '../../services/auth.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { RegistrarUsuarioRequest, TokenResponse } from '../../models/auth.models';
 import { UserService } from '../../services/user.service';
-import { VerificarCadeiaSenha } from '../../../core/shared/senha.validators';
+import { VerificarCadeiaSenha } from '../../../core/shared/validators/senha.validators';
 import { ServicoConfiguracaoTenant } from '../../../core/views/configuracao/services/tenant-config.service';
+import { NotificacaoToastrService } from '../../../core/shared/components/notificacao/notificacao-toastr.service';
 
 @Component({
   selector: 'app-registro',
@@ -36,7 +37,8 @@ export class RegistroComponent {
     private authService: AuthService,
     private userService: UserService,
     private localStorage: LocalStorageService,
-    private tenantService: ServicoConfiguracaoTenant
+    private tenantService: ServicoConfiguracaoTenant,
+    private toastr : NotificacaoToastrService
   ) {
     this.form = this.formBuilder.group({
       userName: [
@@ -80,7 +82,7 @@ export class RegistroComponent {
 
   public registrar() {
     if (this.form.invalid) {
-      alert('Não foi possível finalizar o cadastro.');
+      this.toastr.erro('Não foi possível finalizar o cadastro.');
       return;
     }
 
@@ -106,8 +108,8 @@ export class RegistroComponent {
   }
 
   processarFalha(erro: any) {
-    alert('Erro ao efetuar cadastro.');
-
+    this.toastr.erro('Erro ao efetuar cadastro.');
+    this.toastr.aviso(erro);
     this.localStorage.limparDadosLocais();
   }
 }

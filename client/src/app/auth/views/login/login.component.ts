@@ -11,6 +11,8 @@ import { UserService } from '../../services/user.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { AutenticarUsuarioRequest, TokenResponse } from '../../models/auth.models';
 import { ServicoConfiguracaoTenant } from '../../../core/views/configuracao/services/tenant-config.service';
+import { NotificacaoToastrService } from '../../../core/shared/components/notificacao/notificacao-toastr.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +37,10 @@ export class LoginComponent {
     private authService: AuthService,
     private usuarioService: UserService,
     private localStorage: LocalStorageService,
-    private tenantService: ServicoConfiguracaoTenant
+    private tenantService: ServicoConfiguracaoTenant,
+    private toastr: NotificacaoToastrService,
+    private title: Title
+
   ) {
     this.form = this.fb.group({
       userName: [
@@ -67,12 +72,12 @@ export class LoginComponent {
 
   public entrar() {
     if (this.form.invalid) {
-      alert('Usuário ou senha inválidos'); // Corrigir para um toastr dps
-
+      this.toastr.aviso('Usuário ou senha inválidos');
       return;
     };
 
     const loginUsuario: AutenticarUsuarioRequest = this.form.value;
+    this.title.setTitle(`BarberClub | ${loginUsuario.userName}`);
 
     this.authService.login(loginUsuario).subscribe({
       next: (res: TokenResponse) => this.processarSucesso(res),
@@ -82,22 +87,23 @@ export class LoginComponent {
 
   private processarSucesso(res: TokenResponse) {
 
-  this.localStorage.salvarTokenAutenticacao(res);
-  this.usuarioService.logarUsuario(res.usuario);
+    this.localStorage.salvarTokenAutenticacao(res);
+    this.usuarioService.logarUsuario(res.usuario);
 
-  this.tenantService.carregarPorAutenticacao().subscribe({
-    next: (config) => {
-      this.router.navigate(['/dashboard']);
-    },
-    error: (erro) => {
-      this.router.navigate(['/dashboard']);
-    }
-  });
+    this.tenantService.carregarPorAutenticacao().subscribe({
+      next: (config) => {
+        this.router.navigate(['/dashboard']);
 
-}
+      },
+      error: (erro) => {
+        this.router.navigate(['/dashboard']);
+      }
+    });
+
+  }
 
   private processarFalha(erro: Error) {
-    alert(erro.message);
+    this.toastr.erro(erro.message);
 
   }
 }

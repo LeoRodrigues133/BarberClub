@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { NomeConfiguracaoComponent } from "./nome/nome-configuracao.component";
-import { AvatarConfiguracaoComponent } from "./avatar/avatar-configuracao.component";
-import { BannerConfiguracaoComponent } from "./banner/banner-configuracao.component";
-import { HorarioConfiguracaoComponent } from "./horario/horario-configuracao.component";
+import { NomeConfiguracaoComponent } from "./_administrador/nome/nome-configuracao.component";
+import { AvatarConfiguracaoComponent } from "./_administrador/avatar/avatar-configuracao.component";
+import { BannerConfiguracaoComponent } from "./_administrador/banner/banner-configuracao.component";
+import { HorarioConfiguracaoComponent } from "./_administrador/horario/horario-configuracao.component";
 import { HasPermissionDirective } from '../../../tenant/directives/has-permission.directive';
 import { Permission } from '../../../tenant/constants/permissions';
+import { GerarHorariosComponent } from "./_funcionario/horario-atendimento/gerar-horarios.component";
+import { TempoAtendimentoComponent } from "./_funcionario/atendimento/tempo-atendimento.component";
 @Component({
   selector: 'app-configuracao-empresa',
   standalone: true,
@@ -13,7 +15,9 @@ import { Permission } from '../../../tenant/constants/permissions';
     AvatarConfiguracaoComponent,
     BannerConfiguracaoComponent,
     HorarioConfiguracaoComponent,
-    HasPermissionDirective
+    HasPermissionDirective,
+    GerarHorariosComponent,
+    TempoAtendimentoComponent
 ],
   templateUrl: './configuracao.component.html',
   styleUrl: './configuracao.component.scss'

@@ -1,17 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ListagemFuncionario } from '../models/funcionario.models';
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatTableModule } from '@angular/material/table';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { FuncionarioService } from '../services/funcionario.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { HasPermissionDirective } from '../../../../tenant/directives/has-permission.directive';
+import { Permission } from '../../../../tenant/constants/permissions';
 @Component({
   selector: 'app-listar-funcionario',
   imports: [
@@ -20,13 +17,15 @@ import { MatDividerModule } from '@angular/material/divider';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    HasPermissionDirective
   ],
   templateUrl: './listar-funcionario.component.html',
   styleUrl: './listar-funcionario.component.scss'
 })
 export class ListarFuncionarioComponent implements OnInit {
   funcionarios: ListagemFuncionario[] = [];
+  Permission = Permission;
 
   constructor(private route: ActivatedRoute) { }
 

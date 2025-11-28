@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
+import { NotificacaoToastrService } from '../../../shared/components/notificacao/notificacao-toastr.service';
 
 @Component({
   selector: 'app-cadastrar-servico',
@@ -37,7 +38,9 @@ export class CadastrarServicoComponent {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private servicoService: ServicoService
+    private servicoService: ServicoService,
+    private toastr: NotificacaoToastrService
+
   ) {
     this.form = this.fb.group({
       titulo: ['',
@@ -123,12 +126,12 @@ export class CadastrarServicoComponent {
 
 
   private processarSucesso(): void {
-    alert(`Serviço cadastrado com sucesso!`);
+    this.toastr.sucesso(`Serviço cadastrado com sucesso!`);
 
     this.router.navigate(['/services', 'listar']);
   }
 
   private processarFalha(erro: Error): any {
-    alert(erro.message);
+    this.toastr.erro(erro.message);
   }
 }

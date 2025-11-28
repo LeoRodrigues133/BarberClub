@@ -7,7 +7,6 @@ export function inicializarTenant(servicoTenant: ServicoConfiguracaoTenant) {
     const tokenString = localStorage.getItem('BarberClub.token');
 
     if (!tokenString) {
-      console.log('Sem token - configuração não carregada');
       return Promise.resolve();
     }
 
@@ -17,12 +16,9 @@ export function inicializarTenant(servicoTenant: ServicoConfiguracaoTenant) {
 
 
       if (dataExpiracao > new Date()) {
-        console.log('Carregando configuração do tenant...');
-
         return servicoTenant.carregarPorAutenticacao()
           .toPromise()
           .then((config:any) => {
-            console.log('Configuração carregada:', config?.nomeEmpresa);
             return config;
           })
           .catch((erro:any) => {

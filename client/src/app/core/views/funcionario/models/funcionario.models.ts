@@ -40,3 +40,15 @@ export interface SelecionarPorId {
   avatar: string;
   cargo: string;
 }
+
+export interface ConfigurarAtendimentoRequest {
+  id: string;
+  tempoAtendimento: number;
+  tempoIntervalo: number;
+}
+
+export interface CadastrarVariosHorariosRequest {
+  id: string;
+  mes: number;
+  ano: number;
+}

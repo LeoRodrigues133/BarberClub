@@ -1,0 +1,45 @@
+<div class="filtro-chips-container">
+  <!-- Seleção de Mês -->
+  <div class="secao-meses">
+    <h3 class="titulo-secao">Selecione o mês</h3>
+    <mat-chip-listbox
+      [(ngModel)]="mesSelecionado"
+      (ngModelChange)="onMesChange($event)"
+      aria-label="Seleção de mês">
+      <mat-chip-option
+        *ngFor="let mes of meses; let i = index"
+        [value]="i"
+        [selected]="i === mesSelecionado">
+        {{ mes }}
+      </mat-chip-option>
+    </mat-chip-listbox>
+  </div>
+
+  <!-- Grade de Calendário -->
+  <div class="secao-calendario">
+    <h3 class="titulo-secao">{{ meses[mesSelecionado] }} {{ anoAtual }}</h3>
+
+    <!-- Cabeçalho dos dias da semana -->
+    <div class="calendario-header">
+      <div class="dia-semana-header" *ngFor="let dia of diasDaSemana">
+        {{ dia }}
+      </div>
+    </div>
+
+    <!-- Grade de dias -->
+    <div class="calendario-grade">
+      <div
+        *ngFor="let dia of diasCalendario"
+        class="dia-cell"
+        [class.outro-mes]="!dia.mesAtual"
+        [class.selecionado]="dia.numero === diaSelecionadoAtual && dia.mesAtual && !dia.fechado"
+        [class.hoje]="ehHoje(dia)"
+        [class.fechado]="dia.fechado && dia.mesAtual"
+        [attr.title]="dia.fechado ? 'Dia fechado' : ''"
+        (click)="onDiaClick(dia)">
+        <span class="numero-dia">{{ dia.numero }}</span>
+        <span *ngIf="dia.fechado && dia.mesAtual" class="icone-fechado">🔒</span>
+      </div>
+    </div>
+  </div>
+</div>

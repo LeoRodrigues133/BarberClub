@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ServicoService } from '../services/servico.service';
+import { NotificacaoToastrService } from '../../../shared/components/notificacao/notificacao-toastr.service';
 
 @Component({
   selector: 'app-editar-servico',
@@ -38,7 +39,8 @@ export class EditarServicoComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private servicoService: ServicoService
+    private servicoService: ServicoService,
+    private toastr:NotificacaoToastrService
   ) {
     this.form = this.fb.group({
       titulo: ['',
@@ -80,7 +82,6 @@ export class EditarServicoComponent implements OnInit {
   ngOnInit(): void {
     const servico = this.route.snapshot.data['servico'];
 
-    console.log(servico);
     this.form.patchValue(servico);
   }
 
@@ -132,12 +133,12 @@ export class EditarServicoComponent implements OnInit {
 
 
   private processarSucesso(): void {
-    alert(`Serviço editado com sucesso!`);
+    this.toastr.sucesso(`Serviço editado com sucesso!`);
 
     this.router.navigate(['/services', 'listar']);
   }
 
   private processarFalha(erro: Error): any {
-    alert(erro.message);
+    this.toastr.erro(erro.message);
   }
 }

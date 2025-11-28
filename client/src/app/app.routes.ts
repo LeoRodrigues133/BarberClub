@@ -5,6 +5,8 @@ import { authGuard } from './auth/guards/auth.guard';
 import { authUserGuard } from './auth/guards/auth-user.guard';
 import { permissionGuard } from './tenant/guard/permission.guard';
 import { Permission } from './tenant/constants/permissions';
+import { DetalharFuncionarioResolver } from './core/views/funcionario/services/detalhar-funcionario.resolver';
+import { tenantResolver } from './core/views/configuracao/services/tenant.resolver';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -44,7 +46,10 @@ export const routes: Routes = [
       ),
     canMatch: [authGuard],
     canActivate: [permissionGuard],
-    data: { permission: Permission.VIEW_SETTINGS }
+    data: { permission: Permission.VIEW_SETTINGS },
+    resolve:{
+      funcionario: tenantResolver
+    }
   },
   {
     path: 'employees',

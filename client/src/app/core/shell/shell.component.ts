@@ -58,16 +58,16 @@ export class ShellComponent implements OnInit {
 
     this.visibleRoutesPublicos$ = this.filtrarLinksPorPermissao(this.linksPublicos);
 
-    // Filtra links autenticados
     this.visibleRoutesAutenticados$ = this.filtrarLinksPorPermissao(this.linksAutenticados);
   }
 
-private filtrarLinksPorPermissao(links: LinkNavegacao[]): Observable<LinkNavegacao[]> {
-    const permissionChecks$ = links.map(item =>
-      this.permissionService.hasPermission(item.permission).pipe(
-        map(hasPermission => ({ item, hasPermission }))
-      )
-    );
+  private filtrarLinksPorPermissao(links: LinkNavegacao[]): Observable<LinkNavegacao[]> {
+    const permissionChecks$ = links.map(item => {
+      const checks = item.permissions.map(p => this.permissionService.hasPermission(p));
+      return combineLatest(checks).pipe(
+        map(results => ({ item, hasPermission: results.some(r => r) }))
+      );
+    });
 
     return combineLatest(permissionChecks$).pipe(
       map(results =>
@@ -83,39 +83,45 @@ private filtrarLinksPorPermissao(links: LinkNavegacao[]): Observable<LinkNavegac
       titulo: 'Início',
       icone: 'home',
       rota: '/dashboard',
-      permission: Permission.VIEW_HOME
+      permissions: [Permission.PUBLIC_PERMISSION]
     },
     {
       titulo: 'Login',
       icone: 'login',
       rota: '/login',
-      permission: Permission.VIEW_AUTH
-    }
+      permissions: [Permission.PUBLIC_PERMISSION, Permission.VIEW_AUTH]
+    }, {
+      titulo: 'Registrar',
+      icone: 'person_add',
+      rota: '/register',
+      permissions: [Permission.PUBLIC_PERMISSION, Permission.VIEW_AUTH]
+    },
+
   ];
   linksAutenticados: LinkNavegacao[] = [
     {
       titulo: 'Início',
       icone: 'home',
       rota: '/dashboard',
-      permission: Permission.VIEW_HOME
+      permissions: [Permission.VIEW_HOME]
     },
     {
       titulo: 'Funcionarios',
       icone: 'people',
       rota: '/employees',
-      permission: Permission.VIEW_EMPLOYEES
+      permissions: [Permission.VIEW_EMPLOYEES]
     },
     {
       titulo: 'Servicos',
       icone: 'work',
       rota: '/services',
-      permission: Permission.VIEW_SERVICES
+      permissions: [Permission.VIEW_SERVICES]
     },
     {
       titulo: 'Gerenciar',
       icone: 'settings',
       rota: '/settings',
-      permission: Permission.VIEW_SETTINGS
+      permissions: [Permission.VIEW_SETTINGS]
     }
   ];
 
@@ -149,5 +155,5 @@ export interface LinkNavegacao {
   titulo: string;
   icone: string;
   rota: string;
-  permission: Permission;
+  permissions: Permission[];
 }
