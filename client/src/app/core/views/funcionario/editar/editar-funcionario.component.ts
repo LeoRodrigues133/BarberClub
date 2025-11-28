@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Cargo, CARGOS_OPTIONS } from '../cadastro/cadastrar-funcionario.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { VerificarCadeiaCpf } from '../../../shared/validators/cpf.validators';
 import { VerificarCadeiaSenha } from '../../../shared/validators/senha.validators';
 import { FuncionarioService } from '../services/funcionario.service';
@@ -27,7 +27,8 @@ import { NotificacaoToastrService } from '../../../shared/components/notificacao
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    CpfInputComponent
+    CpfInputComponent,
+    RouterLink
   ],
   templateUrl: './editar-funcionario.component.html',
   styleUrl: './editar-funcionario.component.scss'

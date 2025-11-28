@@ -38,6 +38,17 @@ public class EditarFuncionarioRequestHandler(
             return Result.Fail(ErrorsResult.BadRequestError(errors));
         }
 
+        if (request.cargo.HasValue)
+        {
+            var rolesAtuais = await _userManager.GetRolesAsync(funcionarioSelecionado.Usuario);
+
+            if (rolesAtuais.Any())
+                await _userManager.RemoveFromRolesAsync(funcionarioSelecionado.Usuario, rolesAtuais);
+
+            var nomeCargo = request.cargo.ToString();
+            await _userManager.AddToRoleAsync(funcionarioSelecionado.Usuario, nomeCargo);
+        }
+
         try
         {
             await _repositorioFuncionario.EditarAsync(funcionarioSelecionado);
@@ -75,17 +86,6 @@ public class EditarFuncionarioRequestHandler(
 
         if (!string.IsNullOrEmpty(request.email))
             funcionarioSelecionado.Usuario.Email = request.email;
-
-        if (request.cargo.HasValue)
-        {
-            var rolesAtuais = await _userManager.GetRolesAsync(funcionarioSelecionado.Usuario);
-
-            if (rolesAtuais.Any())
-                await _userManager.RemoveFromRolesAsync(funcionarioSelecionado.Usuario, rolesAtuais);
-
-            var nomeCargo = request.cargo.ToString();
-            await _userManager.AddToRoleAsync(funcionarioSelecionado.Usuario, nomeCargo);
-        }
 
         return Result.Ok();
     }

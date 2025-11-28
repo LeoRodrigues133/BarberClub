@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FuncionarioService } from '../services/funcionario.service';
 import { VerificarCadeiaSenha } from '../../../shared/validators/senha.validators';
 import { CadastrarFuncionario } from '../models/funcionario.models';
@@ -26,7 +26,8 @@ import { NotificacaoToastrService } from '../../../shared/components/notificacao
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    CpfInputComponent
+    CpfInputComponent,
+    RouterLink
   ],
   templateUrl: './cadastrar-funcionario.component.html',
   styleUrl: './cadastrar-funcionario.component.scss'
