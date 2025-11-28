@@ -4,7 +4,7 @@ export interface ListagemFuncionario {
   cpf: String;
   email: string;
   avatar: string;
-  cargo: string;
+  cargo: number;
 }
 
 export interface CadastrarFuncionario {
@@ -15,16 +15,15 @@ export interface CadastrarFuncionario {
   senha: string;
 
   avatar: string;
-  cargo: string;
+  cargo: number;
 }
 
 export interface EditarFuncionario {
   id: string;
-  nome: string;
-  cpf: String;
-
-  avatar: string;
-  cargo: string;
+  nome?: string;
+  cpf?: string;
+  avatar?: string;
+  cargo?: number | null;
 }
 
 export interface SelecionarPorId {
@@ -36,7 +35,7 @@ export interface SelecionarPorId {
   email?: string;
 
   avatar: string;
-  cargo: string;
+  cargo: number;
 }
 
 export interface ConfigurarAtendimentoRequest {

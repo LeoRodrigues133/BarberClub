@@ -41,11 +41,10 @@ public class EditarFuncionarioRequestHandler(
         if (request.cargo.HasValue)
         {
             var rolesAtuais = await _userManager.GetRolesAsync(funcionarioSelecionado.Usuario);
-
             if (rolesAtuais.Any())
                 await _userManager.RemoveFromRolesAsync(funcionarioSelecionado.Usuario, rolesAtuais);
 
-            var nomeCargo = request.cargo.ToString();
+            var nomeCargo = request.cargo.Value.ToString();
             await _userManager.AddToRoleAsync(funcionarioSelecionado.Usuario, nomeCargo);
         }
 

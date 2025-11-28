@@ -23,13 +23,19 @@ public class SelecionarFuncionariosRequestHandler(
             var usuario = await _userManager.FindByIdAsync(registro.UsuarioId.ToString());
 
             var roles = await _userManager.GetRolesAsync(usuario);
-            var cargo = roles.FirstOrDefault();
+            var cargoString = roles.FirstOrDefault();
+
+            if (cargoString is null)
+                return Result.Fail("Cargo não encontrado para o registro");
+
+            if (!Enum.TryParse<EnumCargo>(cargoString, true, out var cargoEnum))
+                return Result.Fail($"Cargo '{cargoString}' não é válido");
 
             funcionarios.Add(new SelecionarFuncionariosDto(
                 registro.Id,
                 registro.Nome,
                 registro.Cpf,
-                cargo!,
+                cargoEnum,
                 registro.Usuario!.Email!,
                 registro.TempoAtendimento,
                 registro.TempoIntervalo

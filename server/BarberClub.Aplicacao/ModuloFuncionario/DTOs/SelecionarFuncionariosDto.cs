@@ -6,7 +6,7 @@ public record SelecionarFuncionariosDto(
     Guid id,
     string nome,
     string cpf,
-    string cargo,
+    EnumCargo cargo,
     string email,
     int tempoAtendimento,
     int tempoIntervalo);

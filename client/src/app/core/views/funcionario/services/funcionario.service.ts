@@ -61,7 +61,7 @@ export class FuncionarioService extends BaseHttpService {
   }
 
   public GerarHorarios(id: string, dados: CadastrarVariosHorariosRequest)
-    : Observable<CadastrarVariosHorariosRequest>  {
+    : Observable<CadastrarVariosHorariosRequest> {
     const urlCompleto = `${this.API_URL}/${id}/gerar-horarios`;
 
     return this.http.post<HttpResponse>(urlCompleto, dados)

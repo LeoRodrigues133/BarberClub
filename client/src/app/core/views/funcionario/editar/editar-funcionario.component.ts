@@ -49,7 +49,6 @@ export class EditarFuncionarioComponent implements OnInit {
       nome: [
         '',
         [
-          Validators.required,
           Validators.minLength(3),
           Validators.maxLength(50),
         ],
@@ -60,7 +59,6 @@ export class EditarFuncionarioComponent implements OnInit {
       userName: [
         '',
         [
-          Validators.required,
           Validators.minLength(3),
           Validators.maxLength(30),
         ],
@@ -77,12 +75,7 @@ export class EditarFuncionarioComponent implements OnInit {
           Validators.email
         ],
       ],
-      cargo: [
-        Cargo.Funcionario,
-        [
-          Validators.required
-        ]
-      ]
+      cargo:[null]
     })
   }
   ngOnInit(): void {
@@ -92,10 +85,13 @@ export class EditarFuncionarioComponent implements OnInit {
   }
 
   public editar() {
+    if (this.form.invalid) return;
+
     const id = this.route.snapshot.params['id'];
 
     const request = this.form.value as EditarFuncionario;
 
+    console.log(request)
     this.funcionarioService.Editar(id, request).subscribe({
       next: () => this.processarSucesso(),
       error: (erro) => this.processarFalha(erro)
@@ -103,15 +99,13 @@ export class EditarFuncionarioComponent implements OnInit {
   }
 
   private processarSucesso(): void {
-    this.toastr.sucesso(`Funcionario editado(a) com sucesso!`);
-
+    this.toastr.sucesso('Funcionario editado(a) com sucesso!');
     this.router.navigate(['/employees', 'listar']);
   }
 
   private processarFalha(erro: Error): any {
     this.toastr.erro(erro.message);
   }
-
 
   get nome() {
     return this.form.get('nome');

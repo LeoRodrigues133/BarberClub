@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { HasPermissionDirective } from '../../../../tenant/directives/has-permission.directive';
 import { Permission } from '../../../../tenant/constants/permissions';
+import { CARGOS_OPTIONS } from '../cadastro/cadastrar-funcionario.component';
 @Component({
   selector: 'app-listar-funcionario',
   imports: [
@@ -33,5 +34,14 @@ export class ListarFuncionarioComponent implements OnInit {
 
     this.funcionarios = this.route.snapshot.data['funcionarios'];
 
+  }
+
+  obterNomeCargo(cargoNumero: number | null | undefined): string {
+    if (cargoNumero === null || cargoNumero === undefined) {
+      return 'Não definido';
+    }
+
+    const cargo = CARGOS_OPTIONS.find(c => c.valor === cargoNumero);
+    return cargo ? cargo.label : 'Cargo desconhecido';
   }
 }

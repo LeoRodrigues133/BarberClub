@@ -22,16 +22,19 @@ public class SelecionarFuncionarioPorIdRequestHandler(
             return Result.Fail("Registro não escontrado");
 
         var roles = await _userManager.GetRolesAsync(funcionarioSelecionado.Usuario!);
-        var cargo = roles.FirstOrDefault();
+        var cargoString = roles.FirstOrDefault();
 
-        if (cargo is null)
+        if (cargoString is null)
             return Result.Fail("Cargo não encontrado para o registro");
+
+        if (!Enum.TryParse<EnumCargo>(cargoString, true, out var cargoEnum))
+            return Result.Fail($"Cargo '{cargoString}' não é válido");
 
         var resposta = new SelecionarFuncionarioPorIdResponse(
             funcionarioSelecionado.Id,
             funcionarioSelecionado.Nome,
             funcionarioSelecionado.Cpf,
-            cargo,
+            cargoEnum,
             funcionarioSelecionado.Usuario!.Email!,
             funcionarioSelecionado.TempoAtendimento,
             funcionarioSelecionado.TempoIntervalo
