@@ -15,6 +15,12 @@ public class RepositorioConfiguracaoEmOrm(IContextoPersistencia _context)
         return configuracaoEmpresa.Id;
     }
 
+    public async Task<ConfiguracaoEmpresa> SelecionarPorIdAsync(Guid id)
+    {
+        return await _entities
+            .Include(x =>x.HorarioDeExpediente)
+            .Where(x => x.Id == id).FirstOrDefaultAsync();
+    }
     public async Task<bool> ExisteConfiguracaoAsync(Guid usuarioAdminId)
     {
         return await _entities.AnyAsync(x => x.UsuarioId == usuarioAdminId);

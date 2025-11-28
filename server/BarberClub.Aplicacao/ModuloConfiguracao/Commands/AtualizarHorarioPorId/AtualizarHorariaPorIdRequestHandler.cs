@@ -3,11 +3,15 @@ using FluentResults;
 using BarberClub.Dominio.Compartilhado;
 using BarberClub.Aplicacao.ModuloConfiguracao.Commands.AtualizarHorárioPorId;
 using BarberClub.Dominio.ModuloHorarioFuncionamento;
+using Microsoft.Extensions.Caching.Memory;
+using BarberClub.Dominio.ModuloConfiguracao;
 
 namespace BarberClub.Aplicacao.ModuloConfiguracao.Commands.AtualizarHorarioPorId;
 
 public class AtualizarHorariaPorIdRequestHandler(
     IRepositorioHorarioFuncionamento _repositorioHorarioFuncionamento,
+    IRepositorioConfiguracao _repositorioConfiguracao,
+    IMemoryCache _cache,
     IContextoPersistencia _context)
     : IRequestHandler<AtualizarHorarioPorIdRequest, Result<AtualizarHorarioPorIdResponse>>
 {
@@ -18,11 +22,21 @@ public class AtualizarHorariaPorIdRequestHandler(
 
         if (horarioSelecionado is null)
             return Result.Fail("Horario não encontrado");
+
+        var configuracao = await _repositorioConfiguracao
+            .SelecionarPorIdAsync(horarioSelecionado.ConfiguracaoEmpresaId);
+
+        if(configuracao is null)
+            return Result.Fail("Configuração não encontrado");
+
+        AtualizarHorarioSelecionado(request, horarioSelecionado);
+
         try
         {
-            AtualizarHorarioSelecionado(request, horarioSelecionado);
-
             await _repositorioHorarioFuncionamento.EditarAsync(horarioSelecionado);
+
+            _cache.Remove($"configuracao-{configuracao.UsuarioId}");
+
 
             await _context.GravarAsync();
         }

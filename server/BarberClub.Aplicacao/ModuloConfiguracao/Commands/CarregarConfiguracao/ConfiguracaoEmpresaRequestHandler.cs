@@ -69,6 +69,7 @@ public class CarregarConfiguracaoRequestHandler(
             configuracao.Ativo,
             configuracao.DataCriacao,
             configuracao.HorarioDeExpediente
+                .OrderBy(x => x.DiaSemana)
                 .Select(h => new HorarioFuncionamentoDto(
                     h.Id,
                     h.DiaSemana.ToString(),

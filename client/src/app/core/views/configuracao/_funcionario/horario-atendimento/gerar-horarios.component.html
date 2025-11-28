@@ -1,0 +1,23 @@
+<div class="gerar-horarios-container">
+  <h2>Gerar Horários</h2>
+
+  <!-- Passa a configuração para o componente de calendário -->
+  <app-filtro-chips
+    [configuracao]="configuracaoHorarios"
+    (diaSelecionado)="onDataSelecionada($event)">
+  </app-filtro-chips>
+
+  <div class="info-horarios">
+    <h3>Configuração de Horários</h3>
+  </div>
+
+  <div class="data-selecionada" *ngIf="dataSelecionada">
+    <p>
+      Data selecionada:
+      <strong>
+        {{ dataSelecionada!.diaDaSemana }},
+        {{ dataSelecionada!.dia }}/{{ dataSelecionada!.mes }}/{{ dataSelecionada!.ano }}
+      </strong>
+    </p>
+  </div>
+</div>
