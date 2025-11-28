@@ -22,8 +22,8 @@ export class FuncionarioService extends BaseHttpService {
       .pipe(map(this.processarDados), catchError(this.processarFalha))
   }
 
-  public Editar(id: string, registroEditado: any): Observable<EditarFuncionario> {
-    const urlCompleto = `$${this.API_URL}/editar/${id}`;
+  public Editar(id: string, registroEditado: EditarFuncionario): Observable<EditarFuncionario> {
+    const urlCompleto = `${this.API_URL}/editar/${id}`;
 
     return this.http.put<HttpResponse>(urlCompleto, registroEditado)
       .pipe(map(this.processarDados),

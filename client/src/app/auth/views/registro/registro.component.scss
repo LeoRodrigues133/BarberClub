@@ -1,38 +1,6 @@
-
-.dicas {
+:host {
   display: flex;
-  gap: 6px;
-  flex-wrap: nowrap;
-  margin-top: 5px;
-
-  span {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 12px;
-    transition: all 0.3s ease;
-
-    mat-icon {
-      font-size: 16px;
-      width: 16px;
-      height: 16px;
-    }
-
-    &.invalido {
-      color: #f44336;
-
-      mat-icon {
-        color: #f44336;
-      }
-    }
-
-    &.valido {
-      color: #4caf50;
-      font-weight: 500;
-
-      mat-icon {
-        color: #4caf50;
-      }
-    }
-  }
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
 }

@@ -69,6 +69,6 @@ export class AuthService {
   }
 
   protected processarFalha(resposta: HttpErrorResponse): Observable<never> {
-    return throwError(() => new Error(resposta.error.errors[0]));
+    return throwError(() => new Error(resposta.error.Errors[0]));
   }
 }

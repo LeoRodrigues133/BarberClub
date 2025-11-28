@@ -37,6 +37,7 @@ public class FuncionarioController(IMediator _mediator) : ControllerBase
             id,
             request.nome,
             request.cpf,
+            request.email,
             request.cargo);
 
         var result = await _mediator.Send(editarRequest);

@@ -53,7 +53,6 @@ export class CadastrarFuncionarioComponent {
       ],
       cpf: [
         '',
-        Validators.required
       ],
       userName: [
         '',
@@ -66,9 +65,6 @@ export class CadastrarFuncionarioComponent {
       password: [
         '',
         [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(30),
           VerificarCadeiaSenha(),
         ],
       ],

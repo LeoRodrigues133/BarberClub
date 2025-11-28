@@ -1,86 +1,110 @@
-<!-- listar-funcionario.component.html -->
 <div class="dashboard-container">
-  <mat-card class="header-card">
+
+  <!-- HEADER DA LISTA -->
+  <mat-card class="no-card-appearence mb-4">
     <mat-card-header>
-      <div class="header-with-actions">
-        <div>
-          <mat-card-title>Funcionários</mat-card-title>
-          <mat-card-subtitle>Gerencie seus colaboradores</mat-card-subtitle>
-        </div>
-        <div class="header-actions">
-          <button
-            *appHasPermission="Permission.ADMIN_PERMISSION"
-            mat-raised-button
-            color="primary"
-            routerLink="/employees/cadastrar">
-            <mat-icon>add</mat-icon>
-            Novo Funcionário
-          </button>
-        </div>
+      <mat-card-title class="fs-3 fw-bold text-primary">
+        Funcionários
+      </mat-card-title>
+      <mat-card-subtitle class="text-secondary">
+        Gerencie seus colaboradores
+      </mat-card-subtitle>
+
+      <div class="d-flex justify-content-end w-100 mt-3">
+        <button
+          mat-raised-button
+          class="btn-destaque d-flex align-items-center gap-1"
+          routerLink="/employees/cadastrar">
+          <mat-icon>add</mat-icon>
+          Novo Funcionário
+        </button>
       </div>
     </mat-card-header>
   </mat-card>
 
-  <mat-card class="funcionario-card no-card-appearence" *ngFor="let funcionario of funcionarios">
-    <mat-card-header>
-      <div class="header-content">
-        <div class="avatar-container">
-          <img [src]="funcionario.avatar" [alt]="funcionario.nome" class="avatar">
-        </div>
-        <div class="header-info">
-          <mat-card-title>{{ funcionario.nome }}</mat-card-title>
-          <mat-card-subtitle>{{ funcionario.cargo }}</mat-card-subtitle>
-        </div>
+  <!-- CARD DO FUNCIONÁRIO -->
+  <mat-card class="funcionario-card no-card-appearence"
+            *ngFor="let funcionario of funcionarios">
+
+    <!-- HEADER -->
+    <div class="func-header">
+      <img class="avatar" [src]="funcionario.avatar" />
+
+      <div class="header-text">
+        <h2 class="nome">{{ funcionario.nome }}</h2>
+        <p class="cargo">{{ funcionario.cargo }}</p>
       </div>
-    </mat-card-header>
+
+      <button mat-icon-button class="more-btn" [routerLink]="['/employees','visualizar', funcionario.id]">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </div>
 
     <mat-divider></mat-divider>
 
-    <mat-card-content>
-      <div class="info-section">
-        <h3>Informações do Funcionário</h3>
+    <!-- INFORMAÇÕES -->
+    <mat-card-content class="info-wrapper">
 
-        <div class="info-item">
-          <mat-icon>badge</mat-icon>
-          <div>
-            <span class="label">Nome Completo</span>
-            <span class="value">{{ funcionario.nome }}</span>
-          </div>
-        </div>
-
-        <div class="info-item">
-          <mat-icon>fingerprint</mat-icon>
-          <div>
-            <span class="label">CPF</span>
-            <span class="value">{{ funcionario.cpf }}</span>
-          </div>
-        </div>
-
-        <div class="info-item">
-          <mat-icon>work</mat-icon>
-          <div>
-            <span class="label">Cargo</span>
-            <span class="value">{{ funcionario.cargo }}</span>
-          </div>
+      <div class="info-item">
+        <mat-icon>badge</mat-icon>
+        <div>
+          <span class="label">Nome Completo: </span>
+          <span class="value">{{ funcionario.nome }}</span>
         </div>
       </div>
+
+      <div class="info-item">
+        <mat-icon>fingerprint</mat-icon>
+        <div>
+          <span class="label">CPF: </span>
+          <span class="value">{{ funcionario.cpf }}</span>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <mat-icon>mail</mat-icon>
+        <div>
+          <span class="label">Email: </span>
+          <span class="value">{{ funcionario.email }}</span>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <mat-icon>work</mat-icon>
+        <div>
+          <span class="label">Cargo: </span>
+          <span class="value">{{ funcionario.cargo }}</span>
+        </div>
+      </div>
+
     </mat-card-content>
 
     <mat-divider></mat-divider>
 
-    <mat-card-actions>
-      <button mat-button [routerLink]="['/employees','visualizar', funcionario.id]">
+    <!-- ACTIONS -->
+    <mat-card-actions class="actions-row justify-content-end">
+
+      <button mat-button class="btn-secundario gap-1"
+      *appHasPermission="Permission.ADMIN_PERMISSION"
+      [routerLink]="['/employees','visualizar', funcionario.id]">
         <mat-icon>visibility</mat-icon>
         Ver Detalhes
       </button>
-      <button mat-raised-button color="primary" [routerLink]="['/employees','editar', funcionario.id]">
+
+      <button mat-raised-button class="btn-secundario gap-1"
+      [routerLink]="['/employees','editar', funcionario.id]">
         <mat-icon>edit</mat-icon>
         Editar
       </button>
-      <button mat-raised-button color="warn" [routerLink]="['/employees','excluir',funcionario.id]">
+
+      <button mat-raised-button class="btn-secundario gap-1"
+      *appHasPermission="Permission.ADMIN_PERMISSION"
+      [routerLink]="['/employees','excluir',funcionario.id]">
         <mat-icon>delete</mat-icon>
         Excluir
       </button>
+
     </mat-card-actions>
+
   </mat-card>
 </div>

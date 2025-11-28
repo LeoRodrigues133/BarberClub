@@ -30,6 +30,7 @@ public class SelecionarFuncionariosRequestHandler(
                 registro.Nome,
                 registro.Cpf,
                 cargo!,
+                registro.Usuario!.Email!,
                 registro.TempoAtendimento,
                 registro.TempoIntervalo
             ));

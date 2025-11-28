@@ -13,6 +13,7 @@ import { UserService } from '../../services/user.service';
 import { VerificarCadeiaSenha } from '../../../core/shared/validators/senha.validators';
 import { ServicoConfiguracaoTenant } from '../../../core/views/configuracao/services/tenant-config.service';
 import { NotificacaoToastrService } from '../../../core/shared/components/notificacao/notificacao-toastr.service';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-registro',
@@ -24,6 +25,7 @@ import { NotificacaoToastrService } from '../../../core/shared/components/notifi
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatCardModule
   ],
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.scss'

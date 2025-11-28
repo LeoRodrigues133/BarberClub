@@ -1,5 +1,5 @@
 // cpf-input.component.ts
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, forwardRef } from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -37,21 +37,35 @@ import { aplicarMascaraCPF, VerificarCadeiaCpf } from '../../validators/cpf.vali
       multi: true
     }
   ],
-  templateUrl: './cpf-input.component.html',
-  styleUrl: './cpf-input.component.scss'
+  template: `
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ label }}</mat-label>
+      <input
+        matInput
+        [placeholder]="placeholder"
+        [(ngModel)]="value"
+        (input)="onInputChange($event)"
+        (blur)="onBlur()"
+        [disabled]="disabled"
+        maxlength="14"
+      >
+      <mat-icon matSuffix>badge</mat-icon>
+    </mat-form-field>
+  `
 })
 export class CpfInputComponent implements ControlValueAccessor, Validator {
-  @Input() label: string = 'CPF';
-  @Input() placeholder: string = '000.000.000-00';
-
+  label: string = 'CPF';
+  placeholder: string = '000.000.000-00';
   value: string = '';
   disabled: boolean = false;
   touched: boolean = false;
-  currentErrors: ValidationErrors | null = null;
 
   private onChange: (value: string) => void = () => { };
   private onTouched: () => void = () => { };
   private onValidatorChange: () => void = () => { };
+
+  // Instância do validator
+  private cpfValidator = VerificarCadeiaCpf();
 
   writeValue(value: string): void {
     this.value = value ? aplicarMascaraCPF(value) : '';
@@ -70,13 +84,8 @@ export class CpfInputComponent implements ControlValueAccessor, Validator {
   }
 
   validate(control: AbstractControl): ValidationErrors | null {
-    if (!control.value) {
-      this.currentErrors = null;
-      return null;
-    }
-    const errors = VerificarCadeiaCpf()(control);
-    this.currentErrors = errors;
-    return errors;
+    // Usa o validator criado
+    return this.cpfValidator(control);
   }
 
   registerOnValidatorChange(fn: () => void): void {
@@ -88,16 +97,14 @@ export class CpfInputComponent implements ControlValueAccessor, Validator {
     const mascarado = aplicarMascaraCPF(digitado);
 
     this.value = mascarado;
-
     this.onChange(mascarado);
     this.onValidatorChange();
-
-    this.touched = true;
   }
 
   onBlur(): void {
-    this.touched = true;
-    this.onTouched();
-    this.onValidatorChange();
+    if (!this.touched) {
+      this.touched = true;
+      this.onTouched();
+    }
   }
 }

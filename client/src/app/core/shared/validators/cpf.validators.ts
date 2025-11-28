@@ -9,11 +9,15 @@ export function VerificarCadeiaCpf(): ValidatorFn {
     if (!value) return null;
 
     const estaFormatado = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/.test(value);
+    const cpfVazio = value.length == 0;
+    const cpfCurto = value.length < 14;
 
 
     const erros: ValidationErrors = {};
 
     if (!estaFormatado) erros['semFormatacao'] = true;
+    if (cpfVazio) erros['cpfVazio'] = true;
+    if (cpfCurto) erros['cpfCurto'] = true;
 
     return Object.keys(erros).length > 0 ? erros : null
   }

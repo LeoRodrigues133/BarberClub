@@ -13,6 +13,7 @@ import { AutenticarUsuarioRequest, TokenResponse } from '../../models/auth.model
 import { ServicoConfiguracaoTenant } from '../../../core/views/configuracao/services/tenant-config.service';
 import { NotificacaoToastrService } from '../../../core/shared/components/notificacao/notificacao-toastr.service';
 import { Title } from '@angular/platform-browser';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,7 @@ import { Title } from '@angular/platform-browser';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
+    MatCardModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -72,7 +74,6 @@ export class LoginComponent {
 
   public entrar() {
     if (this.form.invalid) {
-      this.toastr.aviso('Usuário ou senha inválidos');
       return;
     };
 
@@ -99,11 +100,10 @@ export class LoginComponent {
         this.router.navigate(['/dashboard']);
       }
     });
-
   }
 
   private processarFalha(erro: Error) {
-    this.toastr.erro(erro.message);
+    this.toastr.aviso('Usuário ou senha inválidos');
 
   }
 }

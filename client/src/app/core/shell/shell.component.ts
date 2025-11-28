@@ -39,6 +39,7 @@ export class ShellComponent implements OnInit {
 
   visibleRoutesPublicos$!: Observable<LinkNavegacao[]>;
   visibleRoutesAutenticados$!: Observable<LinkNavegacao[]>;
+bannerPadrao: any = 'https://img.freepik.com/vetores-premium/industria-de-barbeiros-padrao-sem-costura-monocromatico_153969-8939.jpg'; //corrigir para buscar do banco dps
 
 
   constructor(

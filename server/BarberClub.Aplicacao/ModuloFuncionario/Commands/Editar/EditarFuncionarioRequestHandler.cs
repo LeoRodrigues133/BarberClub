@@ -73,6 +73,9 @@ public class EditarFuncionarioRequestHandler(
 
         }
 
+        if (!string.IsNullOrEmpty(request.email))
+            funcionarioSelecionado.Usuario.Email = request.email;
+
         if (request.cargo.HasValue)
         {
             var rolesAtuais = await _userManager.GetRolesAsync(funcionarioSelecionado.Usuario);

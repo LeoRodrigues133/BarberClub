@@ -55,7 +55,6 @@ export class EditarFuncionarioComponent implements OnInit {
       ],
       cpf: [
         '',
-        Validators.required
       ],
       userName: [
         '',
@@ -68,9 +67,6 @@ export class EditarFuncionarioComponent implements OnInit {
       password: [
         '',
         [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(30),
           VerificarCadeiaSenha(),
         ],
       ],
@@ -95,14 +91,12 @@ export class EditarFuncionarioComponent implements OnInit {
   }
 
   public editar() {
-    if (this.form.invalid) return;
-
     const id = this.route.snapshot.params['id'];
 
     const request = this.form.value as EditarFuncionario;
 
     this.funcionarioService.Editar(id, request).subscribe({
-      next: (funcionarioEditado) => this.processarSucesso(),
+      next: () => this.processarSucesso(),
       error: (erro) => this.processarFalha(erro)
     })
   }
@@ -123,12 +117,6 @@ export class EditarFuncionarioComponent implements OnInit {
   }
   get cpf() {
     return this.form.get('cpf');
-  }
-  get userName() {
-    return this.form.get('userName');
-  }
-  get password() {
-    return this.form.get('password');
   }
   get email() {
     return this.form.get('email');

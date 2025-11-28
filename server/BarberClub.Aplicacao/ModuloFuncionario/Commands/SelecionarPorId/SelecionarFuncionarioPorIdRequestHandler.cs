@@ -32,6 +32,7 @@ public class SelecionarFuncionarioPorIdRequestHandler(
             funcionarioSelecionado.Nome,
             funcionarioSelecionado.Cpf,
             cargo,
+            funcionarioSelecionado.Usuario!.Email!,
             funcionarioSelecionado.TempoAtendimento,
             funcionarioSelecionado.TempoIntervalo
             );

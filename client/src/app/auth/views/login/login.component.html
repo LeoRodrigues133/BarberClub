@@ -1,77 +1,91 @@
-<main class="container my-5">
-  <div class="row justify-content-center g-3 mt-2">
-    <div class="col col-md-10 col-lg-6">
+<div class="dashboard-container">
+  <mat-card class="no-card-appearence">
 
-      <h1 class="display-3">Login de Usuário</h1>
+    <!-- HEADER -->
+    <mat-card-header>
+      <mat-card-title class="text-primary fw-bold fs-3">
+        Login da Usuário
+      </mat-card-title>
+      <mat-card-subtitle class="text-secondary">
+        Acesse sua conta
+      </mat-card-subtitle>
+    </mat-card-header>
 
-      <hr />
+    <!-- CONTENT -->
+    <mat-card-content class="d-flex justify-content-around mt-5">
 
-      <form [formGroup]="form" (submit)="entrar()">
-        <mat-form-field class="w-100 mt-5" appearance="fill">
-          <mat-label>Nome de Usuário</mat-label>
-          <input
-            matInput
-            data-cy="userName"
-            formControlName="userName"
-            autocomplete="username"
-            placeholder="Ex: JoaoSilva12"
-            [maxlength]="30"
-          />
-          <mat-icon matSuffix color="primary">login</mat-icon>
-          <mat-error class="text-white" *ngIf="userName?.invalid">
-            <span *ngIf="userName?.errors?.['required']"
-              >O login precisa ser preenchido.</span
-            >
-            <span *ngIf="userName?.errors?.['minlength']"
-              >O login deve conter ao menos 3 caracteres.</span
-            >
-            <span *ngIf="userName?.errors?.['maxlength']"
-              >O login deve conter no máximo 30 caracteres.</span
-            >
-          </mat-error>
-        </mat-form-field>
+      <form [formGroup]="form" (ngSubmit)="entrar()">
 
-        <mat-form-field class="w-100 mt-3" appearance="fill">
-          <mat-label>Senha</mat-label>
-          <input
-            matInput
-            data-cy="password"
-            formControlName="password"
-            type="password"
-            autocomplete="current-password"
-            placeholder="A senha precisa conter ao menos 6 caracteres"
-            [maxlength]="30"
-          />
-          <mat-icon matSuffix color="primary">password</mat-icon>
-          <mat-error class="text-white" *ngIf="password?.invalid">
-            <span *ngIf="password?.errors?.['required']"
-              >A senha precisa ser preenchida.</span
-            >
-            <span *ngIf="password?.errors?.['minlength']"
-              >A senha deve conter ao menos 6 caracteres.</span
-            >
-            <span *ngIf="password?.errors?.['maxlength']"
-              >A senha deve conter no máximo 30 caracteres.</span
-            >
-          </mat-error>
-        </mat-form-field>
+        <!-- USERNAME -->
+        <div class="form-row">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Usuário</mat-label>
 
-        <div class="row justify-content-end g-2 gap-2 mt-5">
+            <input
+              matInput
+              formControlName="userName"
+              autocomplete="username"
+              maxlength="50"
+              placeholder="Ex: MasterBarbearia"
+            />
+
+            <mat-icon matPrefix>store</mat-icon>
+
+            <mat-error *ngIf="userName?.invalid">
+              <span *ngIf="userName?.errors?.['required']">Informe o nome da empresa.</span>
+              <span *ngIf="userName?.errors?.['minlength']">Mínimo de 3 caracteres.</span>
+              <span *ngIf="userName?.errors?.['maxlength']">Máximo de 50 caracteres.</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="form-row">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Senha</mat-label>
+
+            <input
+              matInput
+              formControlName="password"
+              type="password"
+              autocomplete="current-password"
+              maxlength="30"
+              placeholder="Digite sua senha"
+            />
+
+            <mat-icon matPrefix>lock</mat-icon>
+
+            <mat-error *ngIf="password?.invalid">
+              <span *ngIf="password?.errors?.['required']">A senha é obrigatória.</span>
+              <span *ngIf="password?.errors?.['minlength']">Mínimo 6 caracteres.</span>
+              <span *ngIf="password?.errors?.['maxlength']">Máximo 30 caracteres.</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="form-actions mt-4 d-flex justify-content-end gap-3">
+
+          <a mat-button routerLink="/registrar" class="btn-outline-secundario d-flex align-items-center gap-1">
+            <mat-icon>arrow_back</mat-icon>
+            Não sou cadastrado
+          </a>
+
           <button
             type="submit"
-            data-cy="submit"
-            mat-flat-button
-            class="col-sm-4"
+            mat-raised-button
+            class="btn-destaque d-flex align-items-center gap-1 px-4"
+            [disabled]="form.invalid"
           >
-            <mat-icon matIconPrefix>login</mat-icon>
-            Login
+            <mat-icon>login</mat-icon>
+            Entrar
           </button>
-          <a mat-button type="button" class="col-sm-4" routerLink="/registrar">
-            <mat-icon matIconPrefix>person_add</mat-icon>
-            Não tenho uma conta
-          </a>
+
         </div>
+
       </form>
-    </div>
-  </div>
-</main>
+
+    </mat-card-content>
+
+  </mat-card>
+</div>

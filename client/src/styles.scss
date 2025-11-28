@@ -2,53 +2,83 @@
 
 @include mat.core();
 
-// ============================================================
-// 🎨 SISTEMA DE CORES - EDITE APENAS ESTA SEÇÃO
-// ============================================================
-
 :root {
-  // Cores principais
-  --primary: #ffbd16;
-  --primary-contrast: #1a1a1a;
+  // ===== CORES DO APLICATIVO (PADRÃO NOVO) =====
 
-  --secondary: #636364;
-  --secondary-contrast: #ffffff;
+  // Botões e Destaques
+  --app-btn-destaque: rgb(255, 136, 0);
+  --app-btn-destaque-contrast: #ffffff;
+  --app-btn-destaque-hover: rgba(0, 0, 0, 0.4);
+  --app-btn-destaque-transparency: rgba(255, 136, 0, 0.2);
 
-  // Cores de feedback
+  --app-btn-secundario: rgb(84, 84, 84);
+  --app-btn-secundario-contrast: #ffffff;
+  --app-btn-secundario-hover: rgba(84, 84, 84, 0.8);
+  --app-btn-secundario-transparency: rgba(84, 84, 84, 0.3);
+
+  // Shell (Estrutura do App)
+  --app-shell-background-destaque: rgb(23, 23, 23);
+  --app-shell-background: rgba(0, 0, 0, 0.8);
+  --app-shell-text: #ffffff;
+  --app-shell-text-secondary: rgba(255, 255, 255, 0.8);
+
+  // Conteúdo Especial/Promocional
+  --app-conteudo-destaque: yellow;
+  --app-conteudo-destaque-contrast: #1a1a1a;
+
+  // ===== CORES DE FEEDBACK =====
   --success: #4caf50;
+  --success-contrast: #ffffff;
+
   --warning: #ff9800;
+  --warning-contrast: #ffffff;
+
   --error: #f44336;
+  --error-contrast: #ffffff;
+
   --info: #2196f3;
+  --info-contrast: #ffffff;
 
-  // Backgrounds
-  --bg-body: #1e1e2e;
-  --bg-surface: #2a2a3e;
-  --bg-elevated: #1a1a2e;
-  --bg-card: rgba(65, 65, 65, 0.9);
-
-  // Textos
+  // ===== TEXTOS =====
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.8);
   --text-disabled: rgba(255, 255, 255, 0.5);
+  --text-on-destaque: #ffffff;
+  --text-on-secundario: #ffffff;
 
-  // Bordas
-  --border: rgba(255, 255, 255, 0.1);
+  // ===== ÍCONES (INDEPENDENTES) =====
+  --app-icone-destaque: orange;
+  --app-icone-secundario: cyan;
+  --icon-on-btn-destaque: #ffffff;
+  --icon-on-btn-secundario: #000000;
+  --icon-default: rgba(255, 255, 255, 0.8);
+
+  // ===== BORDAS =====
+  --border-primary: var(--app-btn-destaque);
+  --border-secondary: var(--app-btn-secundario);
+  --border-default: rgba(255, 255, 255, 0.1);
+
+  // ===== INPUTS (OUTLINE) =====
+  --input-border: var(--app-btn-secundario);
+  --input-border-focus: var(--app-btn-destaque);
+  --input-background: transparent;
+  --input-text: var(--text-primary);
+  --input-label: var(--text-secondary);
+  --input-label-focus: var(--app-btn-destaque);
 }
 
 // ============================================================
-// 🎨 CONFIGURAÇÃO DO MATERIAL THEME
+// CONFIGURAÇÃO DO MATERIAL THEME
 // ============================================================
 
 html {
-  @include mat.theme((
-    color: (
-      theme-type: dark,
-      primary: mat.$orange-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
+  @include mat.theme((color: (theme-type: dark,
+        primary: mat.$orange-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    ));
 }
 
 @import "bootstrap/scss/bootstrap-reboot";
@@ -56,105 +86,130 @@ html {
 @import "bootstrap/scss/bootstrap-utilities";
 
 // ============================================================
-// 🌐 ESTILOS BASE
+// ESTILOS BASE
 // ============================================================
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: var(--bg-body);
+  background-color: var(--app-shell-background);
   color: var(--text-primary);
 }
 
 // ============================================================
-// 🎨 OVERRIDE DO MATERIAL DESIGN
+// OVERRIDE DO MATERIAL DESIGN
 // ============================================================
 
 :root {
-  --mat-sys-primary: var(--primary) !important;
-  --mat-sys-on-primary: var(--primary-contrast) !important;
-  --mat-sys-surface: var(--bg-card) !important;
+  --mat-sys-primary: var(--app-btn-destaque) !important;
+  --mat-sys-on-primary: var(--app-btn-destaque-contrast) !important;
+  --mat-sys-surface: var(--app-shell-background-destaque) !important;
   --mat-sys-on-surface: var(--text-primary) !important;
-  --mat-sys-background: var(--bg-body) !important;
+  --mat-sys-background: var(--app-shell-background) !important;
   --mat-sys-on-background: var(--text-primary) !important;
 }
 
 // ============================================================
-// 📱 SIDENAV
+// NOTIFICAÇÕES
+// ============================================================
+
+.notificacao {
+  &.sucesso {
+    --mdc-snackbar-container-color: var(--success);
+    --mdc-snackbar-supporting-text-color: var(--success-contrast);
+    --mat-snack-bar-button-color: var(--success-contrast);
+  }
+
+  &.aviso {
+    --mdc-snackbar-container-color: var(--warning);
+    --mdc-snackbar-supporting-text-color: var(--warning-contrast);
+    --mat-snack-bar-button-color: var(--warning-contrast);
+  }
+
+  &.erro {
+    --mdc-snackbar-container-color: var(--error);
+    --mdc-snackbar-supporting-text-color: var(--error-contrast);
+    --mat-snack-bar-button-color: var(--error-contrast);
+  }
+}
+
+// ============================================================
+// SIDENAV (SHELL)
 // ============================================================
 
 .mat-drawer,
 .mat-sidenav {
-  background-color: var(--bg-surface) !important;
-  color: var(--text-primary) !important;
-  border-right: 1px solid var(--border) !important;
+  background-color: var(--app-shell-background-destaque) !important;
+  color: var(--app-shell-text) !important;
+  border-right: 1px solid var(--border-default) !important;
 }
 
 .mat-drawer-header,
 .mat-sidenav-header {
-  background-color: var(--bg-elevated) !important;
-  border-bottom: 1px solid var(--border);
+  background-color: var(--app-shell-background-destaque) !important;
+  border-bottom: 1px solid var(--border-primary);
 }
 
 .mat-drawer .mat-list-item,
 .mat-sidenav .mat-list-item {
-  color: var(--text-secondary) !important;
+  color: var(--app-shell-text-secondary) !important;
 
   &:hover {
-    background-color: rgba(255, 189, 22, 0.1) !important;
-    color: var(--primary) !important;
+    background-color: var(--app-btn-destaque-transparency) !important;
+    color: var(--app-btn-destaque) !important;
 
     mat-icon {
-      color: var(--primary) !important;
+      color: var(--app-btn-destaque) !important;
     }
   }
 
   &.active {
-    background-color: rgba(255, 189, 22, 0.2) !important;
-    color: var(--primary) !important;
-    border-left: 3px solid var(--primary);
+    background-color: var(--app-btn-destaque-transparency) !important;
+    color: var(--app-btn-destaque) !important;
+    border-left: 3px solid var(--border-primary);
 
     mat-icon {
-      color: var(--primary) !important;
+      color: var(--app-btn-destaque) !important;
     }
   }
 
   mat-icon {
-    color: var(--text-secondary);
+    color: var(--icon-secondary);
   }
 }
 
 // ============================================================
-// 🎯 TOOLBAR
+// TOOLBAR (SHELL)
 // ============================================================
 
 .mat-toolbar {
-  background-color: var(--bg-elevated) !important;
-  color: var(--text-primary) !important;
-  border-bottom: 1px solid var(--border);
+  background-color: var(--app-shell-background-destaque) !important;
+  color: var(--app-shell-text) !important;
+  border-bottom: 1px solid var(--border-default);
 }
 
 .mat-toolbar button {
-  color: var(--text-primary) !important;
+  color: var(--app-shell-text) !important;
 }
 
 .mat-toolbar .toolbar-title {
-  color: var(--primary);
+  color: var(--app-btn-destaque);
 }
 
 // ============================================================
-// 🎴 CARDS
+// CARDS
 // ============================================================
 
 .mat-mdc-card {
-  background-color: var(--bg-card) !important;
+  background-color: var(--app-shell-background-destaque) !important;
   color: var(--text-primary) !important;
-  border: 1px solid var(--border) !important;
+  border: 1px solid var(--border-default) !important;
 }
 
 .mat-mdc-card-header {
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-default);
 }
 
 .mat-mdc-card-title {
@@ -166,102 +221,307 @@ html, body {
 }
 
 // ============================================================
-// 🔘 BOTÕES
+// BOTÕES
 // ============================================================
 
+// Botão Destaque (Primário)
 .btn-main-color,
 .mat-mdc-raised-button.btn-main-color,
 .btn-agendar-main,
-.mat-mdc-fab.bg-warning {
-  background: var(--primary) !important;
-  color: var(--primary-contrast) !important;
+.mat-mdc-fab.bg-warning,
+.btn-destaque {
+  background: var(--app-btn-destaque) !important;
+  color: var(--app-btn-destaque-contrast) !important;
+  border: 2px solid var(--border-primary) !important;
 
   mat-icon {
-    color: var(--primary-contrast) !important;
+    color: var(--icon-on-btn-destaque) !important;
+  }
+
+  &:hover {
+    background: var(--app-btn-destaque-hover) !important;
   }
 }
 
+// Botão Secundário
 .btn-secondary-color,
-.mat-mdc-raised-button.btn-secondary-color {
-  background: var(--secondary) !important;
-  color: var(--secondary-contrast) !important;
+.mat-mdc-raised-button.btn-secondary-color,
+.btn-secundario {
+  background: var(--app-btn-secundario) !important;
+  color: var(--app-btn-secundario-contrast) !important;
+  border: 2px solid var(--border-secondary) !important;
 
   mat-icon {
-    color: var(--secondary-contrast) !important;
+    color: var(--icon-on-btn-secundario) !important;
+  }
+
+  &:hover {
+    background: var(--app-btn-secundario-hover) !important;
+  }
+}
+
+// Botão Outline Destaque
+.btn-outline-destaque {
+  background: transparent !important;
+  color: var(--app-btn-destaque) !important;
+  border: 2px solid var(--border-primary) !important;
+
+  mat-icon {
+    color: var(--app-btn-destaque) !important;
+  }
+
+  &:hover {
+    background: var(--app-btn-destaque-transparency) !important;
+  }
+}
+
+// Botão Outline Secundário
+.btn-outline-secundario {
+  background: transparent !important;
+  color: var(--app-btn-secundario) !important;
+  border: 2px solid var(--border-secondary) !important;
+
+  mat-icon {
+    color: var(--app-btn-secundario) !important;
+  }
+
+  &:hover {
+    background: var(--app-btn-secundario-transparency) !important;
   }
 }
 
 // ============================================================
-// 🎯 ÍCONES
+// ÍCONES
 // ============================================================
 
 .mat-icon {
-  color: var(--primary);
+  color: var(--icon-primary);
 
-  &.icon-secondary { color: var(--text-secondary); }
-  &.icon-success { color: var(--success); }
-  &.icon-warning { color: var(--warning); }
-  &.icon-error { color: var(--error); }
-  &.icon-info { color: var(--info); }
+  &.icon-secondary {
+    color: var(--icon-secondary);
+  }
+
+  &.icon-success {
+    color: var(--success);
+  }
+
+  &.icon-warning {
+    color: var(--warning);
+  }
+
+  &.icon-error {
+    color: var(--error);
+  }
+
+  &.icon-info {
+    color: var(--info);
+  }
 }
 
 // ============================================================
-// 📝 FORMULÁRIOS
+// FORMULÁRIOS (OUTLINE)
 // ============================================================
 
 .mat-mdc-form-field {
+  // Outline padrão
+  --mdc-outlined-text-field-outline-color: var(--input-border);
+  --mdc-outlined-text-field-focus-outline-color: var(--input-border-focus);
+  --mdc-outlined-text-field-hover-outline-color: var(--input-border-focus);
+
+  // Label
+  --mdc-outlined-text-field-label-text-color: var(--input-label);
+  --mdc-outlined-text-field-focus-label-text-color: var(--input-label-focus);
+
+  // Input text
+  --mdc-outlined-text-field-input-text-color: var(--input-text);
+
+  // Background
+  --mdc-outlined-text-field-container-color: var(--input-background);
+
   .mat-mdc-form-field-label {
-    color: var(--text-secondary) !important;
+    color: var(--input-label) !important;
   }
 
   .mat-mdc-input-element {
-    color: var(--text-primary) !important;
+    color: var(--input-text) !important;
+  }
+
+  &.mat-focused {
+    .mat-mdc-form-field-label {
+      color: var(--input-label-focus) !important;
+    }
   }
 }
 
+// Select Outline
+.mat-mdc-select {
+  --mdc-outlined-text-field-outline-color: var(--input-border);
+  --mdc-outlined-text-field-focus-outline-color: var(--input-border-focus);
+  --mdc-outlined-text-field-hover-outline-color: var(--input-border-focus);
+}
+
+// Textarea Outline
+.mat-mdc-form-field-type-mat-input textarea {
+  background-color: var(--input-background) !important;
+}
+
 // ============================================================
-// 🎨 CLASSES UTILITÁRIAS
+// CLASSES UTILITÁRIAS
 // ============================================================
 
-.bg-primary { background-color: var(--primary) !important; }
-.bg-secondary { background-color: var(--secondary) !important; }
-.bg-success { background-color: var(--success) !important; }
-.bg-warning { background-color: var(--warning) !important; }
-.bg-error { background-color: var(--error) !important; }
+// Backgrounds
+.bg-destaque {
+  background-color: var(--app-btn-destaque) !important;
+  color: var(--app-btn-destaque-contrast) !important;
+}
 
-.text-primary { color: var(--text-primary) !important; }
-.text-secondary { color: var(--text-secondary) !important; }
-.text-disabled { color: var(--text-disabled) !important; }
+.bg-secundario {
+  background-color: var(--app-btn-secundario) !important;
+  color: var(--app-btn-secundario-contrast) !important;
+}
 
+.bg-shell-destaque {
+  background-color: var(--app-shell-background-destaque) !important;
+}
+
+.bg-shell {
+  background-color: var(--app-shell-background) !important;
+}
+
+.bg-conteudo-destaque {
+  background-color: var(--app-conteudo-destaque) !important;
+  color: var(--app-conteudo-destaque-contrast) !important;
+}
+
+.bg-success {
+  background-color: var(--success) !important;
+  color: var(--success-contrast) !important;
+}
+
+.bg-warning {
+  background-color: var(--warning) !important;
+  color: var(--warning-contrast) !important;
+}
+
+.bg-error {
+  background-color: var(--error) !important;
+  color: var(--error-contrast) !important;
+}
+
+// Textos
+.text-primary {
+  color: var(--text-primary) !important;
+}
+
+.text-secondary {
+  color: var(--text-secondary) !important;
+}
+
+.text-disabled {
+  color: var(--text-disabled) !important;
+}
+
+.text-destaque {
+  color: var(--app-btn-destaque) !important;
+}
+
+.text-secundario {
+  color: var(--app-btn-secundario) !important;
+}
+
+// Bordas
+.border-destaque {
+  border: 2px solid var(--border-primary) !important;
+}
+
+.border-secundario {
+  border: 2px solid var(--border-secondary) !important;
+}
+
+.border-default {
+  border: 1px solid var(--border-default) !important;
+}
+
+// Dividers
 .mat-divider {
-  border-top-color: var(--border) !important;
+  border-top-color: var(--border-default) !important;
 }
 
 hr {
-  border-color: var(--border);
+  border-color: var(--border-default);
 }
 
-.dashboard-container{
- min-height: 100vh;
- background-color: rgba(0,0,0,.8);
- width: 60%;
+// ============================================================
+// CONTAINERS E LAYOUTS
+// ============================================================
+
+.dashboard-container {
+  min-height: 100vh;
+  background-color: var(--app-shell-background);
+  width: 60%;
 }
 
-.cards-container{
+.cards-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
 }
 
-.btn-logout{
+.btn-logout {
   width: 40px !important;
-  height: 90px !important;
-  position:absolute !important;
+  height: 92px !important;
+  position: absolute !important;
   right: -25px !important;
+  top: -1px !important;
   border-radius: 14px !important;
+  border: solid 2px rgba(192, 192, 192, 0.3) !important;
 }
 
-.no-card-appearence{
+.no-card-appearence {
   background-color: transparent !important;
+  border: none !important;
+}
+
+// ============================================================
+// COMPONENTES PERSONALIZADOS
+// ============================================================
+
+
+.dicas {
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+  margin-top: 5px;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    transition: all 0.3s ease;
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
+
+    &.invalido {
+      color: #f44336;
+
+      mat-icon {
+        color: #f44336;
+      }
+    }
+
+    &.valido {
+      color: #4caf50;
+      font-weight: 500;
+
+      mat-icon {
+        color: #4caf50;
+      }
+    }
+  }
 }

@@ -12,6 +12,9 @@ export function VerificarCadeiaSenha(): ValidatorFn {
     const temCaracteresMinusculo = /[a-z]+/.test(value);
     const temCaracteresEspeciais = /[^A-Za-z0-9]+/.test(value);
     const temCaracteresNumericos = /[0-9]+/.test(value);
+    const senhaCurta = value.length > 6
+    const senhaLonga = value.length < 30
+    const senhaVazio = value.length == 0
 
     const erros: ValidationErrors = {};
 
@@ -19,6 +22,10 @@ export function VerificarCadeiaSenha(): ValidatorFn {
     if (!temCaracteresMinusculo) erros['semMinuscula'] = true;
     if (!temCaracteresNumericos) erros['semNumero'] = true;
     if (!temCaracteresEspeciais) erros['semEspecial'] = true;
+    if (!senhaCurta) erros['senhaCurta'] = true;
+    if (!senhaLonga) erros['senhaLonga'] = true;
+    if (senhaVazio) erros['senhaVazio'] = true;
+
 
     return Object.keys(erros).length > 0 ? erros : null
   }
