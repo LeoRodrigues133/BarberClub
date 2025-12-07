@@ -5,6 +5,8 @@ import { ExcluirServicoComponent } from "./excluir/excluir-servico.component";
 import { DetalharServicoResolver } from "./services/detalhar-servico.resolver";
 import { ListarServicoResolver } from "./services/listar-servico.resolver";
 import { CadastrarServicoComponent } from "./cadastrar/cadastrar-servico.component";
+import { DetalharFuncionarioResolver } from "../funcionario/services/detalhar-funcionario.resolver";
+import { listarFuncionarioResolver } from "../funcionario/services/listar-funcionario.resolver";
 
 export const servicoRoutes: Routes = [
   {
@@ -16,7 +18,8 @@ export const servicoRoutes: Routes = [
     path: 'listar',
     component: ListarServicoComponent,
     resolve: {
-      servicos: ListarServicoResolver
+      servicos: ListarServicoResolver,
+      funcionarios: listarFuncionarioResolver
     }
   },
   {

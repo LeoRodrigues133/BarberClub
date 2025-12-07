@@ -16,6 +16,7 @@ export interface EditarServicoRequest {
 
 export interface SelecionarServicosRequest {
   id: string;
+  funcionarioId: string;
   titulo: string;
   valorFinal: number;
   duracao?: number,

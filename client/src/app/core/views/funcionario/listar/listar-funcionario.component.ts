@@ -9,7 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { HasPermissionDirective } from '../../../../tenant/directives/has-permission.directive';
 import { Permission } from '../../../../tenant/constants/permissions';
-import { CARGOS_OPTIONS } from '../cadastro/cadastrar-funcionario.component';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { CargoPipe } from '../../../shared/pipes/carco.pipe';
 @Component({
   selector: 'app-listar-funcionario',
   imports: [
@@ -19,14 +20,19 @@ import { CARGOS_OPTIONS } from '../cadastro/cadastrar-funcionario.component';
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
-    HasPermissionDirective
-  ],
+    HasPermissionDirective,
+    MatFormFieldModule,
+    CargoPipe
+],
   templateUrl: './listar-funcionario.component.html',
   styleUrl: './listar-funcionario.component.scss'
 })
 export class ListarFuncionarioComponent implements OnInit {
   funcionarios: ListagemFuncionario[] = [];
   Permission = Permission;
+  mockAvatarProvisorio: string =
+  'https://media-gru2-1.cdn.whatsapp.net/v/t61.24694-24/457745570_1361301841514474_4871248558438884836_n.jpg?ccb=11-4&oh=01_Q5Aa3AHMhJIZfBstkgzFcYE9zc9yITIn3_ETh9Zn3k0vacSqWQ&oe=693A2E01&_nc_sid=5e03e0&_nc_cat=100'
+
 
   constructor(private route: ActivatedRoute) { }
 
@@ -34,14 +40,5 @@ export class ListarFuncionarioComponent implements OnInit {
 
     this.funcionarios = this.route.snapshot.data['funcionarios'];
 
-  }
-
-  obterNomeCargo(cargoNumero: number | null | undefined): string {
-    if (cargoNumero === null || cargoNumero === undefined) {
-      return 'Não definido';
-    }
-
-    const cargo = CARGOS_OPTIONS.find(c => c.valor === cargoNumero);
-    return cargo ? cargo.label : 'Cargo desconhecido';
   }
 }

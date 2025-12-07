@@ -7,4 +7,5 @@ public record SelecionarServicosDto(
     decimal valor,
     decimal valorFinal,
     int? porcentagemPromocional,
-    int? duracao);
+    int? duracao,
+    bool ativo);

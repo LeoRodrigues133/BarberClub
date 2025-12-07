@@ -28,7 +28,8 @@ public class SelecionarServicosRequestHandler(
                 x.Valor,
                 x.ValorFinal,
                 x.PorcentagemPromocao,
-                x.Duracao
+                x.Duracao,
+                x.Ativo
             )).ToList()
         };
         return Result.Ok(resposta);

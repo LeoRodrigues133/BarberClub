@@ -1,93 +1,177 @@
 <div class="dashboard-container">
   <mat-card class="no-card-appearence">
+
+    <!-- HEADER -->
     <mat-card-header>
-      <div class="header-with-actions">
-        <div>
-          <mat-card-title>Serviços</mat-card-title>
-          <mat-card-subtitle>Gerencie os serviços oferecidos</mat-card-subtitle>
+      <div class="d-flex justify-content-between align-items-center w-100">
+        <div class="d-flex align-items-center gap-3">
+          <mat-icon class="icon-destaque icon-header">medical_services</mat-icon>
+          <div>
+            <mat-card-title class="text-primary m-0">Serviços</mat-card-title>
+            <mat-card-subtitle class="m-0">Gerencie os serviços por funcionário</mat-card-subtitle>
+          </div>
         </div>
-        <div class="header-actions">
-          <button *appHasPermission="Permission.EMPLOYEE_PERMISSION" mat-raised-button color="primary" routerLink="/services/cadastrar">
-            <mat-icon>add</mat-icon>
-            Novo Serviço
-          </button>
-        </div>
+        <button *appHasPermission="Permission.EMPLOYEE_PERMISSION" mat-raised-button class="btn-destaque"
+          routerLink="/services/cadastrar">
+          <mat-icon>add</mat-icon>
+          Novo Serviço
+        </button>
       </div>
     </mat-card-header>
 
-    <mat-card-content>
+    <mat-card-content class="mt-4">
 
-      <mat-divider></mat-divider>
+      <!-- ACCORDION DE FUNCIONÁRIOS -->
+      <mat-accordion *ngIf="funcionariosComServicos.length; else semFuncionarios">
+        <mat-expansion-panel *ngFor="let item of funcionariosComServicos" class="mb-3">
 
-      <!-- Lista de Serviços -->
-      <div class="servicos-list" *ngIf="Servicos?.length; else semServicos">
-        <mat-card class="servico-card" *ngFor="let servico of Servicos" [class.inativo]="!servico.ativo">
+          <!-- HEADER DO ACCORDION -->
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div class="d-flex align-items-center gap-3 w-100">
+                <img class="funcionario-avatar rounded-circle border-destaque" [src]="mockAvatarProvisorio"
+                  alt="Avatar" />
 
-          <div class="servico-header">
-            <div class="servico-info">
-              <h3 class="servico-nome">{{ servico.titulo }}</h3>
-            </div>
-            <div class="servico-status">
-              <mat-chip [color]="servico.ativo ? 'primary' : ''">
-                <mat-icon matListItemIcon>{{ servico.ativo ? 'cancel' : 'check_circle' }}</mat-icon>
-                {{ servico.ativo ? 'Inativo' : 'Ativo' }}
-              </mat-chip>
-            </div>
-          </div>
+                <div class="flex-grow-1">
+                  <h3 class="funcionario-nome text-primary m-0 fw-semibold">
+                    {{ item.funcionario.nome }}
+                  </h3>
+                  <p class="funcionario-cargo text-secondary m-0 mt-1">
+                    <mat-icon class="icon-secundario icon-cargo">work</mat-icon>
+                    {{ item.funcionario.cargo | cargo }}
+                  </p>
+                </div>
 
-          <mat-divider></mat-divider>
-
-          <div class="servico-details">
-
-            <div class="detail-item">
-              <mat-icon>schedule</mat-icon>
-              <div>
-                <span class="label">Duração</span>
-                <span class="value">{{ servico.duracao || '-' }} min</span>
+                <span class="badge bg-secundario fw-normal servicos-badge">
+                  <mat-icon class="icon-badge">content_cut</mat-icon>
+                  {{ item.servicos.length || 0 }}
+                  Serviços
+                </span>
               </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <!-- CONTEÚDO DO ACCORDION - TABELA DE SERVIÇOS -->
+          <div class="servicos-content p-4">
+
+            <!-- SE TEM SERVIÇOS -->
+            <div *ngIf="item.servicos.length; else semServicos" class="table-container">
+              <table mat-table [dataSource]="dataS[item.funcionario.nome] || item.servicos" class="servicos-table">
+
+                <!-- Coluna: Serviço -->
+                <ng-container matColumnDef="servico">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <div class="d-flex align-items-center gap-2">
+                      <mat-icon class="icon-secundario icon-table-header">label</mat-icon>
+                      <span>SERVIÇO</span>
+                    </div>
+                  </th>
+                  <td mat-cell *matCellDef="let servico">
+                    <span class="text-primary">{{ servico.titulo }}</span>
+                  </td>
+                </ng-container>
+
+                <!-- Coluna: Valor -->
+                <ng-container matColumnDef="valor">
+                  <th mat-header-cell *matHeaderCellDef class="text-center">
+                    <div class="d-flex align-items-center justify-content-center gap-2">
+                      <mat-icon class="icon-secundario icon-table-header">payments</mat-icon>
+                      <span>VALOR</span>
+                    </div>
+                  </th>
+                  <td mat-cell *matCellDef="let servico" class="text-center">
+                    <span class="valor-cell text-success">
+                      {{ servico.valorFinal | currency: 'BRL' }}
+                    </span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="duracao">
+                  <th mat-header-cell *matHeaderCellDef class="text-center hide-on-slide">
+                    <div class="d-flex align-items-center justify-content-center gap-2">
+                      <mat-icon class="icon-secundario icon-table-header">schedule</mat-icon>
+                      <span>DURAÇÃO</span>
+                    </div>
+                  </th>
+                  <td mat-cell *matCellDef="let servico" class="text-center hide-on-slide">
+                    <span class="text-secondary">{{ servico.duracao }} min</span>
+                  </td>
+                </ng-container>
+
+                <!-- Coluna: Status -->
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef class="text-center">
+                    <div class="d-flex align-items-center justify-content-center gap-2">
+                      <mat-icon class="icon-secundario icon-table-header">toggle_on</mat-icon>
+                      <span>STATUS</span>
+                    </div>
+                  </th>
+                  <td mat-cell *matCellDef="let servico" class="text-center">
+                    <span class="badge status-badge" [ngClass]="servico.ativo ? 'bg-success' : 'bg-error'">
+                      <mat-icon class="icon-status">
+                        {{ servico.ativo ? 'check_circle' : 'cancel' }}
+                      </mat-icon>
+                      {{ servico.ativo ? 'Ativo' : 'Inativo' }}
+                    </span>
+                  </td>
+                </ng-container>
+
+                <!-- Coluna: Ações -->
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef class="text-center">
+                    <div class="d-flex align-items-center justify-content-center gap-2">
+                      <mat-icon class="icon-secundario icon-table-header">settings</mat-icon>
+                      <span>AÇÕES</span>
+                    </div>
+                  </th>
+                  <td mat-cell *matCellDef="let servico" class="text-center">
+                    <button mat-mini-fab class="btn-outline-secundario" [routerLink]="['/services', servico.id]">
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="['servico','valor','duracao','status','action']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['servico','valor','duracao','status','action']"
+                  class="servico-row"></tr>
+              </table>
             </div>
 
-            <div class="detail-item">
-              <mat-icon>payments</mat-icon>
-              <div>
-                <span class="label">Valor</span>
-                <span class="value price">{{ servico.valorFinal | currency: 'BRL' }}</span>
+            <!-- SE NÃO TEM SERVIÇOS -->
+            <ng-template #semServicos>
+              <div class="empty-servicos text-center py-4">
+                <mat-icon class="icon-secundario icon-empty">medical_services</mat-icon>
+                <p class="text-secondary m-0 mt-3 mb-3 empty-text">
+                  Nenhum serviço cadastrado para <strong>{{ item.funcionario.nome }}</strong>
+                </p>
+                <button mat-raised-button class="btn-destaque" routerLink="/services/cadastrar"
+                  *appHasPermission="Permission.EMPLOYEE_PERMISSION">
+                  <mat-icon>add</mat-icon>
+                  Adicionar Serviço
+                </button>
               </div>
-            </div>
-
+            </ng-template>
 
           </div>
+        </mat-expansion-panel>
+      </mat-accordion>
 
-          <mat-divider></mat-divider>
-
-          <div class="servico-actions">
-            <button mat-button [routerLink]="['/services', servico.id]" disabled>
-              <mat-icon>visibility</mat-icon>
-              Detalhes
-            </button>
-            <button mat-button color="primary" [routerLink]="['/services','editar', servico.id]"
-            *appHasPermission="Permission.EMPLOYEE_PERMISSION">
-              <mat-icon>edit</mat-icon>
-              Editar
-            </button>
-            <button mat-button color="warn" [routerLink]="['/services','excluir', servico.id]"
-            *appHasPermission="Permission.EMPLOYEE_PERMISSION">
-              <mat-icon>delete</mat-icon>
-              Excluir
-            </button>
-          </div>
-        </mat-card>
-      </div>
-
-      <!-- Mensagem quando não há serviços -->
-      <ng-template #semServicos>
-        <div class="empty-state">
-          <mat-icon>medical_services</mat-icon>
-          <h3>Nenhum serviço encontrado</h3>
-          <p>Comece cadastrando seu primeiro serviço</p>
+      <!-- SE NÃO TEM FUNCIONÁRIOS -->
+      <ng-template #semFuncionarios>
+        <div class="empty-state text-center py-5">
+          <mat-icon class="icon-secundario icon-empty-large">group</mat-icon>
+          <h3 class="text-secondary mt-4 mb-2 empty-title">
+            Nenhum funcionário encontrado
+          </h3>
+          <p class="text-secondary empty-subtitle">
+            Cadastre funcionários para gerenciar seus serviços
+          </p>
+          <button mat-raised-button class="btn-destaque mt-3" routerLink="/employees/cadastrar">
+            <mat-icon>person_add</mat-icon>
+            Cadastrar Funcionário
+          </button>
         </div>
       </ng-template>
-
 
     </mat-card-content>
   </mat-card>

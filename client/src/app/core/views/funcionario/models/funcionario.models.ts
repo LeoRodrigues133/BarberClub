@@ -1,3 +1,5 @@
+import { SelecionarServicosRequest } from "../../servico/models/servico.models";
+
 export interface ListagemFuncionario {
   id: string;
   nome: string;
@@ -48,4 +50,9 @@ export interface CadastrarVariosHorariosRequest {
   id: string;
   mes: number;
   ano: number;
+}
+
+export interface FuncionarioComServicos{
+  funcionario: SelecionarPorId;
+  servicos: SelecionarServicosRequest[];
 }

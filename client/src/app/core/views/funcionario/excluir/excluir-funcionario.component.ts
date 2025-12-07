@@ -22,7 +22,8 @@ import { NotificacaoToastrService } from '../../../shared/components/notificacao
     MatTooltipModule,
     MatDividerModule,
     MatCheckboxModule,
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './excluir-funcionario.component.html',
   styleUrl: './excluir-funcionario.component.scss'

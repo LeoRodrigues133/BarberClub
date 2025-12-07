@@ -40,8 +40,8 @@
   --info-contrast: #ffffff;
 
   // ===== TEXTOS =====
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.8);
+  --text-primary: rgb(166, 166, 166);
+  --text-secondary: #ffffff;
   --text-disabled: rgba(255, 255, 255, 0.5);
   --text-on-destaque: #ffffff;
   --text-on-secundario: #ffffff;
@@ -458,7 +458,7 @@ hr {
 .dashboard-container {
   min-height: 100vh;
   background-color: var(--app-shell-background);
-  width: 60%;
+  width: 70%;
 }
 
 .cards-container {
