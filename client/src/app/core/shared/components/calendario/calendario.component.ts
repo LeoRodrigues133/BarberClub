@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatButton, MatMiniFabButton } from "@angular/material/button";
+import { MatIconModule } from '@angular/material/icon';
 
 interface DiaCalendario {
   numero: number;
@@ -20,18 +22,22 @@ interface ConfiguracaoHorarios {
 }
 
 @Component({
-  selector: 'app-filtro-chips',
+  selector: 'app-calendario',
   imports: [
     CommonModule,
     MatChipsModule,
     FormsModule,
+    MatIconModule,
+    MatMiniFabButton
   ],
-  templateUrl: './filtro-chips.component.html',
-  styleUrl: './filtro-chips.component.scss'
+  templateUrl: './calendario.component.html',
+  styleUrl: './calendario.component.scss'
 })
-export class FiltroChipsComponent implements OnInit, OnChanges {
+export class CalendarioComponent implements OnInit, OnChanges {
+
   @Input() configuracao: ConfiguracaoHorarios = { diasFechados: [], datasFechadasEspecificas: [] };
   @Output() diaSelecionado = new EventEmitter<{ dia: number; mes: number; ano: number; diaDaSemana: string }>();
+
 
   meses: string[] = [];
   diasCalendario: DiaCalendario[] = [];
@@ -44,6 +50,8 @@ export class FiltroChipsComponent implements OnInit, OnChanges {
     this.meses = this.gerarListaDeMeses();
     this.mesSelecionado = new Date().getMonth();
     this.gerarCalendarioDoMes();
+    console.log(this.configuracao.datasFechadasEspecificas)
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {

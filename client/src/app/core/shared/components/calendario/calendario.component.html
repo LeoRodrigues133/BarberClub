@@ -2,14 +2,8 @@
   <!-- Seleção de Mês -->
   <div class="secao-meses">
     <h3 class="titulo-secao">Selecione o mês</h3>
-    <mat-chip-listbox
-      [(ngModel)]="mesSelecionado"
-      (ngModelChange)="onMesChange($event)"
-      aria-label="Seleção de mês">
-      <mat-chip-option
-        *ngFor="let mes of meses; let i = index"
-        [value]="i"
-        [selected]="i === mesSelecionado">
+    <mat-chip-listbox [(ngModel)]="mesSelecionado" (ngModelChange)="onMesChange($event)" aria-label="Seleção de mês">
+      <mat-chip-option *ngFor="let mes of meses; let i = index" [value]="i" [selected]="i === mesSelecionado">
         {{ mes }}
       </mat-chip-option>
     </mat-chip-listbox>
@@ -28,16 +22,20 @@
 
     <!-- Grade de dias -->
     <div class="calendario-grade">
-      <div
-        *ngFor="let dia of diasCalendario"
-        class="dia-cell"
-        [class.outro-mes]="!dia.mesAtual"
+      <div *ngFor="let dia of diasCalendario" class="dia-cell" [class.outro-mes]="!dia.mesAtual"
         [class.selecionado]="dia.numero === diaSelecionadoAtual && dia.mesAtual && !dia.fechado"
-        [class.hoje]="ehHoje(dia)"
-        [class.fechado]="dia.fechado && dia.mesAtual"
-        [attr.title]="dia.fechado ? 'Dia fechado' : ''"
-        (click)="onDiaClick(dia)">
+        [class.hoje]="ehHoje(dia)" [class.fechado]="dia.fechado && dia.mesAtual"
+        [attr.title]="dia.fechado ? 'Dia fechado' : ''" (click)="onDiaClick(dia)">
         <span class="numero-dia">{{ dia.numero }}</span>
+        <span class="position-absolute top-0 mt-2 w-100">
+          <button mat-mini-fab *ngIf="!dia.fechado && dia.mesAtual" class="float-end mx-2">
+            <mat-icon>close</mat-icon>
+          </button>
+          <button mat-mini-fab *ngIf="dia.fechado && dia.mesAtual" class="float-end mx-2"
+          >
+            <mat-icon>check</mat-icon>
+          </button>
+        </span>
         <span *ngIf="dia.fechado && dia.mesAtual" class="icone-fechado">🔒</span>
       </div>
     </div>

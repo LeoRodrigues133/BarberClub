@@ -1,18 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FiltroChipsComponent } from "../../../../shared/components/filtroChips/filtro-chips.component";
 import { CommonModule } from '@angular/common';
 import { AzureBlobService } from '../../services/azure-blob.service';
 import { Subject, takeUntil } from 'rxjs';
 import { HorarioFuncionamento } from '../../models/service.models';
 import { NotificacaoToastrService } from '../../../../shared/components/notificacao/notificacao-toastr.service';
+import { CalendarioComponent } from "../../../../shared/components/calendario/calendario.component";
 
 @Component({
   selector: 'app-gerar-horarios',
   standalone: true,
   imports: [
-    FiltroChipsComponent,
-    CommonModule
-  ],
+    CommonModule,
+    CalendarioComponent
+],
   templateUrl: './gerar-horarios.component.html',
   styleUrls: ['./gerar-horarios.component.scss']
 })
@@ -30,7 +30,7 @@ export class GerarHorariosComponent implements OnInit, OnDestroy {
   constructor(
     private azureBlobService: AzureBlobService,
     private toastr: NotificacaoToastrService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.carregarConfiguracaoHorarios();
@@ -53,7 +53,7 @@ export class GerarHorariosComponent implements OnInit, OnDestroy {
           this.carregando = false;
         },
         error: (err) => {
-          this.toastr.erro('Erro ao carregar configuração: '+ err);
+          this.toastr.erro('Erro ao carregar configuração: ' + err);
           this.carregando = false;
         }
       });
@@ -70,7 +70,8 @@ export class GerarHorariosComponent implements OnInit, OnDestroy {
 
     this.configuracaoHorarios = {
       diasFechados: diasFechados,
-      datasFechadasEspecificas: [], // Inicialmente vazio, pode ser populado via backend futuramente
+      datasFechadasEspecificas: ['2025-12-25'], // Inicialmente vazio, pode ser populado via backend futuramente
+                                                //formato 'ano-mes-dia' = '2025-12-25'
     };
   }
 

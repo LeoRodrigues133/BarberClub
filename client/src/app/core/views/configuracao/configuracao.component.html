@@ -5,6 +5,6 @@
   <app-nome-configuracao *appHasPermission="Permission.ADMIN_PERMISSION"></app-nome-configuracao>
   <app-horario-configuracao *appHasPermission="Permission.ADMIN_PERMISSION"></app-horario-configuracao>
   <app-tempo-atendimento *appHasPermission="Permission.EMPLOYEE_PERMISSION"></app-tempo-atendimento>
-  <app-gerar-horarios *appHasPermission="Permission.EMPLOYEE_PERMISSION"></app-gerar-horarios>
+  <app-gerar-horarios *appHasAnyPermissions="[Permission.EMPLOYEE_PERMISSION, Permission.ADMIN_PERMISSION]"></app-gerar-horarios>
 
 </div>
