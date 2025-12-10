@@ -17,10 +17,8 @@ import { CalendarioComponent } from "../../../../shared/components/calendario/ca
   styleUrls: ['./gerar-horarios.component.scss']
 })
 export class GerarHorariosComponent implements OnInit, OnDestroy {
-  dataSelecionada: { dia: number; mes: number; ano: number; diaDaSemana: string } | null = null;
   private destroy$ = new Subject<void>();
   carregando = true;
-  horariosOriginais: HorarioFuncionamento[] = [];
 
   configuracaoHorarios = {
     diasFechados: [] as number[],
@@ -34,9 +32,6 @@ export class GerarHorariosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.carregarConfiguracaoHorarios();
-    this.azureBlobService.obterConfiguracao().subscribe(config => {
-      this.configuracaoHorarios.datasFechadasEspecificas = config.datasEspecificasFechado
-    })
   }
 
   ngOnDestroy(): void {
@@ -51,8 +46,21 @@ export class GerarHorariosComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (config) => {
-          this.horariosOriginais = config.horarioDeExpediente;
-          this.montarConfiguracao(config.horarioDeExpediente);
+          console.log('Configuração carregada:', config);
+
+          const diasFechados: number[] = [];
+          config.horarioDeExpediente.forEach((horario, index) => {
+            if (horario.fechado) {
+              diasFechados.push(index);
+            }
+          });
+
+          this.configuracaoHorarios = {
+            diasFechados: diasFechados,
+            datasFechadasEspecificas: config.datasEspecificasFechado || []
+          };
+
+          console.log('Configuração montada:', this.configuracaoHorarios);
           this.carregando = false;
         },
         error: (err) => {
@@ -60,37 +68,5 @@ export class GerarHorariosComponent implements OnInit, OnDestroy {
           this.carregando = false;
         }
       });
-  }
-
-  private montarConfiguracao(horarios: HorarioFuncionamento[]): void {
-    const diasFechados: number[] = [];
-
-    horarios.forEach((horario, index) => {
-      if (horario.fechado) {
-        diasFechados.push(index);
-      }
-    });
-
-    this.configuracaoHorarios = {
-      diasFechados: diasFechados,
-      datasFechadasEspecificas: ['2025-12-25'], // Inicialmente vazio, pode ser populado via backend futuramente
-      //formato 'ano-mes-dia' = '2025-12-25'
-    };
-  }
-
-  onDataSelecionada(data: { dia: number; mes: number; ano: number; diaDaSemana: string }): void {
-    this.dataSelecionada = data;
-  }
-
-  obterNomeDiaSemana(numeroDia: number): string {
-    const dias = [
-      'Domingo',
-      'Segunda-feira',
-      'Terça-feira',
-      'Quarta-feira',
-      'Quinta-feira',
-      'Sexta-feira',
-      'Sábado'];
-    return dias[numeroDia];
   }
 }

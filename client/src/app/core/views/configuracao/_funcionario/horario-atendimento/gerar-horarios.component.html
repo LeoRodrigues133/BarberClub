@@ -3,21 +3,6 @@
 
   <!-- Passa a configuração para o componente de calendário -->
   <app-calendario
-    [configuracao]="configuracaoHorarios"
-    (diaSelecionado)="onDataSelecionada($event)">
+    [configuracao]="configuracaoHorarios">
   </app-calendario>
-
-  <div class="info-horarios">
-    <h3>Configuração de Horários</h3>
-  </div>
-
-  <div class="data-selecionada" *ngIf="dataSelecionada">
-    <p>
-      Data selecionada:
-      <strong>
-        {{ dataSelecionada!.diaDaSemana }},
-        {{ dataSelecionada!.dia }}/{{ dataSelecionada!.mes }}/{{ dataSelecionada!.ano }}
-      </strong>
-    </p>
-  </div>
 </div>
