@@ -7,6 +7,7 @@ namespace BarberClub.Aplicacao.ModuloFuncionario.Commands.Editar;
 public record EditarFuncionarioRequest(
     Guid id,
     string? nome,
+    string? nomeApresentacao,
     string? cpf,
     string? email,
     EnumCargo? cargo)

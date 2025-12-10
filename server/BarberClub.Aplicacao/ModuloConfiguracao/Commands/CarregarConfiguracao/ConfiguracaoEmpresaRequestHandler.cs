@@ -77,7 +77,12 @@ public class CarregarConfiguracaoRequestHandler(
                     h.HoraFechamento,
                     h.Fechado
                 ))
-                .ToList()
+                .ToList(),
+            configuracao.DatasEspecificasFechado
+                .OrderBy(x => x.Month)
+                .ThenBy(x => x.Day)
+                .Select(d =>
+                    d.Date).ToList()
         );
 
         _cache.Set(

@@ -3,6 +3,7 @@ import { SelecionarServicosRequest } from "../../servico/models/servico.models";
 export interface ListagemFuncionario {
   id: string;
   nome: string;
+  nomeApresentacao:string;
   cpf: String;
   email: string;
   avatar: string;
@@ -12,6 +13,7 @@ export interface ListagemFuncionario {
 export interface CadastrarFuncionario {
   nome: string;
   cpf: String;
+  nomeApresentacao?:string;
 
   login: string;
   senha: string;
@@ -23,6 +25,7 @@ export interface CadastrarFuncionario {
 export interface EditarFuncionario {
   id: string;
   nome?: string;
+  nomeApresentacao:string;
   cpf?: string;
   avatar?: string;
   cargo?: number | null;
@@ -33,7 +36,7 @@ export interface SelecionarPorId {
   nome: string;
   cpf: String;
 
-  userName: string;
+  nomeApresentacao: string;
   email?: string;
 
   avatar: string;

@@ -7,9 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { Cargo, CARGOS_OPTIONS } from '../cadastro/cadastrar-funcionario.component';
+import { CARGOS_OPTIONS } from '../cadastro/cadastrar-funcionario.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { VerificarCadeiaCpf } from '../../../shared/validators/cpf.validators';
 import { VerificarCadeiaSenha } from '../../../shared/validators/senha.validators';
 import { FuncionarioService } from '../services/funcionario.service';
 import { CpfInputComponent } from "../../../shared/components/cpfInput/cpf-input.component";
@@ -53,6 +52,13 @@ export class EditarFuncionarioComponent implements OnInit {
           Validators.maxLength(50),
         ],
       ],
+      nomeApresentacao: [
+        '',
+        [
+          Validators.minLength(1),
+          Validators.maxLength(20),
+        ],
+      ],
       cpf: [
         '',
       ],
@@ -75,7 +81,7 @@ export class EditarFuncionarioComponent implements OnInit {
           Validators.email
         ],
       ],
-      cargo:[null]
+      cargo: [null]
     })
   }
   ngOnInit(): void {
@@ -109,6 +115,9 @@ export class EditarFuncionarioComponent implements OnInit {
 
   get nome() {
     return this.form.get('nome');
+  }
+  get nomeApresentacao() {
+    return this.form.get('nomeApresentacao');
   }
   get cpf() {
     return this.form.get('cpf');

@@ -34,7 +34,7 @@ public class Funcionario : EntidadeBase
     public ConfiguracaoEmpresa? configuracaoEmpresa { get; set; }
 
 
-    public List<HorarioDisponivel> GerarHorariosDisponiveis(List<HorarioFuncionamento> horariosFuncionamento, int mes, int ano)
+    public List<HorarioDisponivel> GerarHorariosDisponiveis(ConfiguracaoEmpresa configuracao, List<HorarioFuncionamento> horariosFuncionamento, int mes, int ano)
     {
         if (TempoAtendimento <= 0)
             throw new InvalidOperationException("Duração do atendimento deve ser maior que zero");
@@ -47,8 +47,14 @@ public class Funcionario : EntidadeBase
                 continue;
 
             var diaDoMes = ObterDatas(horarioFunc.DiaSemana, mes, ano);
+
             foreach (var data in diaDoMes)
             {
+                if (configuracao
+                    .DatasEspecificasFechado
+                    .Any(x => x.Date == data.Date) == true)
+                    continue;
+
                 var horariosGerados = GerarHorariosDoDia(horarioFunc, data);
                 horariosDisponiveis.AddRange(horariosGerados);
             }
@@ -96,7 +102,7 @@ public class Funcionario : EntidadeBase
         TempoIntervalo = intervaloMinutos;
     }
 
-    private List<DateTime> ObterDatas(SemanaEnum diaEnum,int mes, int ano)
+    private List<DateTime> ObterDatas(SemanaEnum diaEnum, int mes, int ano)
     {
         var datas = new List<DateTime>();
         var diaDesejado = (int)diaEnum;

@@ -5,6 +5,7 @@ namespace BarberClub.Aplicacao.ModuloFuncionario.Commands.SelecionarPorId;
 public record SelecionarFuncionarioPorIdResponse(
     Guid id,
     string nome,
+    string nomeApresentacao,
     string cpf,
     EnumCargo cargo,
     string email,

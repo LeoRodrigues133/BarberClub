@@ -15,6 +15,7 @@ export interface ConfiguracaoEmpresa {
   ativo: boolean;
   dataCriacao: Date;
   horarioDeExpediente: HorarioFuncionamento[];
+  datasEspecificasFechado: any[];
 }
 
 export interface ImagemComToken {

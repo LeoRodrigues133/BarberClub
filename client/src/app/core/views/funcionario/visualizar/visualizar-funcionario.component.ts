@@ -10,6 +10,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips'
+import { CargoPipe } from '../../../shared/pipes/cargo.pipe';
 
 @Component({
   selector: 'app-visualizar-funcionario',
@@ -23,7 +24,8 @@ import { MatChipsModule } from '@angular/material/chips'
     MatCheckboxModule,
     FormsModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
+    CargoPipe
 
   ],
   templateUrl: './visualizar-funcionario.component.html',

@@ -1,9 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatButton, MatMiniFabButton } from "@angular/material/button";
+import { MatMiniFabButton, MatFabButton } from "@angular/material/button";
 import { MatIconModule } from '@angular/material/icon';
+import { AzureBlobService } from '../../../views/configuracao/services/azure-blob.service';
+import { NotificacaoToastrService } from '../notificacao/notificacao-toastr.service';
+import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDivider } from '@angular/material/divider';
 
 interface DiaCalendario {
   numero: number;
@@ -15,10 +22,10 @@ interface DiaCalendario {
 }
 
 interface ConfiguracaoHorarios {
-  diasFechados: number[]; // Array com os dias da semana fechados (0 = Domingo, 6 = Sábado)
-  datasFechadasEspecificas: string[]; // Array com datas específicas fechadas no formato 'YYYY-MM-DD'
-  horarioAbertura?: string; // Ex: "08:00"
-  horarioFechamento?: string; // Ex: "18:00"
+  diasFechados: number[];
+  datasFechadasEspecificas: string[];
+  horarioAbertura?: string;
+  horarioFechamento?: string;
 }
 
 @Component({
@@ -28,16 +35,20 @@ interface ConfiguracaoHorarios {
     MatChipsModule,
     FormsModule,
     MatIconModule,
-    MatMiniFabButton
-  ],
+    MatMiniFabButton,
+    MatMenuModule,
+    MatTooltipModule,
+    MatDivider
+],
   templateUrl: './calendario.component.html',
   styleUrl: './calendario.component.scss'
 })
-export class CalendarioComponent implements OnInit, OnChanges {
+export class CalendarioComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() configuracao: ConfiguracaoHorarios = { diasFechados: [], datasFechadasEspecificas: [] };
   @Output() diaSelecionado = new EventEmitter<{ dia: number; mes: number; ano: number; diaDaSemana: string }>();
 
+  private destroy$ = new Subject<void>();
 
   meses: string[] = [];
   diasCalendario: DiaCalendario[] = [];
@@ -46,18 +57,27 @@ export class CalendarioComponent implements OnInit, OnChanges {
   anoAtual: number = new Date().getFullYear();
   diasDaSemana: string[] = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
+  constructor(
+    private azureService: AzureBlobService,
+    private toastr: NotificacaoToastrService,
+    private router: Router
+  ) { }
+
   ngOnInit(): void {
     this.meses = this.gerarListaDeMeses();
     this.mesSelecionado = new Date().getMonth();
     this.gerarCalendarioDoMes();
-    console.log(this.configuracao.datasFechadasEspecificas)
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['configuracao'] && !changes['configuracao'].firstChange) {
       this.gerarCalendarioDoMes();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   public onMesChange(mesIndex: number): void {
@@ -135,11 +155,13 @@ export class CalendarioComponent implements OnInit, OnChanges {
     }
 
     const dataFormatada = this.formatarData(data);
-    if (this.configuracao.datasFechadasEspecificas.includes(dataFormatada)) {
-      return true;
-    }
 
-    return false;
+    const estaFechada = this.configuracao.datasFechadasEspecificas.some(dataFechada => {
+      const dataSemTempo = dataFechada.split('T')[0];
+      return dataSemTempo === dataFormatada;
+    });
+
+    return estaFechada;
   }
 
   private formatarData(data: Date): string {
@@ -172,5 +194,57 @@ export class CalendarioComponent implements OnInit, OnChanges {
     return dia.dataCompleta.getDate() === hoje.getDate() &&
       dia.dataCompleta.getMonth() === hoje.getMonth() &&
       dia.dataCompleta.getFullYear() === hoje.getFullYear();
+  }
+
+  FecharData(data: Date): void {
+    const ano = data.getFullYear();
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const dia = String(data.getDate()).padStart(2, '0');
+
+    const dataFormatada = `${ano}-${mes}-${dia}T00:00:00.000Z`;
+
+    this.azureService.fecharDataEspecifica(dataFormatada)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.processarSucesso();
+          this.configuracao.datasFechadasEspecificas.push(dataFormatada);
+          this.gerarCalendarioDoMes();
+        },
+        error: (erro) => this.processarFalha(erro)
+      });
+  }
+
+  AbrirData(data: Date): void {
+    const ano = data.getFullYear();
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const dia = String(data.getDate()).padStart(2, '0');
+
+    const dataFormatada = `${ano}-${mes}-${dia}T00:00:00.000Z`;
+
+    this.azureService.abrirDataEspecifica(dataFormatada)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.toastr.sucesso('Data aberta com sucesso!');
+          this.configuracao.datasFechadasEspecificas =
+            this.configuracao.datasFechadasEspecificas.filter(d => {
+              const dataSemTempo = d.split('T')[0];
+              const dataComparacao = `${ano}-${mes}-${dia}`;
+              return dataSemTempo !== dataComparacao;
+            });
+          // Regenera o calendário
+          this.gerarCalendarioDoMes();
+        },
+        error: (erro) => this.processarFalha(erro)
+      });
+  }
+
+  private processarSucesso(): void {
+    this.toastr.sucesso('Data fechada com sucesso!');
+  }
+
+  private processarFalha(erro: Error): void {
+    this.toastr.erro(erro.message);
   }
 }

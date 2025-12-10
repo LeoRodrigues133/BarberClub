@@ -106,6 +106,7 @@ public class CadastroFuncionarioRequestHandler(
         {
             UserName = request.userName,
             Email = request.email,
+            NomeApresentacao = string.IsNullOrEmpty(request.nomeApresentacao) ? request.nome : request.nomeApresentacao,
         };
 
         var resultado = await _userManager.CreateAsync(usuario, request.password);

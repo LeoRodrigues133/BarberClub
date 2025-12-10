@@ -1,0 +1,3 @@
+namespace BarberClub.Aplicacao.ModuloConfiguracao.Commands.FecharDataEspecifica;
+
+public record FecharDataEspecificaResponse(IEnumerable<string> DatasFechadas);

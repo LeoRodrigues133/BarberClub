@@ -26,16 +26,45 @@
         [class.selecionado]="dia.numero === diaSelecionadoAtual && dia.mesAtual && !dia.fechado"
         [class.hoje]="ehHoje(dia)" [class.fechado]="dia.fechado && dia.mesAtual"
         [attr.title]="dia.fechado ? 'Dia fechado' : ''" (click)="onDiaClick(dia)">
-        <span class="numero-dia">{{ dia.numero }}</span>
+
+        <span class="numero-dia fs-1">{{ dia.numero }}</span>
         <span class="position-absolute top-0 mt-2 w-100">
-          <button mat-mini-fab *ngIf="!dia.fechado && dia.mesAtual" class="float-end mx-2">
-            <mat-icon>close</mat-icon>
+
+          <!-- Botão de MAIS AÇÕES -->
+          <button mat-mini-fab matTooltip="Mais Ações" [matMenuTriggerFor]="menuAcoes" class="float-start mx-2"
+            (click)="$event.stopPropagation()">
+            <mat-icon>more_vert</mat-icon>
           </button>
-          <button mat-mini-fab *ngIf="dia.fechado && dia.mesAtual" class="float-end mx-2"
-          >
-            <mat-icon>check</mat-icon>
-          </button>
+
+          <mat-menu #menuAcoes="matMenu">
+
+            <button mat-menu-item
+              *ngIf="!dia.fechado && dia.mesAtual">
+              <mat-icon>alarm</mat-icon>
+              <span>Gerar horários</span>
+            </button>
+
+            <button mat-menu-item>
+              <mat-icon>visibility</mat-icon>
+              <span>Visualizar Horários</span>
+            </button>
+            <mat-divider></mat-divider>
+
+            <button mat-menu-item (click)="FecharData(dia.dataCompleta); $event.stopPropagation()"
+              *ngIf="!dia.fechado && dia.mesAtual">
+              <mat-icon>block</mat-icon>
+              <span>Fechar data</span>
+            </button>
+
+            <button mat-menu-item (click)="AbrirData(dia.dataCompleta); $event.stopPropagation()"
+              *ngIf="dia.fechado && dia.mesAtual">
+              <mat-icon>check</mat-icon>
+              <span>Abrir data</span>
+            </button>
+          </mat-menu>
+
         </span>
+
         <span *ngIf="dia.fechado && dia.mesAtual" class="icone-fechado">🔒</span>
       </div>
     </div>

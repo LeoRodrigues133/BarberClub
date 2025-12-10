@@ -72,6 +72,10 @@ public class EditarFuncionarioRequestHandler(
         if (!string.IsNullOrEmpty(request.nome))
             funcionarioSelecionado.Nome = request.nome;
 
+        if (!string.IsNullOrEmpty(request.nomeApresentacao))
+            funcionarioSelecionado.Usuario.NomeApresentacao = request.nomeApresentacao;
+
+
         if (!string.IsNullOrEmpty(request.cpf))
         {
             var cpfDisponivel = await VerificarCpf(request.cpf);

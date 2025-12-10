@@ -9,7 +9,7 @@ public class ServiceConfiguracao(
     IRepositorioConfiguracao _repositorioConfiguracao,
     IContextoPersistencia _context)
 {
-    public async Task<Result<ConfiguracaoEmpresa>> CriarConfiguracaoPadraoAsync(Guid usuarioId)
+    public async Task<Result<ConfiguracaoEmpresa>> CriarConfiguracaoPadraoAsync(Guid usuarioId, string nomeEmpresa)
     {
         var config = await _repositorioConfiguracao
             .SelecionarPorEmpresaIdComHorariosAsync(usuarioId);
@@ -19,7 +19,7 @@ public class ServiceConfiguracao(
             config = new ConfiguracaoEmpresa()
             {
                 UsuarioId = usuarioId,
-                NomeEmpresa = "",
+                NomeEmpresa = nomeEmpresa,
                 BannerUrl = "",
                 LogoUrl = ""
             };

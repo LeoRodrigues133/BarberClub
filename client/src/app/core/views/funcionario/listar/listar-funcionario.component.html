@@ -34,7 +34,7 @@
           {{ funcionario.cargo | cargo }}
         </p>
       </div>
-      <button mat-icon-button class="btn-outline-secundario" [routerLink]="['/employees','visualizar', funcionario.id]"
+      <button mat-mini-fab class="btn-outline-secundario" [routerLink]="['/employees','visualizar', funcionario.id]"
         *appHasPermission="Permission.ADMIN_PERMISSION">
         <mat-icon>more_vert</mat-icon>
       </button>

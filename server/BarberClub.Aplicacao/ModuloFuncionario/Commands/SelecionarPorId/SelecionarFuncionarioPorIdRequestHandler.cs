@@ -33,6 +33,7 @@ public class SelecionarFuncionarioPorIdRequestHandler(
         var resposta = new SelecionarFuncionarioPorIdResponse(
             funcionarioSelecionado.Id,
             funcionarioSelecionado.Nome,
+            funcionarioSelecionado.Usuario!.NomeApresentacao,
             funcionarioSelecionado.Cpf,
             cargoEnum,
             funcionarioSelecionado.Usuario!.Email!,

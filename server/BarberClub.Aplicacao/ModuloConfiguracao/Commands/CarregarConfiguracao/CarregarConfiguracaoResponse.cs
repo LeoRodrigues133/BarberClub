@@ -9,5 +9,6 @@ public record CarregarConfiguracaoResponse(
     string BannerUrl,
     bool Ativo,
     DateTime DataCriacao,
-    List<HorarioFuncionamentoDto> HorarioDeExpediente
+    List<HorarioFuncionamentoDto> HorarioDeExpediente,
+    List<DateTime> DatasEspecificasFechado
 );

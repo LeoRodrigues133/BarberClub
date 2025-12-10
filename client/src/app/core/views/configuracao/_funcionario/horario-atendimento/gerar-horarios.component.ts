@@ -12,7 +12,7 @@ import { CalendarioComponent } from "../../../../shared/components/calendario/ca
   imports: [
     CommonModule,
     CalendarioComponent
-],
+  ],
   templateUrl: './gerar-horarios.component.html',
   styleUrls: ['./gerar-horarios.component.scss']
 })
@@ -34,6 +34,9 @@ export class GerarHorariosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.carregarConfiguracaoHorarios();
+    this.azureBlobService.obterConfiguracao().subscribe(config => {
+      this.configuracaoHorarios.datasFechadasEspecificas = config.datasEspecificasFechado
+    })
   }
 
   ngOnDestroy(): void {
@@ -71,7 +74,7 @@ export class GerarHorariosComponent implements OnInit, OnDestroy {
     this.configuracaoHorarios = {
       diasFechados: diasFechados,
       datasFechadasEspecificas: ['2025-12-25'], // Inicialmente vazio, pode ser populado via backend futuramente
-                                                //formato 'ano-mes-dia' = '2025-12-25'
+      //formato 'ano-mes-dia' = '2025-12-25'
     };
   }
 

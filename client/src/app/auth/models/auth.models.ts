@@ -4,6 +4,8 @@ export interface RegistrarUsuarioRequest {
   userName: string;
   email: string;
   password: string;
+  nomeApresentacao: string
+  nomeEmpresa: string;
 }
 
 export interface AutenticarUsuarioRequest {
@@ -20,9 +22,10 @@ export interface TokenResponse {
 export interface UsuarioAutenticadoDto {
   id: string;
   userName: string;
+  nomeApresentacao: string;
   email: string;
   role: Role;
 
-  funcionarioId?:string;
-  empresaId:string;
+  funcionarioId?: string;
+  empresaId: string;
 }

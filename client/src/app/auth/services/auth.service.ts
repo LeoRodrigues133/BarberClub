@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AutenticarUsuarioRequest, RegistrarUsuarioRequest, TokenResponse } from '../models/auth.models';
 import { catchError, map, Observable, throwError, tap } from 'rxjs';
 import { ServicoConfiguracaoTenant } from '../../core/views/configuracao/services/tenant-config.service';
+import { HttpResponse } from '../../core/shared/models/http-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,7 @@ export class AuthService {
   }
 
   private carregarConfiguracaoTenant(): void {
+    console.log('erro saindo daqui')
     this.servicoTenant.carregarPorAutenticacao().subscribe({
       next: (config: any) => (this.processarDados(config)),
       error: (erro: any) => (this.processarFalha(erro))

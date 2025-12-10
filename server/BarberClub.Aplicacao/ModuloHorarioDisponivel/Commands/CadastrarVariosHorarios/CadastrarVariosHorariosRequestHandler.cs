@@ -1,5 +1,6 @@
 using BarberClub.Aplicacao.ModuloFuncionario.DTOs;
 using BarberClub.Dominio.Compartilhado;
+using BarberClub.Dominio.ModuloConfiguracao;
 using BarberClub.Dominio.ModuloFuncionario;
 using BarberClub.Dominio.ModuloHorario;
 using BarberClub.Dominio.ModuloHorarioFuncionamento;
@@ -12,6 +13,7 @@ public class CadastrarVariosHorariosRequestHandler(
     IRepositorioFuncionario _repositorioFuncionario,
     IRepositorioHorarioDisponivel _repositorioHorarioDisponivel,
     IRepositorioHorarioFuncionamento _horarioFuncionamento,
+    IRepositorioConfiguracao _repositorioConfiguracao,
     IContextoPersistencia _context)
     : IRequestHandler<CadastrarVariosHorariosRequest, Result<CadastrarVariosHorariosResponse>>
 {
@@ -21,8 +23,14 @@ public class CadastrarVariosHorariosRequestHandler(
 
         var funcionario = await _repositorioFuncionario.SelecionarPorIdAsync(request.funcionarioId);
 
-        if (funcionario == null)
+        if (funcionario is null)
             return Result.Fail("Funcionário não encontrado");
+
+        var configuracao = await _repositorioConfiguracao.SelecionarPorEmpresaIdComHorariosAsync(funcionario.AdminId);
+
+        if(configuracao is null)
+            return Result.Fail("Configuração não encontrada");
+
 
         var horariosFuncionamento = await _horarioFuncionamento
             .SelecionarTodosAsync();
@@ -34,6 +42,7 @@ public class CadastrarVariosHorariosRequestHandler(
         {
             var horariosNovos = funcionario
                 .GerarHorariosDisponiveis(
+                configuracao,
                 horariosFuncionamento,
                 request.mesSelecionado,
                 request.anoSelecionado);

@@ -11,9 +11,18 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { aplicarMascaraCPF, VerificarCadeiaCpf } from '../../../shared/validators/cpf.validators';
 import { CpfInputComponent } from "../../../shared/components/cpfInput/cpf-input.component";
 import { NotificacaoToastrService } from '../../../shared/components/notificacao/notificacao-toastr.service';
+
+export enum Cargo {
+  Administrador = 0,
+  Funcionario = 1
+}
+
+export const CARGOS_OPTIONS = [
+  { valor: Cargo.Administrador, label: 'Administrador' },
+  { valor: Cargo.Funcionario, label: 'Funcionário' }
+];
 
 @Component({
   selector: 'app-cadastrar-funcionario',
@@ -50,6 +59,13 @@ export class CadastrarFuncionarioComponent {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(50),
+        ],
+      ],
+      nomeApresentacao: [
+        '',
+        [
+          Validators.minLength(1),
+          Validators.maxLength(20),
         ],
       ],
       cpf: [
@@ -97,9 +113,11 @@ export class CadastrarFuncionarioComponent {
     });
   }
 
-
   get nome() {
     return this.form.get('nome');
+  }
+  get nomeApresentacao() {
+    return this.form.get('nomeApresentacao');
   }
   get cpf() {
     return this.form.get('cpf');
@@ -128,12 +146,4 @@ export class CadastrarFuncionarioComponent {
   }
 
 }
-export enum Cargo {
-  Administrador = 0,
-  Funcionario = 1
-}
 
-export const CARGOS_OPTIONS = [
-  { valor: Cargo.Administrador, label: 'Administrador' },
-  { valor: Cargo.Funcionario, label: 'Funcionário' }
-];

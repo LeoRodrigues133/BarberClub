@@ -95,6 +95,7 @@ public class JwtProvider : ITokenProvider
                 Id = usuario.Id,
                 Email = usuario.Email!,
                 UserName = usuario.UserName!,
+                NomeApresentacao = usuario.NomeApresentacao,
                 Role = cargo,
                 FuncionarioId = funcionario?.Id,
                 EmpresaId = funcionario?.AdminId ?? usuario.Id

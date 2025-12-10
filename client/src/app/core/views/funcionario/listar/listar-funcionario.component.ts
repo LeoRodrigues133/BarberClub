@@ -10,7 +10,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { HasPermissionDirective } from '../../../../tenant/directives/has-permission.directive';
 import { Permission } from '../../../../tenant/constants/permissions';
 import { MatFormFieldModule } from "@angular/material/form-field";
-import { CargoPipe } from '../../../shared/pipes/carco.pipe';
+import { CargoPipe } from '../../../shared/pipes/cargo.pipe';
 @Component({
   selector: 'app-listar-funcionario',
   imports: [

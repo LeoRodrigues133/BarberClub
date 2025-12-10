@@ -17,7 +17,7 @@ import { Permission } from '../../../../tenant/constants/permissions';
 import { FuncionarioComServicos, SelecionarPorId } from '../../funcionario/models/funcionario.models';
 import { MatExpansionModule } from '@angular/material/expansion'
 import { MatTableDataSource, MatTableModule } from '@angular/material/table'
-import { CargoPipe } from '../../../shared/pipes/carco.pipe';
+import { CargoPipe } from '../../../shared/pipes/cargo.pipe';
 
 @Component({
   selector: 'app-listar-servico',

@@ -11,6 +11,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { NotificacaoToastrService } from '../../../shared/components/notificacao/notificacao-toastr.service';
+import { CargoPipe } from '../../../shared/pipes/cargo.pipe';
 
 @Component({
   selector: 'app-excluir-funcionario',
@@ -23,7 +24,8 @@ import { NotificacaoToastrService } from '../../../shared/components/notificacao
     MatDividerModule,
     MatCheckboxModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    CargoPipe
   ],
   templateUrl: './excluir-funcionario.component.html',
   styleUrl: './excluir-funcionario.component.scss'

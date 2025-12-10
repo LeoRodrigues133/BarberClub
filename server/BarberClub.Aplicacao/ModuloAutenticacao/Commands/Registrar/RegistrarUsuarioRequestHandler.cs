@@ -28,6 +28,7 @@ public class RegistrarUsuarioRequestHandler(
         {
             UserName = request.userName,
             Email = request.email,
+            NomeApresentacao = request.nomeApresentacao
         };
 
         var usuarioResult = await _userManager.CreateAsync(usuario, request.password);
@@ -76,7 +77,7 @@ public class RegistrarUsuarioRequestHandler(
                 new Exception($"Falha ao atribuir cargo: {string.Join("; ", errors)}")));
         }
 
-        var resultConfig = await _serviceConfiguracao.CriarConfiguracaoPadraoAsync(usuario.Id);
+        var resultConfig = await _serviceConfiguracao.CriarConfiguracaoPadraoAsync(usuario.Id, request.nomeEmpresa);
 
         if (resultConfig.IsFailed)
         {

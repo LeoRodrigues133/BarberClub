@@ -10,5 +10,6 @@ public record CadastrarFuncionarioRequest(
     string userName,
     string password,
     string email,
+    string? nomeApresentacao,
     EnumCargo cargo
     ) : IRequest<Result<CadastrarFuncionarioResponse>>;

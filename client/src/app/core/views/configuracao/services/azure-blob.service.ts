@@ -38,6 +38,28 @@ export class AzureBlobService {
     );
   }
 
+  fecharDataEspecifica(data: any): Observable<any> {
+    const urlCompleto = `${this.API_URL}/fechar-data`;
+
+    return this.http.put<any>(urlCompleto, { data }).pipe(
+      tap(() => {
+        this.servicoTenant.invalidarCache();
+      }),
+      map(response => response.value || response.data || response)
+    );
+  }
+
+    abrirDataEspecifica(data: any): Observable<any> {
+    const urlCompleto = `${this.API_URL}/abrir-data`;
+
+    return this.http.put<any>(urlCompleto, { data }).pipe(
+      tap(() => {
+        this.servicoTenant.invalidarCache();
+      }),
+      map(response => response.value || response.data || response)
+    );
+  }
+
   uploadLogo(arquivo: File): Observable<ConfiguracaoEmpresa> {
     const formData = new FormData();
     formData.append('arquivo', arquivo);

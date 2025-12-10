@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarberClub.Infraestrutura.Orm.Migrations
 {
     [DbContext(typeof(BarberClubDbContext))]
-    [Migration("20251124204249_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20251208053138_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -116,6 +116,10 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("nomeApresentacao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -171,6 +175,10 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
 
                     b.Property<DateTime>("DataCriacao")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("DatasEspecificasFechado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LogoUrl")
                         .IsRequired()

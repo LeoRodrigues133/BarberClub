@@ -33,7 +33,27 @@
           </mat-form-field>
         </div>
 
-        <!-- GRID ROW 2: Username + Email -->
+        <!-- GRID ROW 2: Apelido + Aviso -->
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Apelido</mat-label>
+            <input matInput formControlName="nomeApresentacao" placeholder="Ex: Leo" />
+            <mat-icon matPrefix class="icon-destaque">person</mat-icon>
+
+            <mat-error *ngIf="nomeApresentacao?.errors?.['minlength']">Mínimo de 3 caracteres</mat-error>
+            <mat-error *ngIf="nomeApresentacao?.errors?.['maxlength']">Máximo de 20 caracteres</mat-error>
+          </mat-form-field>
+
+          <mat-label for="aviso">
+
+            <p id="aviso">
+              O apelido não é obrigatório, caso seja preenchido
+              o nome de apresentação para a aplicação e clientes será prioritário.
+            </p>
+          </mat-label>
+        </div>
+
+        <!-- GRID ROW 3: Username + Email -->
         <div class="form-grid">
 
           <mat-form-field appearance="outline">

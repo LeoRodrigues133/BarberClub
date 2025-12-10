@@ -10,4 +10,6 @@ public class Usuario : IdentityUser<Guid>
         Id = Guid.NewGuid();
         EmailConfirmed = true;
     }
+
+    public string NomeApresentacao {  get; set; }
 }

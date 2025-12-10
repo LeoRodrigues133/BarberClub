@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BarberClub.Infraestrutura.Orm.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,6 +30,7 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NomeApresentacao = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -166,6 +167,7 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                     BannerUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Ativo = table.Column<bool>(type: "bit", nullable: false),
                     DataCriacao = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DatasEspecificasFechado = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>

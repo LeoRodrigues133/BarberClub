@@ -40,7 +40,7 @@ export class RegistroComponent {
     private userService: UserService,
     private localStorage: LocalStorageService,
     private tenantService: ServicoConfiguracaoTenant,
-    private toastr : NotificacaoToastrService
+    private toastr: NotificacaoToastrService
   ) {
     this.form = this.formBuilder.group({
       userName: [
@@ -54,9 +54,6 @@ export class RegistroComponent {
       password: [
         '',
         [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(30),
           VerificarCadeiaSenha()
         ],
       ],
@@ -67,6 +64,22 @@ export class RegistroComponent {
           Validators.email
         ],
       ],
+      nomeApresentacao: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(100)
+        ]
+      ],
+      nomeEmpresa: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(100)
+        ]
+      ]
     });
   }
 
@@ -82,6 +95,14 @@ export class RegistroComponent {
     return this.form.get('email');
   }
 
+  get nomeEmpresa() {
+    return this.form.get('nomeEmpresa');
+  }
+
+  get nomeApresentacao() {
+    return this.form.get('nomeApresentacao');
+  }
+
   public registrar() {
     if (this.form.invalid) {
       this.toastr.erro('Não foi possível finalizar o cadastro.');
@@ -90,6 +111,7 @@ export class RegistroComponent {
 
     const registro: RegistrarUsuarioRequest = this.form.value;
 
+    console.log(registro);
     this.authService.registrar(registro).subscribe({
       next: (res: TokenResponse) => this.processarSucesso(res),
       error: (erro) => this.processarFalha(erro),
@@ -98,7 +120,6 @@ export class RegistroComponent {
   }
   processarSucesso(res: TokenResponse) {
     this.userService.logarUsuario(res.usuario);
-
     this.localStorage.salvarTokenAutenticacao(res);
 
     this.tenantService.carregarPorAutenticacao().subscribe({

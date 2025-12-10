@@ -34,6 +34,7 @@ public class SelecionarFuncionariosRequestHandler(
             funcionarios.Add(new SelecionarFuncionariosDto(
                 registro.Id,
                 registro.Nome,
+                registro.Usuario!.NomeApresentacao,
                 registro.Cpf,
                 cargoEnum,
                 registro.Usuario!.Email!,

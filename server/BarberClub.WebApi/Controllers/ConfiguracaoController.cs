@@ -10,6 +10,8 @@ using BarberClub.Aplicacao.ModuloConfiguracao.Commands.CarregarConfiguracao;
 using BarberClub.Dominio.Compartilhado;
 using BarberClub.Aplicacao.ModuloConfiguracao.Commands.AtualizarHorárioPorId;
 using static BarberClub.Aplicacao.Compartilhado.AzureBlobService;
+using BarberClub.Aplicacao.ModuloConfiguracao.Commands.FecharDataEspecifica;
+using BarberClub.Aplicacao.ModuloConfiguracao.Commands.AbrirDataEspecifica;
 
 namespace BarberClub.WebApi.Controllers;
 
@@ -155,6 +157,44 @@ public class ConfiguracaoController(IMediator _mediator, IAzureBlobService _azur
             request.Fechado);
 
         var result = await _mediator.Send(atualizarHorario);
+
+        return result.ToHttpResponse();
+    }
+
+    [HttpPut("fechar-data")]
+    [ProducesResponseType(typeof(FecharDataEspecificaResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> FecharDataSelecionada(DataEspecificaDto request)
+    {
+        var empresaId = Guid.Empty;
+
+        empresaId = User.GetEmpresaId();
+
+        var dataRequest = new FecharDataEspecificaRequest(
+            empresaId,
+            request.Data);
+
+        var result = await _mediator.Send(dataRequest);
+
+        return result.ToHttpResponse();
+    }
+
+    [HttpPut("abrir-data")]
+    [ProducesResponseType(typeof(AbrirDataEspecificaResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> AbrirDataSelecionada(DataEspecificaDto request)
+    {
+        var empresaId = Guid.Empty;
+
+        empresaId = User.GetEmpresaId();
+
+        var dataRequest = new AbrirDataEspecificaRequest(
+            empresaId,
+            request.Data);
+
+        var result = await _mediator.Send(dataRequest);
 
         return result.ToHttpResponse();
     }

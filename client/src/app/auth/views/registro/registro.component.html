@@ -10,15 +10,15 @@
 
       <form [formGroup]="form" (ngSubmit)="registrar()">
 
-        <!-- Linha 1 – Nome da Empresa -->
+        <!-- Linha 1 – Login da Empresa -->
         <div class="form-row">
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Nome da Empresa</mat-label>
-            <input matInput formControlName="userName" placeholder="Ex: MasterBarbearia" />
+            <mat-label>Login da Empresa</mat-label>
+            <input matInput formControlName="userName" placeholder="Ex: Barberclublogin" />
             <mat-icon matPrefix class="icon-destaque">store</mat-icon>
 
             <mat-error *ngIf="userName?.hasError('required')">
-              Nome da empresa é obrigatório
+              Login da empresa é obrigatório
             </mat-error>
             <mat-error *ngIf="userName?.hasError('minlength')">
               Deve ter no mínimo 3 caracteres
@@ -29,7 +29,45 @@
           </mat-form-field>
         </div>
 
-        <!-- Linha 2 – Email -->
+        <!-- Linha 2 – Nome de Apresentação -->
+        <div class="form-row">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Nome de Apresentação</mat-label>
+            <input matInput formControlName="nomeApresentacao" placeholder="Ex: Leonardo Rodrigues / Leo" />
+            <mat-icon matPrefix class="icon-destaque">people</mat-icon>
+
+            <mat-error *ngIf="nomeApresentacao?.hasError('required')">
+              Nome de Apresentação é obrigatório
+            </mat-error>
+            <mat-error *ngIf="nomeApresentacao?.hasError('minlength')">
+              Deve ter no mínimo 3 caracteres
+            </mat-error>
+            <mat-error *ngIf="nomeApresentacao?.hasError('maxlength')">
+              Deve ter no máximo 100 caracteres
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Linha 3 – Nome da Empresa -->
+        <div class="form-row">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Nome de Empresa</mat-label>
+            <input matInput formControlName="nomeEmpresa" placeholder="Ex: BarberClub" />
+            <mat-icon matPrefix class="icon-destaque">people</mat-icon>
+
+            <mat-error *ngIf="nomeEmpresa?.hasError('required')">
+              Nome da empresa é obrigatório
+            </mat-error>
+            <mat-error *ngIf="nomeEmpresa?.hasError('minlength')">
+              Deve ter no mínimo 3 caracteres
+            </mat-error>
+            <mat-error *ngIf="nomeEmpresa?.hasError('maxlength')">
+              Deve ter no máximo 100 caracteres
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Linha 4 – Email -->
         <div class="form-row">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Email da Empresa</mat-label>
@@ -45,7 +83,7 @@
           </mat-form-field>
         </div>
 
-        <!-- Linha 3 – Senha -->
+        <!-- Linha 5 – Senha -->
         <div class="form-row">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Senha de Acesso</mat-label>
@@ -53,7 +91,7 @@
             <mat-icon matPrefix class="icon-destaque">lock</mat-icon>
 
             <!-- Dicas de força -->
-            <mat-error *ngIf="password?.value" class="dicas">
+            <mat-error *ngIf="password?.value" class="dicas senha-dicas">
 
               <span [class.valido]="!password?.hasError('semMaiuscula')"
                 [class.invalido]="password?.hasError('semMaiuscula')">
@@ -79,17 +117,28 @@
                 Especial
               </span>
 
+              <span [class.valido]="!password?.hasError('senhaLonga')"
+                [class.invalido]="password?.hasError('senhaLonga')">
+                <mat-icon>{{ !password?.hasError('senhaLonga') ? 'check_circle' : 'cancel' }}</mat-icon>
+                Senha muito longa
+              </span>
+
+              <span [class.valido]="!password?.hasError('senhaCurta')"
+                [class.invalido]="password?.hasError('senhaCurta')">
+                <mat-icon>{{ !password?.hasError('senhaCurta') ? 'check_circle' : 'cancel' }}</mat-icon>
+                Senha muito curta
+              </span>
+
+              <span [class.valido]="!password?.hasError('senhaVazio')"
+                [class.invalido]="password?.hasError('senhaVazio')">
+                <mat-icon>{{ !password?.hasError('senhaVazio') ? 'check_circle' : 'cancel' }}</mat-icon>
+                Senha obrigatória
+              </span>
             </mat-error>
 
-            <mat-error *ngIf="password?.hasError('required')">
-              Senha é obrigatória
-            </mat-error>
-            <mat-error *ngIf="password?.hasError('minlength')">
-              Deve ter no mínimo 6 caracteres
-            </mat-error>
-            <mat-error *ngIf="password?.hasError('maxlength')">
-              Deve ter no máximo 30 caracteres
-            </mat-error>
+            <mat-error *ngIf="password?.errors?.['required']">Senha obrigatória</mat-error>
+            <mat-error *ngIf="password?.errors?.['minlength']">Mínimo de 6 caracteres</mat-error>
+            <mat-error *ngIf="password?.errors?.['maxlength']">Máximo de 30 caracteres</mat-error>
           </mat-form-field>
         </div>
 

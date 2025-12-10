@@ -12,11 +12,13 @@
           </div>
         </div>
         <div class="d-flex gap-2">
-          <button mat-raised-button class="btn-secundario" [routerLink]="['/funcionarios/editar', funcionario?.id]">
+          <button mat-raised-button class="btn-secundario"
+          matTooltip="Editar funcionario" [routerLink]="['/employees','editar', funcionario?.id]">
             <mat-icon>edit</mat-icon>
             Editar
           </button>
-          <button mat-raised-button class="btn-destaque" [routerLink]="['/funcionarios/excluir', funcionario?.id]">
+          <button mat-raised-button class="btn-destaque"
+          matTooltip="Excluir funcionario"  [routerLink]="['/employees','excluir', funcionario?.id]">
             <mat-icon>delete</mat-icon>
             Excluir
           </button>
@@ -36,7 +38,8 @@
           <div class="col-12 col-md-6">
             <div class="p-3 border-default rounded">
               <label class="text-secondary d-block mb-1">
-                <mat-icon class="icon-secundario" style="font-size: 18px; width: 18px; height: 18px; vertical-align: middle;">person</mat-icon>
+                <mat-icon class="icon-secundario"
+                  style="font-size: 18px; width: 18px; height: 18px; vertical-align: middle;">person</mat-icon>
                 Nome Completo
               </label>
               <span class="text-primary fw-semibold">{{ funcionario?.nome || '-' }}</span>
@@ -45,10 +48,11 @@
           <div class="col-12 col-md-6">
             <div class="p-3 border-default rounded">
               <label class="text-secondary d-block mb-1">
-                <mat-icon class="icon-secundario" style="font-size: 18px; width: 18px; height: 18px; vertical-align: middle;">fingerprint</mat-icon>
+                <mat-icon class="icon-secundario"
+                  style="font-size: 18px; width: 18px; height: 18px; vertical-align: middle;">fingerprint</mat-icon>
                 CPF
               </label>
-              <span class="text-primary fw-semibold">{{ funcionario?.cpf || '-' }}</span>
+              <span class="text-primary fw-normal">{{ funcionario?.cpf || '-' }}</span>
             </div>
           </div>
         </div>
@@ -66,40 +70,45 @@
           <div class="col-12 col-md-6">
             <div class="p-3 border-default rounded">
               <label class="text-secondary d-block mb-1">
-                <mat-icon class="icon-secundario" style="font-size: 18px; width: 18px; height: 18px; vertical-align: middle;">account_circle</mat-icon>
-                Nome de Usuário
+                <mat-icon class="icon-secundario"
+                  style="font-size: 18px; width: 18px; height: 18px; vertical-align: middle;">account_circle</mat-icon>
+                Apelido
               </label>
-              <span class="text-primary fw-semibold">{{ funcionario?.userName || '-' }}</span>
+              <span class="text-primary  fw-normal">{{ funcionario?.nomeApresentacao || '-' }}</span>
             </div>
           </div>
           <div class="col-12 col-md-6">
             <div class="p-3 border-default rounded">
-              <label class="text-secondary d-block mb-1">
-                <mat-icon class="icon-secundario" style="font-size: 18px; width: 18px; height: 18px; vertical-align: middle;">email</mat-icon>
+              <label class="text-secondary d-block mb-1  fw-normal">
+                <mat-icon class="icon-secundario"
+                  style="font-size: 18px; width: 18px; height: 18px; vertical-align: middle;">email</mat-icon>
                 E-mail
               </label>
-              <span class="text-primary fw-semibold">{{ funcionario?.email || '-' }}</span>
+              <span class="text-primary fw-normal">{{ funcionario?.email || '-' }}</span>
             </div>
           </div>
           <div class="col-12 col-md-6">
             <div class="p-3 border-default rounded">
               <label class="text-secondary d-block mb-1">
-                <mat-icon class="icon-secundario" style="font-size: 18px; width: 18px; height: 18px; vertical-align: middle;">work</mat-icon>
+                <mat-icon class="icon-secundario"
+                  style="font-size: 18px; width: 18px; height: 18px; vertical-align: middle;">work</mat-icon>
                 Cargo
               </label>
-              <span class="badge bg-secundario px-3 py-2">
-                {{ funcionario?.cargo }}
+              <span class="badge bg-secundario px-3 py-2 fw-normal">
+                {{ funcionario?.cargo | cargo }}
               </span>
             </div>
           </div>
           <div class="col-12 col-md-6">
             <div class="p-3 border-default rounded">
               <label class="text-secondary d-block mb-1">
-                <mat-icon class="icon-secundario" style="font-size: 18px; width: 18px; height: 18px; vertical-align: middle;">toggle_on</mat-icon>
+                <mat-icon class="icon-secundario"
+                  style="font-size: 18px; width: 18px; height: 18px; vertical-align: middle;">toggle_on</mat-icon>
                 Status
               </label>
-              <span class="badge bg-success px-3 py-2">
-                <mat-icon style="font-size: 16px; width: 16px; height: 16px; vertical-align: middle;">check_circle</mat-icon>
+              <span class="badge bg-success px-3 py-2 fw-normal">
+                <mat-icon
+                  style="font-size: 16px; width: 16px; height: 16px; vertical-align: middle;">check_circle</mat-icon>
                 Ativo
               </span>
             </div>
@@ -147,7 +156,7 @@
           <mat-icon class="icon-destaque" style="vertical-align: middle;">info</mat-icon>
           Informações do Sistema
         </h3>
-        
+
       </div>
 
       <!-- Botão Voltar -->

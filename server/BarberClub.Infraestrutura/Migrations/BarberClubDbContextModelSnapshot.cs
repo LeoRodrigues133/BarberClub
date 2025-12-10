@@ -113,6 +113,10 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("nomeApresentacao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -168,6 +172,10 @@ namespace BarberClub.Infraestrutura.Orm.Migrations
 
                     b.Property<DateTime>("DataCriacao")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("DatasEspecificasFechado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LogoUrl")
                         .IsRequired()

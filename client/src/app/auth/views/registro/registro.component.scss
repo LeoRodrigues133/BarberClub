@@ -4,3 +4,52 @@
   width: 100%;
   min-height: 100vh;
 }
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-top: 25px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+/* Dicas senha + CPF */
+.dicas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+  }
+
+  .valido {
+    color: #4caf50;
+  }
+
+  .invalido {
+    color: #f44336;
+  }
+}
+
+.senha-dicas mat-icon {
+  margin-left: -12px;
+  font-size: 16px;
+}
+
+.cpf-dicas {
+  margin-top: -15px;
+}
+
+/* Botões de ação */
+.form-actions {
+  margin-top: 40px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}

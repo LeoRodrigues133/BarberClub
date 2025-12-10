@@ -36,6 +36,7 @@ public class FuncionarioController(IMediator _mediator) : ControllerBase
         var editarRequest = new EditarFuncionarioRequest(
             id,
             request.nome,
+            request.nomeApresentacao,
             request.cpf,
             request.email,
             request.cargo);

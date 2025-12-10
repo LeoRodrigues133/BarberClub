@@ -10,6 +10,7 @@ public class ConfiguracaoEmpresa : EntidadeBase
         Ativo = true;
         DataCriacao = DateTime.UtcNow;
         HorarioDeExpediente = new List<HorarioFuncionamento>();
+        DatasEspecificasFechado = new List<DateTime>();
     }
     public ConfiguracaoEmpresa(
         Guid usuarioId,
@@ -31,6 +32,7 @@ public class ConfiguracaoEmpresa : EntidadeBase
     public DateTime DataCriacao { get; set; }
 
     public List<HorarioFuncionamento> HorarioDeExpediente { get; set; }
+    public List<DateTime> DatasEspecificasFechado { get; set; }
 
     public bool isAberto(List<HorarioFuncionamento> horarios)
     {
