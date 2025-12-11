@@ -18,7 +18,8 @@ public class SelecionarHorariosPorDataRequestHandler(
             .SelecionarTodosAsync();
 
         var horariosDoDia = todosOsHorarios
-            .Where(x => x.DataEspecifica == request.dataSelecionada)
+            .Where(x => x.DataEspecifica == request.dataSelecionada
+                    && x.FuncionarioId == request.funcionarioId)
             .ToList();
 
         var resposta = new SelecionarHorariosPorDataResponse
