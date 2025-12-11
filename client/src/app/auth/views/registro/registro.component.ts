@@ -14,6 +14,7 @@ import { VerificarCadeiaSenha } from '../../../core/shared/validators/senha.vali
 import { ServicoConfiguracaoTenant } from '../../../core/views/configuracao/services/tenant-config.service';
 import { NotificacaoToastrService } from '../../../core/shared/components/notificacao/notificacao-toastr.service';
 import { MatCardModule } from '@angular/material/card';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-registro',
@@ -31,6 +32,7 @@ import { MatCardModule } from '@angular/material/card';
   styleUrl: './registro.component.scss'
 })
 export class RegistroComponent {
+  carregando = false;
   form: FormGroup;
 
   constructor(
@@ -111,7 +113,6 @@ export class RegistroComponent {
 
     const registro: RegistrarUsuarioRequest = this.form.value;
 
-    console.log(registro);
     this.authService.registrar(registro).subscribe({
       next: (res: TokenResponse) => this.processarSucesso(res),
       error: (erro) => this.processarFalha(erro),
@@ -122,17 +123,35 @@ export class RegistroComponent {
     this.userService.logarUsuario(res.usuario);
     this.localStorage.salvarTokenAutenticacao(res);
 
-    this.tenantService.carregarPorAutenticacao().subscribe({
-      next: () => this.router.navigate(['/dashboard']),
-      error: () => this.router.navigate(['/registrar'])
+    this.tenantService.invalidarCache();
 
-    });
+    setTimeout(() => {
+      this.carregarConfiguracaoTenant();
+    }, 100);
+  }
 
+  private carregarConfiguracaoTenant() {
+    this.carregando = true;
+
+    this.tenantService.carregarPorAutenticacao()
+      .pipe(finalize(() => this.carregando = false))
+      .subscribe({
+        next: (config) => {
+          this.router.navigate(['/dashboard']);
+          this.toastr.sucesso('Seja bem-vindo!');
+        },
+        error: (erro) => {
+          this.toastr.erro('Cadastro realizado, mas houve um problema ao carregar as configurações. Tente fazer login novamente.');
+
+          this.localStorage.limparDadosLocais();
+          this.tenantService.limparConfiguracao();
+          this.router.navigate(['/login']);
+        }
+      });
   }
 
   processarFalha(erro: any) {
     this.toastr.erro('Erro ao efetuar cadastro.');
-    this.toastr.aviso(erro);
     this.localStorage.limparDadosLocais();
   }
 }

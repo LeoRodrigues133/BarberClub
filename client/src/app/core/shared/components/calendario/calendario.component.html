@@ -22,52 +22,56 @@
 
     <!-- Grade de dias -->
     <div class="calendario-grade">
-      <div *ngFor="let dia of diasCalendario"
-           class="dia-cell"
-           [class.outro-mes]="!dia.mesAtual"
-           [class.selecionado]="dia.numero === diaSelecionadoAtual && dia.mesAtual && !dia.fechado"
-           [class.hoje]="ehHoje(dia)"
-           [class.fechado]="dia.fechado && dia.mesAtual"
-           [attr.title]="dia.fechado ? 'Dia fechado' : ''"
-           (click)="onDiaClick(dia)">
+      <div *ngFor="let dia of diasCalendario" class="dia-cell" [class.outro-mes]="!dia.mesAtual"
+        [class.selecionado]="dia.numero === diaSelecionadoAtual && dia.mesAtual && !dia.fechado"
+        [class.hoje]="ehHoje(dia)" [class.fechado]="dia.fechado && dia.mesAtual"
+        [attr.title]="dia.fechado ? 'Dia fechado' : ''" (click)="onDiaClick(dia)">
 
         <span class="numero-dia">{{ dia.numero }}</span>
 
         <span class="position-absolute top-0 mt-2 w-100">
           <!-- Botão de MAIS AÇÕES para dias abertos -->
-          <button mat-mini-fab
-                  *ngIf="!dia.fechado && dia.mesAtual"
-                  matTooltip="Mais Ações"
-                  [matMenuTriggerFor]="menuAcoes"
-                  class="float-start mx-2"
-                  (click)="$event.stopPropagation()">
+          <button mat-mini-fab matTooltip="Mais Ações" [matMenuTriggerFor]="menuAcoes" class="float-start mx-2"
+            (click)="$event.stopPropagation()">
             <mat-icon>more_vert</mat-icon>
           </button>
 
           <mat-menu #menuAcoes="matMenu">
-            <button mat-menu-item (click)="onGerarHorarios(dia.dataCompleta, $event)">
-              <mat-icon>alarm</mat-icon>
-              <span>Gerar horários</span>
-            </button>
-            <button mat-menu-item (click)="onVisualizarHorarios(dia.dataCompleta, $event)">
+
+            <button mat-menu-item (click)="onVisualizarHorarios(dia.dataCompleta, $event)"
+              matTooltip="visualizar {{dia.dataCompleta}}">
               <mat-icon>visibility</mat-icon>
               <span>Visualizar Horários</span>
             </button>
+
             <mat-divider></mat-divider>
-            <button mat-menu-item (click)="fecharData(dia.dataCompleta); $event.stopPropagation()">
-              <mat-icon>block</mat-icon>
-              <span>Fechar esta data</span>
+
+            <button *appHasPermission="Permission.EMPLOYEE_PERMISSION" mat-menu-item
+              (click)="onGerarHorarios(dia.dataCompleta, $event)">
+              <mat-icon>alarm</mat-icon>
+              <span>Gerar horários</span>
             </button>
+
+            <ng-container *ngIf="!dia.fechado && dia.mesAtual">
+              <button *appHasPermission="Permission.ADMIN_PERMISSION" mat-menu-item
+                (click)="fecharData(dia.dataCompleta); $event.stopPropagation()">
+                <mat-icon>block</mat-icon>
+                <span>Fechar data</span>
+              </button>
+            </ng-container>
+
+            <ng-container *ngIf="dia.fechado && dia.mesAtual">
+              <button mat-menu-item *appHasPermission="Permission.ADMIN_PERMISSION"
+                (click)="abrirData(dia.dataCompleta); $event.stopPropagation()">
+                <mat-icon>check</mat-icon>
+                <span>Abrir data</span>
+
+              </button>
+            </ng-container>
           </mat-menu>
 
           <!-- Botão para ABRIR data (quando está fechada) -->
-          <button mat-mini-fab
-                  *ngIf="dia.fechado && dia.mesAtual"
-                  matTooltip="Abrir esta data"
-                  class="float-end mx-2"
-                  (click)="abrirData(dia.dataCompleta); $event.stopPropagation()">
-            <mat-icon>check</mat-icon>
-          </button>
+
         </span>
 
         <span *ngIf="dia.fechado && dia.mesAtual" class="icone-fechado">🔒</span>

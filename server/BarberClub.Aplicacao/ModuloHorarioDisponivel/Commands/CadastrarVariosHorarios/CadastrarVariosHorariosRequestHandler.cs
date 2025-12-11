@@ -1,5 +1,6 @@
 using BarberClub.Aplicacao.ModuloFuncionario.DTOs;
 using BarberClub.Dominio.Compartilhado;
+using BarberClub.Dominio.ModuloAgendamento;
 using BarberClub.Dominio.ModuloConfiguracao;
 using BarberClub.Dominio.ModuloFuncionario;
 using BarberClub.Dominio.ModuloHorario;
@@ -28,7 +29,7 @@ public class CadastrarVariosHorariosRequestHandler(
 
         var configuracao = await _repositorioConfiguracao.SelecionarPorEmpresaIdComHorariosAsync(funcionario.AdminId);
 
-        if(configuracao is null)
+        if (configuracao is null)
             return Result.Fail("Configuração não encontrada");
 
 
@@ -38,43 +39,72 @@ public class CadastrarVariosHorariosRequestHandler(
         if (!horariosFuncionamento.Any())
             return Result.Fail("A empresa não possui horários de funcionamento configurados");
 
+
+        var horariosNovos = funcionario
+            .GerarHorariosDisponiveis(
+            configuracao,
+            horariosFuncionamento,
+            request.mesSelecionado,
+            request.anoSelecionado);
+
+        if (!horariosNovos.Any())
+            return Result.Fail("Nenhum horário disponível foi gerado. Verifique a configuração.");
+
+        var horariosExistentes = await _repositorioHorarioDisponivel
+            .SelecionarPorFuncionarioEPeriodoAsync(
+            request.funcionarioId,
+            request.mesSelecionado,
+            request.anoSelecionado);
+
+        var horariosParaManter = horariosExistentes.Where(existente =>
+        {
+            bool temAgendamentoAtivo = existente.Agendamentos.Any(a =>
+                a.Status == EnumStatusAgendamento.Agendado ||
+                a.Status == EnumStatusAgendamento.Confirmado);
+
+            if (temAgendamentoAtivo)
+                return true;
+
+            bool coincideComNovo = horariosNovos.Any(novo =>
+                novo.DataEspecifica.Date == existente.DataEspecifica.Date &&
+                novo.HorarioInicio == existente.HorarioInicio);
+
+            return coincideComNovo;
+        }).ToList();
+
+        var horariosParaRemover = horariosExistentes
+            .Except(horariosParaManter)
+            .ToList();
+
+        var horariosParaInserir = horariosNovos
+            .Where(novo => !horariosExistentes.Any(existente =>
+                existente.DataEspecifica.Date == novo.DataEspecifica.Date &&
+                existente.HorarioInicio == novo.HorarioInicio))
+            .ToList();
+
         try
         {
-            var horariosNovos = funcionario
-                .GerarHorariosDisponiveis(
-                configuracao,
-                horariosFuncionamento,
-                request.mesSelecionado,
-                request.anoSelecionado);
-
-            if (!horariosNovos.Any())
-                return Result.Fail("Nenhum horário disponível foi gerado. Verifique a configuração.");
-
-            var todosExistentes = await _repositorioHorarioDisponivel.SelecionarTodosAsync();
-
-            var horariosRelevantes = todosExistentes
-                .Where(h =>
-                    h.DataEspecifica.Month == request.mesSelecionado &&
-                    h.DataEspecifica.Year == request.anoSelecionado)
-                .ToList();
-
-            var horariosParaInserir = horariosNovos
-                .Where(n => !horariosRelevantes.Any(e => ConferirDuplicata(n, e)))
-                .ToList();
+            foreach (var horario in horariosParaRemover)
+                await _repositorioHorarioDisponivel.ExcluirAsync(horario.Id);
 
 
             var idsGerados = await _repositorioHorarioDisponivel.CadastrarVariosAsync(horariosParaInserir);
 
-            foreach (var id in horariosRelevantes)
-                await _repositorioHorarioDisponivel.EditarAsync(id);
-
             await _context.GravarAsync();
 
+            var totalHorariosProcessados = horariosParaInserir.Count;
+            var totalHorariosRemovidos = horariosParaRemover.Count;
+
+
             var res = new CadastrarVariosHorariosResponse(
-              qtHorariosGerados: horariosNovos.Count,
+              qtHorariosGerados: totalHorariosProcessados,
+              qtHorariosRemovidos: totalHorariosRemovidos,
               HorariosCadastrados: horariosNovos
                   .GroupBy(h => h.DiaSemana)
-                  .SelectMany(g => g.Take(3))
+                    .OrderBy(g => g.Key)
+                    .SelectMany(g =>
+                    g.OrderBy(h => h.HorarioInicio)
+                    .Take(horariosNovos.Count))
                   .Select(h => new HorarioCadastradoDto(
                       h.DiaSemana,
                       h.HorarioInicio,

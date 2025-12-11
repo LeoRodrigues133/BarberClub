@@ -56,7 +56,6 @@ export class AuthService {
   }
 
   private carregarConfiguracaoTenant(): void {
-    console.log('erro saindo daqui')
     this.servicoTenant.carregarPorAutenticacao().subscribe({
       next: (config: any) => (this.processarDados(config)),
       error: (erro: any) => (this.processarFalha(erro))

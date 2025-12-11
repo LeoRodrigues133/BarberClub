@@ -94,7 +94,7 @@ bannerPadrao: any = 'https://img.freepik.com/vetores-premium/industria-de-barbei
     }, {
       titulo: 'Registrar',
       icone: 'person_add',
-      rota: '/register',
+      rota: '/registrar',
       permissions: [Permission.PUBLIC_PERMISSION, Permission.VIEW_AUTH]
     },
 

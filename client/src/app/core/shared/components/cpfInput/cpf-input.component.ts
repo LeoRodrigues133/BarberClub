@@ -37,21 +37,8 @@ import { aplicarMascaraCPF, VerificarCadeiaCpf } from '../../validators/cpf.vali
       multi: true
     }
   ],
-  template: `
-    <mat-form-field appearance="outline" class="w-100">
-      <mat-label>{{ label }}</mat-label>
-      <input
-        matInput
-        [placeholder]="placeholder"
-        [(ngModel)]="value"
-        (input)="onInputChange($event)"
-        (blur)="onBlur()"
-        [disabled]="disabled"
-        maxlength="14"
-      >
-      <mat-icon matSuffix>badge</mat-icon>
-    </mat-form-field>
-  `
+  templateUrl: './cpf-input.component.html',
+  styleUrl: './cpf-input.component.scss'
 })
 export class CpfInputComponent implements ControlValueAccessor, Validator {
   label: string = 'CPF';

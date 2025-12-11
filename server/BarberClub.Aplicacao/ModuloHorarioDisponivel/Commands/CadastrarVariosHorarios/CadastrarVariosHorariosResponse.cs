@@ -4,4 +4,5 @@ namespace BarberClub.Aplicacao.ModuloHorarioDisponivel.Commands.CadastrarVariosH
 
 public record CadastrarVariosHorariosResponse(
     int qtHorariosGerados,
+    int qtHorariosRemovidos,
     List<HorarioCadastradoDto> HorariosCadastrados);

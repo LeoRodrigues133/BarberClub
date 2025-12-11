@@ -71,4 +71,12 @@ export const routes: Routes = [
     canActivate: [permissionGuard],
     data: { permission: Permission.VIEW_SERVICES }
   },
+  {
+  path: 'horario',
+  loadChildren: () =>
+    import('./core/views/horarioDisponivel/horario.routes').then(
+      (r) => r.horarioRoutes
+    ),
+  canMatch: [authGuard]
+}
 ];

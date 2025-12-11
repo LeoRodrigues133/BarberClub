@@ -65,7 +65,7 @@ export class FuncionarioService extends BaseHttpService {
     const urlCompleto = `${this.API_URL}/${id}/gerar-horarios`;
 
     return this.http.post<HttpResponse>(urlCompleto, dados)
-      .pipe(map(res => this.processarDadosAninhados(res, 'funcionarios')),
+      .pipe(map(res => this.processarDados(res)),
         catchError(this.processarFalha))
   }
 

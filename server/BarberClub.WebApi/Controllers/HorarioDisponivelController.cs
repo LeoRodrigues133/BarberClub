@@ -36,9 +36,9 @@ public class HorarioDisponivelController(IMediator _mediator) : ControllerBase
         return result.ToHttpResponse();
     }
 
-    [HttpPost("visualizar-por-data/{id:guid}")]
+    [HttpPost("visualizar-por-data")]
     [ProducesResponseType(typeof(SelecionarHorariosPorDataResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> SelecionarHorariosPorData(Guid id, SelecionarHorariosPorDataRequest request)
+    public async Task<IActionResult> SelecionarHorariosPorData(SelecionarHorariosPorDataRequest request)
     {
         var result = await _mediator.Send(request);
 

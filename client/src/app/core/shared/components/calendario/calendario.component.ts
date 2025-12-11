@@ -18,8 +18,10 @@ import { MatDivider } from '@angular/material/divider';
 import { Subject, takeUntil } from 'rxjs';
 import { AzureBlobService } from '../../../views/configuracao/services/azure-blob.service';
 import { NotificacaoToastrService } from '../notificacao/notificacao-toastr.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ConfiguracaoHorarios, DiaCalendario } from '../../models/calendario.model';
+import { HasPermissionDirective } from '../../../../tenant/directives/has-permission.directive';
+import { Permission } from '../../../../tenant/constants/permissions';
 
 @Component({
   selector: 'app-calendario',
@@ -32,7 +34,8 @@ import { ConfiguracaoHorarios, DiaCalendario } from '../../models/calendario.mod
     MatMiniFabButton,
     MatMenuModule,
     MatTooltipModule,
-    MatDivider
+    MatDivider,
+    HasPermissionDirective
   ],
   templateUrl: './calendario.component.html',
   styleUrl: './calendario.component.scss'
@@ -54,6 +57,8 @@ export class CalendarioComponent implements OnInit, OnChanges, OnDestroy {
   @Output() gerarHorarios = new EventEmitter<Date>();
   @Output() visualizarHorarios = new EventEmitter<Date>();
 
+  funcionario: any;
+  Permission = Permission;
   meses: string[] = [];
   diasCalendario: DiaCalendario[] = [];
   mesSelecionado: number = 0;
@@ -66,11 +71,13 @@ export class CalendarioComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private readonly azureService: AzureBlobService,
     private readonly toastr: NotificacaoToastrService,
-    private readonly router: Router
+    private readonly router: Router,
+    private route: ActivatedRoute
   ) { }
 
 
   ngOnInit(): void {
+    this.funcionario = this.route.snapshot.data['funcionario']
     this.inicializarCalendario();
   }
 
@@ -106,7 +113,14 @@ export class CalendarioComponent implements OnInit, OnChanges, OnDestroy {
 
   public onVisualizarHorarios(data: Date, event: Event): void {
     event.stopPropagation();
-    this.visualizarHorarios.emit(data);
+
+    const dataFormatada = this.formatarDataISO(data);
+
+      console.log(dataFormatada)
+  this.router.navigate(
+    ['/horario', 'visualizar-por-data', this.funcionario.id],
+    { queryParams: { data: dataFormatada } }
+    );
   }
 
   public ehHoje(dia: DiaCalendario): boolean {

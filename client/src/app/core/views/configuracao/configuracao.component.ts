@@ -5,7 +5,7 @@ import { BannerConfiguracaoComponent } from "./_administrador/banner/banner-conf
 import { HorarioConfiguracaoComponent } from "./_administrador/horario/horario-configuracao.component";
 import { HasPermissionDirective } from '../../../tenant/directives/has-permission.directive';
 import { Permission } from '../../../tenant/constants/permissions';
-import { GerarHorariosComponent } from "./_funcionario/horario-atendimento/gerar-horarios.component";
+import { ConfigurarHorariosComponent } from "./_funcionario/configuracao-horarios/configuracao-horarios.component";
 import { TempoAtendimentoComponent } from "./_funcionario/atendimento/tempo-atendimento.component";
 @Component({
   selector: 'app-configuracao-empresa',
@@ -16,7 +16,7 @@ import { TempoAtendimentoComponent } from "./_funcionario/atendimento/tempo-aten
     BannerConfiguracaoComponent,
     HorarioConfiguracaoComponent,
     HasPermissionDirective,
-    GerarHorariosComponent,
+    ConfigurarHorariosComponent,
     TempoAtendimentoComponent
 ],
   templateUrl: './configuracao.component.html',
