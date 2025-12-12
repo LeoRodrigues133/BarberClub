@@ -1,81 +1,125 @@
-<div class="filtro-chips-container">
-  <!-- Seleção de Mês -->
-  <div class="secao-meses">
-    <h3 class="titulo-secao">Selecione o mês</h3>
-    <mat-chip-listbox [(ngModel)]="mesSelecionado" (ngModelChange)="onMesChange($event)" aria-label="Seleção de mês">
-      <mat-chip-option *ngFor="let mes of meses; let i = index" [value]="i" [selected]="i === mesSelecionado">
-        {{ mes }}
-      </mat-chip-option>
-    </mat-chip-listbox>
-  </div>
-
-  <!-- Grade de Calendário -->
-  <div class="secao-calendario">
-    <h3 class="titulo-secao">{{ meses[mesSelecionado] }} {{ anoAtual }}</h3>
-
-    <!-- Cabeçalho dos dias da semana -->
-    <div class="calendario-header">
-      <div class="dia-semana-header" *ngFor="let dia of diasDaSemana">
-        {{ dia }}
+<!-- HTML -->
+<div class="dashboard-container">
+  <!-- CARD ÚNICO DO CALENDÁRIO -->
+  <mat-card class="calendario-card no-card-appearence">
+    <!-- HEADER DO CARD -->
+    <div class="card-header d-flex align-items-center justify-content-between p-3 border-bottom border-default">
+      <div>
+        <h2 class="calendario-titulo text-primary m-0 fw-bold">
+          <mat-icon class="icon-destaque icon-header">event</mat-icon>
+          Calendário de Agendamentos
+        </h2>
+        <p class="calendario-subtitulo text-secondary m-0">
+          Gerencie horários e disponibilidade
+        </p>
       </div>
     </div>
 
-    <!-- Grade de dias -->
-    <div class="calendario-grade">
-      <div *ngFor="let dia of diasCalendario" class="dia-cell" [class.outro-mes]="!dia.mesAtual"
-        [class.selecionado]="dia.numero === diaSelecionadoAtual && dia.mesAtual && !dia.fechado"
-        [class.hoje]="ehHoje(dia)" [class.fechado]="dia.fechado && dia.mesAtual"
-        [attr.title]="dia.fechado ? 'Dia fechado' : ''" (click)="onDiaClick(dia)">
+    <!-- CONTEÚDO DO CARD -->
+    <mat-card-content class="p-3">
+      <!-- SELEÇÃO DE MÊS -->
+      <div class="secao-meses mb-4">
+        <h3 class="titulo-secao">Selecione o mês</h3>
+        <mat-chip-listbox [(ngModel)]="mesSelecionado" (ngModelChange)="onMesChange($event)" aria-label="Seleção de mês" class="meses-chips">
+          <mat-chip-option
+            *ngFor="let mes of meses; let i = index"
+            [value]="i"
+            [selected]="i === mesSelecionado"
+            class="mes-chip">
+            {{ mes }}
+          </mat-chip-option>
+        </mat-chip-listbox>
+      </div>
 
-        <span class="numero-dia">{{ dia.numero }}</span>
+      <mat-divider class="mb-4"></mat-divider>
 
-        <span class="position-absolute top-0 mt-2 w-100">
-          <!-- Botão de MAIS AÇÕES para dias abertos -->
-          <button mat-mini-fab matTooltip="Mais Ações" [matMenuTriggerFor]="menuAcoes" class="float-start mx-2"
+      <!-- CALENDÁRIO -->
+      <div class="secao-calendario">
+        <div class="d-flex justify-content-between">
+          <h3 class="calendario-mes-titulo text-primary mb-3 fw-bold">
+            <mat-icon class="icon-secundario icon-mes">calendar_month</mat-icon>
+            {{ meses[mesSelecionado] }} {{ anoAtual }}
+          </h3>
+              <button mat-flat-button
+                matTooltip="Gerar Horários para {{meses[mesSelecionado]}} {{anoAtual}}"
+                (click)="onGerarHorarios(mesSelecionado, anoAtual, $event)">
+                <mat-icon>alarm</mat-icon>
+                <span>Gerar horários</span>
+
+              </button>
+        </div>
+          <!-- Cabeçalho dos dias da semana -->
+        <div class="calendario-header">
+          <div class="dia-semana-header" *ngFor="let dia of diasDaSemana">
+            {{ dia }}
+          </div>
+        </div>
+
+        <!-- Grade de dias -->
+        <div class="calendario-grade">
+          <div
+            *ngFor="let dia of diasCalendario"
+            class="dia-cell"
+            [class.outro-mes]="!dia.mesAtual"
+            [class.selecionado]="dia.numero === diaSelecionadoAtual && dia.mesAtual && !dia.fechado"
+            [class.hoje]="ehHoje(dia)"
+            [class.fechado]="dia.fechado && dia.mesAtual"
+            [attr.title]="dia.fechado ? 'Dia fechado' : `${dia.dataCompleta.toLocaleDateString('pt-BR')}`"
+            [matMenuTriggerFor]="menuAcoes"
             (click)="$event.stopPropagation()">
-            <mat-icon>more_vert</mat-icon>
-          </button>
 
-          <mat-menu #menuAcoes="matMenu">
+            <span class="numero-dia">{{ dia.numero }}</span>
+            <span *ngIf="dia.fechado && dia.mesAtual" class="icone-fechado">🔒</span>
 
-            <button mat-menu-item (click)="onVisualizarHorarios(dia.dataCompleta, $event)"
-              matTooltip="visualizar {{dia.dataCompleta}}">
-              <mat-icon>visibility</mat-icon>
-              <span>Visualizar Horários</span>
-            </button>
-
-            <mat-divider></mat-divider>
-
-            <button *appHasPermission="Permission.EMPLOYEE_PERMISSION" mat-menu-item
-              (click)="onGerarHorarios(dia.dataCompleta, $event)">
-              <mat-icon>alarm</mat-icon>
-              <span>Gerar horários</span>
-            </button>
-
-            <ng-container *ngIf="!dia.fechado && dia.mesAtual">
-              <button *appHasPermission="Permission.ADMIN_PERMISSION" mat-menu-item
-                (click)="fecharData(dia.dataCompleta); $event.stopPropagation()">
-                <mat-icon>block</mat-icon>
-                <span>Fechar data</span>
+            <mat-menu #menuAcoes="matMenu" class="menu-calendario">
+              <button
+                mat-menu-item
+                matTooltip="Visualizar Horários de {{dia.dataCompleta.toLocaleDateString('pt-br')}}"
+                (click)="onVisualizarHorarios(dia.dataCompleta, $event)">
+                <mat-icon>visibility</mat-icon>
+                <span>Visualizar Horários</span>
               </button>
-            </ng-container>
 
-            <ng-container *ngIf="dia.fechado && dia.mesAtual">
-              <button mat-menu-item *appHasPermission="Permission.ADMIN_PERMISSION"
-                (click)="abrirData(dia.dataCompleta); $event.stopPropagation()">
-                <mat-icon>check</mat-icon>
-                <span>Abrir data</span>
+              <mat-divider></mat-divider>
 
+              <button
+                *appHasPermission="Permission.EMPLOYEE_PERMISSION"
+                mat-menu-item
+                matTooltip="Gerar Horários para {{dia.dataCompleta.toLocaleDateString('pt-br')}}">
+                <mat-icon>alarm</mat-icon>
+                <span>Gerar horários</span>
               </button>
-            </ng-container>
-          </mat-menu>
 
-          <!-- Botão para ABRIR data (quando está fechada) -->
+              <ng-container *ngIf="!dia.fechado && dia.mesAtual">
+                <mat-divider></mat-divider>
+                <button
+                  *appHasPermission="Permission.ADMIN_PERMISSION"
+                  mat-menu-item
+                  class="menu-item-danger"
+                  matTooltip="Fechar {{dia.dataCompleta.toLocaleDateString('pt-br')}}"
+                  (click)="fecharData(dia.dataCompleta); $event.stopPropagation()">
+                  <mat-icon>block</mat-icon>
+                  <span>Fechar data</span>
+                </button>
+              </ng-container>
 
-        </span>
-
-        <span *ngIf="dia.fechado && dia.mesAtual" class="icone-fechado">🔒</span>
+              <ng-container *ngIf="dia.fechado && dia.mesAtual">
+                <mat-divider></mat-divider>
+                <button
+                  mat-menu-item
+                  *appHasPermission="Permission.ADMIN_PERMISSION"
+                  class="menu-item-success"
+                  matTooltip="Abrir {{dia.dataCompleta.toLocaleDateString('pt-br')}}"
+                  (click)="abrirData(dia.dataCompleta); $event.stopPropagation()">
+                  <mat-icon>check_circle</mat-icon>
+                  <span>Abrir data</span>
+                </button>
+              </ng-container>
+            </mat-menu>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+    </mat-card-content>
+  </mat-card>
 </div>
+

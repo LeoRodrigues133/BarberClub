@@ -3,19 +3,14 @@
   <mat-card class="no-card-appearence mb-4">
     <mat-card-header>
       <div class="d-flex justify-content-between align-items-center w-100">
-        <div class="d-flex align-items-center gap-2">
-          <button mat-mini-fab class="btn-outline-secundario" (click)="voltar()">
-            <mat-icon>arrow_back</mat-icon>
-          </button>
-          <div>
-            <mat-card-title class="text-primary m-0">
-              <mat-icon class="icon-destaque icon-header">schedule</mat-icon>
-              Horários Disponíveis
-            </mat-card-title>
-            <mat-card-subtitle class="m-0">
-              {{ dataFormatada }}
-            </mat-card-subtitle>
-          </div>
+        <div>
+          <mat-card-title class="text-primary m-0">
+            <mat-icon class="icon-destaque icon-header">schedule</mat-icon>
+            Horários Disponíveis
+          </mat-card-title>
+          <mat-card-subtitle class="m-0">
+            {{ dataFormatada }}
+          </mat-card-subtitle>
         </div>
       </div>
     </mat-card-header>
@@ -27,81 +22,19 @@
     <p class="text-secondary mt-3">Carregando horários...</p>
   </div>
 
-  <!-- ESTATÍSTICAS -->
-  <div *ngIf="!carregando && horarios.length > 0" class="row g-3 mb-4">
-    <div class="col-12 col-md-4">
-      <mat-card class="no-card-appearence estatistica-card disponivel">
-        <mat-card-content class="p-3">
-          <div class="d-flex align-items-center gap-3">
-            <mat-icon class="icon-stat-lg">check_circle</mat-icon>
-            <div>
-              <span class="stat-numero d-block">{{ contarDisponiveis() }}</span>
-              <span class="stat-label d-block">Disponíveis</span>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <div class="col-12 col-md-4">
-      <mat-card class="no-card-appearence estatistica-card indisponivel">
-        <mat-card-content class="p-3">
-          <div class="d-flex align-items-center gap-3">
-            <mat-icon class="icon-stat-lg">cancel</mat-icon>
-            <div>
-              <span class="stat-numero d-block">{{ contarIndisponiveis() }}</span>
-              <span class="stat-label d-block">Indisponíveis</span>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <div class="col-12 col-md-4">
-      <mat-card class="no-card-appearence estatistica-card total">
-        <mat-card-content class="p-3">
-          <div class="d-flex align-items-center gap-3">
-            <mat-icon class="icon-stat-lg">schedule</mat-icon>
-            <div>
-              <span class="stat-numero d-block">{{ horarios.length }}</span>
-              <span class="stat-label d-block">Total</span>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div>
-
   <!-- LISTA DE HORÁRIOS -->
-  <div *ngIf="!carregando && horarios.length > 0" class="row g-3">
+  <div *ngIf="!carregando && horarios.length > 0" class="row g-3 mb-4">
     <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let horario of horarios">
       <mat-card class="horario-card no-card-appearence"
                 [class.card-ativo]="horario.status"
-                [class.card-inativo]="!horario.status">
+                [class.card-inativo]="!horario.status"
+                [matMenuTriggerFor]="menuAcoes">
         <!-- HEADER DO CARD -->
         <div class="card-header d-flex align-items-center justify-content-between p-3 border-bottom border-default">
           <div class="d-flex align-items-center gap-2">
-            <mat-icon class="icon-destaque">schedule</mat-icon>
+            <mat-icon class="icon-secundario icon-horario">schedule</mat-icon>
             <span class="horario-texto text-primary fw-bold">{{ horario.horario }}</span>
           </div>
-          <button mat-icon-button
-                  [matMenuTriggerFor]="menuHorario"
-                  *appHasPermission="Permission.EMPLOYEE_PERMISSION"
-                  class="btn-menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menuHorario="matMenu">
-            <button mat-menu-item
-                    *ngIf="horario.status"
-                    (click)="desativarHorario(horario)">
-              <mat-icon>block</mat-icon>
-              <span>Desativar</span>
-            </button>
-            <button mat-menu-item
-                    *ngIf="!horario.status"
-                    (click)="ativarHorario(horario)">
-              <mat-icon>check_circle</mat-icon>
-              <span>Ativar</span>
-            </button>
-          </mat-menu>
         </div>
 
         <!-- CONTEÚDO DO CARD -->
@@ -113,10 +46,32 @@
               {{ horario.status ? 'check_circle' : 'cancel' }}
             </mat-icon>
             <span class="badge-texto">
-              {{ horario.status ? 'Disponível' : 'Indisponível' }}
+              {{ horario.status ? 'Aberto' : 'Fechado' }}
             </span>
           </div>
         </mat-card-content>
+
+        <mat-divider></mat-divider>
+
+        <!-- MENU DE AÇÕES -->
+        <mat-menu #menuAcoes="matMenu" class="menu-horarios">
+          <ng-container *ngIf="horario.status">
+            <button mat-menu-item
+                    *appHasPermission="Permission.EMPLOYEE_PERMISSION"
+                    (click)="desativarHorario(horario)">
+              <mat-icon>block</mat-icon>
+              <span>Desativar</span>
+            </button>
+          </ng-container>
+          <ng-container *ngIf="!horario.status">
+            <button mat-menu-item
+                    *appHasPermission="Permission.EMPLOYEE_PERMISSION"
+                    (click)="ativarHorario(horario)">
+              <mat-icon>check_circle</mat-icon>
+              <span>Ativar</span>
+            </button>
+          </ng-container>
+        </mat-menu>
       </mat-card>
     </div>
   </div>
@@ -127,10 +82,14 @@
       <mat-icon class="icon-vazio">event_busy</mat-icon>
       <h3 class="text-secondary mt-3 mb-2">Nenhum horário encontrado</h3>
       <p class="text-secondary mb-4">Não há horários cadastrados para esta data.</p>
-      <button mat-raised-button class="btn-destaque" (click)="voltar()">
-        <mat-icon>arrow_back</mat-icon>
-        Voltar ao Calendário
-      </button>
     </mat-card-content>
   </mat-card>
+
+  <!-- BOTÃO VOLTAR -->
+  <div class="d-flex justify-content-end mt-4">
+    <button mat-raised-button class="btn-secundario" (click)="voltar()">
+      <mat-icon>arrow_back</mat-icon>
+      Voltar
+    </button>
+  </div>
 </div>

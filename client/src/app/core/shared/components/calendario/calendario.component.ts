@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatMiniFabButton } from '@angular/material/button';
+import { MatMiniFabButton, MatButton, MatFabButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -22,6 +22,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ConfiguracaoHorarios, DiaCalendario } from '../../models/calendario.model';
 import { HasPermissionDirective } from '../../../../tenant/directives/has-permission.directive';
 import { Permission } from '../../../../tenant/constants/permissions';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-calendario',
@@ -31,12 +32,13 @@ import { Permission } from '../../../../tenant/constants/permissions';
     MatChipsModule,
     FormsModule,
     MatIconModule,
-    MatMiniFabButton,
     MatMenuModule,
     MatTooltipModule,
     MatDivider,
-    HasPermissionDirective
-  ],
+    HasPermissionDirective,
+    MatCardModule,
+    MatButton
+],
   templateUrl: './calendario.component.html',
   styleUrl: './calendario.component.scss'
 })
@@ -54,7 +56,7 @@ export class CalendarioComponent implements OnInit, OnChanges, OnDestroy {
     diaDaSemana: string;
   }>();
 
-  @Output() gerarHorarios = new EventEmitter<Date>();
+  @Output() gerarHorarios = new EventEmitter<[number,number]>();
   @Output() visualizarHorarios = new EventEmitter<Date>();
 
   funcionario: any;
@@ -99,16 +101,9 @@ export class CalendarioComponent implements OnInit, OnChanges, OnDestroy {
     this.gerarCalendarioDoMes();
   }
 
-  public onDiaClick(dia: DiaCalendario): void {
-    if (!this.isDiaClicavel(dia)) return;
-
-    this.diaSelecionadoAtual = dia.numero;
-    this.emitirDiaSelecionado(dia);
-  }
-
-  public onGerarHorarios(data: Date, event: Event): void {
+  public onGerarHorarios(mes:number,ano:number, event: Event): void {
     event.stopPropagation();
-    this.gerarHorarios.emit(data);
+    this.gerarHorarios.emit([mes,ano]);
   }
 
   public onVisualizarHorarios(data: Date, event: Event): void {

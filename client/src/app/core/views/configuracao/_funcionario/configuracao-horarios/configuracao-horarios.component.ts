@@ -32,7 +32,7 @@ export class ConfigurarHorariosComponent implements OnInit, OnDestroy {
   constructor(
     private azureBlobService: AzureBlobService,
     private funcionarioService: FuncionarioService,
-    private horarioService:HorarioService,
+    private horarioService: HorarioService,
     private route: ActivatedRoute,
     private toastr: NotificacaoToastrService,
   ) { }
@@ -46,21 +46,19 @@ export class ConfigurarHorariosComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  GerarHorarios(data: Date) {
-    const mes = data.getMonth() + 1;
-    const ano = data.getFullYear();
+  GerarHorarios([mes, ano]: number[]) {
 
     const funcionario = this.route.snapshot.data['funcionario'];
 
-    const request: CadastrarVariosHorariosRequest = { mes: mes, ano: ano }
+    const request: CadastrarVariosHorariosRequest = { mes: mes + 1, ano: ano }
 
     this.funcionarioService.GerarHorarios(funcionario.id, request).subscribe({
-      next: (res:any) => this.processarSucesso(res)      ,
+      next: (res: any) => this.processarSucesso(res),
       error: (erro) => this.processarFalha(erro)
     })
   }
 
-    VisualizarHorarios(data: Date) {
+  VisualizarHorarios(data: Date) {
     const mes = data.getMonth() + 1;
     const ano = data.getFullYear();
 
@@ -69,7 +67,7 @@ export class ConfigurarHorariosComponent implements OnInit, OnDestroy {
     const request: any = `${mes}-${ano}-10T00:00:00.000Z`
 
     this.horarioService.SelecionarHorarioPorData(funcionario.id, request).subscribe({
-      next: (res:any) => this.processarSucesso(res)      ,
+      next: (res: any) => this.processarSucesso(res),
       error: (erro) => this.processarFalha(erro)
     })
   }

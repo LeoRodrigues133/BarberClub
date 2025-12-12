@@ -26,9 +26,10 @@ public class SelecionarHorariosPorDataRequestHandler(
         {
             Horarios = horariosDoDia
             .Select(x => new SelecionarHorariosPorDataDto(
-            x.HorarioInicio,
-            x.Ativo
-        ))
+                x.Id,
+                x.HorarioInicio,
+                x.Ativo
+            ))
             .OrderBy(x => x.horario)
             .ToList()
         };

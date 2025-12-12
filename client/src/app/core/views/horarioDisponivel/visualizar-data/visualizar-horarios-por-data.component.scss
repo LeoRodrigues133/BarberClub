@@ -11,125 +11,62 @@
   margin: 0 auto;
 }
 
-// ============================================
-// CARDS DE ESTATÍSTICAS
-// ============================================
-.estatistica-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+mat-card-header {
+  padding: 24px;
+}
 
-  &:hover {
-    transform: translateY(-4px);
-  }
-
-  .icon-stat-lg {
-    font-size: 3rem;
-    width: 3rem;
-    height: 3rem;
-  }
-
-  .stat-numero {
-    font-size: 2rem;
-    font-weight: 700;
-    line-height: 1;
-  }
-
-  .stat-label {
-    font-size: 0.875rem;
-    color: var(--bs-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 0.25rem;
-  }
-
-  &.disponivel {
-    border-left: 4px solid #4caf50;
-
-    .icon-stat-lg {
-      color: #4caf50;
-    }
-
-    .stat-numero {
-      color: #2e7d32;
-    }
-
-    &:hover {
-      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
-    }
-  }
-
-  &.indisponivel {
-    border-left: 4px solid #f44336;
-
-    .icon-stat-lg {
-      color: #f44336;
-    }
-
-    .stat-numero {
-      color: #c62828;
-    }
-
-    &:hover {
-      box-shadow: 0 4px 12px rgba(244, 67, 54, 0.2);
-    }
-  }
-
-  &.total {
-    border-left: 4px solid #1976d2;
-
-    .icon-stat-lg {
-      color: #1976d2;
-    }
-
-    .stat-numero {
-      color: #0d47a1;
-    }
-
-    &:hover {
-      box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
-    }
-  }
+.icon-header {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+  color: var(--app-icone-destaque) !important;
 }
 
 // ============================================
 // CARDS DE HORÁRIOS
 // ============================================
 .horario-card {
+  border: 2px solid var(--border-default);
   transition: all 0.3s ease;
-  cursor: pointer;
   height: 100%;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 
   &.card-ativo {
-    border-left: 4px solid #4caf50;
+    border-color: #4caf50;
 
     &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 16px rgba(76, 175, 80, 0.2);
+      border-color: #4caf50;
     }
   }
 
   &.card-inativo {
-    border-left: 4px solid #f44336;
-    opacity: 0.85;
+    border-color: #f44336;
 
     &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 16px rgba(244, 67, 54, 0.2);
+      border-color: #f44336;
     }
   }
 
   .card-header {
-    .horario-texto {
-      font-size: 1.25rem;
+    border-bottom: 1px solid var(--border-default);
+
+    .icon-horario {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      color: var(--app-icone-destaque) !important;
     }
 
-    .btn-menu {
-      margin: -8px -8px -8px 0;
+    .horario-texto {
+      font-size: 1.1rem;
     }
   }
 
   mat-card-content {
+    padding: 20px;
     flex-grow: 1;
     display: flex;
     align-items: center;
@@ -175,6 +112,34 @@
 }
 
 // ============================================
+// MENU CUSTOMIZADO
+// ============================================
+::ng-deep .menu-horarios {
+  .mat-mdc-menu-content {
+    padding: 0.5rem;
+  }
+
+  .mat-mdc-menu-item {
+    border-radius: 8px;
+    margin-bottom: 0.25rem;
+    transition: all 0.2s ease;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    mat-icon {
+      margin-right: 0.75rem;
+      color: var(--app-icone-destaque) !important;
+    }
+
+    &:hover {
+      background-color: rgba(227, 128, 20, 0.1);
+    }
+  }
+}
+
+// ============================================
 // MENSAGEM VAZIA
 // ============================================
 .icon-vazio {
@@ -185,30 +150,18 @@
   opacity: 0.5;
 }
 
+mat-divider {
+  opacity: 0.3;
+}
+
 // ============================================
 // RESPONSIVIDADE
 // ============================================
 @media (max-width: 768px) {
-  .estatistica-card {
-    .icon-stat-lg {
-      font-size: 2.5rem;
-      width: 2.5rem;
-      height: 2.5rem;
-    }
-
-    .stat-numero {
-      font-size: 1.5rem;
-    }
-
-    .stat-label {
-      font-size: 0.75rem;
-    }
-  }
-
   .horario-card {
     .card-header {
       .horario-texto {
-        font-size: 1.1rem;
+        font-size: 1rem;
       }
     }
   }

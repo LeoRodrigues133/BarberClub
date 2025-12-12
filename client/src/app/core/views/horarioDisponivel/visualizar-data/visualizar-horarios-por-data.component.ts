@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, ɵEmptyOutletComponent } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,6 +12,7 @@ import { HorarioService } from '../services/horario.service';
 import { Permission } from '../../../../tenant/constants/permissions';
 import { HasPermissionDirective } from '../../../../tenant/directives/has-permission.directive';
 import { NotificacaoToastrService } from '../../../shared/components/notificacao/notificacao-toastr.service';
+import { MatDividerModule } from '@angular/material/divider';
 
 interface HorarioDto {
   horario: string;
@@ -30,8 +31,10 @@ interface HorarioDto {
     MatMenuModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
-    HasPermissionDirective
-  ],
+    HasPermissionDirective,
+    MatDividerModule,
+    ɵEmptyOutletComponent
+],
   templateUrl: './visualizar-horarios-por-data.component.html',
   styleUrl: './visualizar-horarios-por-data.component.scss'
 })
