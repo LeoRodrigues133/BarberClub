@@ -1,0 +1,7 @@
+{
+    "title": "BarberClub",
+    "description": "Sistema fullstack de gestão para barbearias com .NET Core e Angular 19. Controle de funcionários, serviços, agendamentos e horários. Arquitetura multi-tenant com autenticação JWT, Azure Blob Storage e Entity Framework Core.",
+    "gif": "https://raw.githubusercontent.com/LeoRodrigues133/BarberClub/refs/heads/master/client/public/apresentacao.JPG",
+    "lastCommit": "Implementação de multi-tenant e integração com Azure Storage.",
+    "isDeployed": "https://barberclub-partial.vercel.app/"
+}
